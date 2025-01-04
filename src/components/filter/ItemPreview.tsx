@@ -129,73 +129,81 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({
 
 const Beam: React.FC<{ color: string }> = ({ color }) => (
   <>
+    {/* Upper beam section */}
     <div
       className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
-      style={{ top: "-100px", bottom: "50%", zIndex: 0 }}
+      style={{ top: "-110px", bottom: "50%", zIndex: 0 }}
     >
+      {/* Central beam */}
       <div
-        className="absolute left-1/2 -translate-x-1/2 w-[3px] h-full"
+        className="absolute left-1/2 -translate-x-1/2 w-[2px] h-full"
         style={{
-          background: `linear-gradient(to bottom, transparent, ${color})`,
+          background: `linear-gradient(to bottom, transparent 0%, ${color} 50%, ${color} 100%)`,
         }}
       />
+      {/* Inner glow */}
       <div
-        className="absolute left-1/2 -translate-x-1/2 w-[3px] h-full"
+        className="absolute left-1/2 -translate-x-1/2 w-[4px] h-full"
         style={{
-          background: `linear-gradient(to bottom, transparent, ${color}40)`,
-          filter: "blur(2px)",
-          transform: "translateX(-50%)",
+          background: `linear-gradient(to bottom, transparent 0%, ${color}40 50%, ${color}60 100%)`,
+          filter: "blur(3px)",
         }}
       />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2">
-        <div
-          className="w-2 h-8 rounded-full opacity-40"
-          style={{
-            background: color,
-            filter: "blur(4px)",
-            position: "absolute",
-            top: "-4px",
-            left: "-4px",
-          }}
-        />
-      </div>
+      {/* Outer glow */}
+      <div
+        className="absolute left-1/2 -translate-x-1/2 w-[8px] h-full"
+        style={{
+          background: `linear-gradient(to bottom, transparent 0%, ${color}20 50%, ${color}30 100%)`,
+          filter: "blur(6px)",
+        }}
+      />
     </div>
+
+    {/* Lower beam section */}
     <div
       className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
-      style={{ top: "50%", height: "20px", zIndex: 0 }}
+      style={{ top: "50%", height: "14px", zIndex: 0 }}
     >
+      {/* Central beam */}
       <div
-        className="absolute left-1/2 -translate-x-1/2 w-[1px] h-full"
+        className="absolute left-1/2 -translate-x-1/2 w-[2px] h-full"
         style={{
-          background: `linear-gradient(to bottom, ${color}, ${color})`,
+          background: color,
         }}
       />
+      {/* Inner glow */}
       <div
-        className="absolute left-1/2 -translate-x-1/2 w-[3px] h-full"
+        className="absolute left-1/2 -translate-x-1/2 w-[4px] h-full"
         style={{
-          background: `linear-gradient(to bottom, ${color}40, ${color}40)`,
-          filter: "blur(2px)",
-          transform: "translateX(-50%)",
+          background: `${color}80`,
+          filter: "blur(3px)",
         }}
       />
+      {/* Outer glow */}
+      <div
+        className="absolute left-1/2 -translate-x-1/2 w-[8px] h-full"
+        style={{
+          background: `${color}40`,
+          filter: "blur(6px)",
+        }}
+      />
+
+      {/* Base glow effect */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
         <div
-          className="w-12 h-12 rounded-full opacity-40"
+          className="w-6 h-12 rounded-full"
           style={{
-            background: color,
-            filter: "blur(4px)",
-            position: "absolute",
-            bottom: "-6px",
-            left: "-6px",
+            background: `radial-gradient(circle, ${color}60 0%, transparent 70%)`,
+            filter: "blur(6px)",
+            transform: "translate(2%, -50%)",
           }}
         />
         <div
-          className="w-6 h-6 bg-white rounded-full opacity-90"
+          className="w-6 h-8 rounded-full"
           style={{
-            filter: "blur(2px)",
-            position: "absolute",
-            bottom: "-3px",
-            left: "-3px",
+            background: `radial-gradient(circle, white 0%, ${color} 50%, transparent 100%)`,
+            filter: "blur(4px)",
+            transform: "translate(2%, 50%)",
           }}
         />
       </div>
