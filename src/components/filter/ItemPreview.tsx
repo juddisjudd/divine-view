@@ -51,7 +51,7 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({
   }, []);
 
   const { isHidden, style } = useMemo(() => {
-    let context: FilterContext = {
+    const context: FilterContext = {
       baseType: itemName,
       itemClass: itemClass,
     };

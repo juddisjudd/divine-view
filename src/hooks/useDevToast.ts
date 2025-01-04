@@ -7,10 +7,10 @@ export const useDevToast = () => {
   useEffect(() => {
     console.log("Trying to show toast from hook");
     toast({
-      title: "Development Mode",
-      description: "This site is under active development, expect bugs!",
-      variant: "destructive",
+      title: "Test Toast",
+      description: "This is a test toast notification",
+      variant: "default",
       duration: 5000,
     });
-  }, []);
+  }, [toast]);
 };
