@@ -48,11 +48,26 @@ const QUALITY_RESTRICTED_CLASSES = [
   "Relics",
 ];
 
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+
 export const FilterEditor: React.FC = () => {
+  const { toast } = useToast();
   const [filterContent, setFilterContent] = useState<string>("");
+
+  useEffect(() => {
+    toast({
+      variant: "destructive",
+      title: "🚧 Development Build",
+      description:
+        "Under active development. You will encounter bugs and incomplete features.",
+      action: <ToastAction altText="Dismiss">Dismiss</ToastAction>,
+      duration: 10000,
+    });
+  }, [toast]);
   const [selectedItemType, setSelectedItemType] = useState<string>("");
   const [selectedBaseType, setSelectedBaseType] = useState<string>("");
-  const [selectedRarity, setSelectedRarity] = useState<string>("Normal");
+  const [selectedRarity, setSelectedRarity] = useState<string>("");
   const [itemLevel, setItemLevel] = useState<number | undefined>(undefined);
   const [rarity, setRarity] = useState<string | undefined>(undefined);
   const [stackSize, setStackSize] = useState<number | undefined>(undefined);
