@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Editor, Monaco } from "@monaco-editor/react";
 import { editor } from "monaco-editor";
 
@@ -34,10 +34,103 @@ export const FilterEditorSyntax: React.FC<FilterEditorSyntaxProps> = ({
   value,
   onChange,
 }) => {
+  const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
+  const decorationsRef = useRef<string[]>([]);
+  const monacoRef = useRef<Monaco | null>(null);
+
   const handleEditorChange = (value: string | undefined) => {
     if (value !== undefined) {
       onChange(value);
     }
+  };
+
+  const updateDecorations = () => {
+    if (!editorRef.current || !monacoRef.current) return;
+
+    const model = editorRef.current.getModel();
+    if (!model) return;
+
+    const text = model.getValue();
+    const decorations: editor.IModelDeltaDecoration[] = [];
+
+    // Match RGB/RGBA color values
+    const colorRegex =
+      /Set(?:Text|Border|Background)Color\s+(\d+)\s+(\d+)\s+(\d+)(?:\s+(\d+))?/g;
+    let match;
+
+    while ((match = colorRegex.exec(text))) {
+      const [fullMatch, r, g, b, a] = match;
+      const startPos = model.getPositionAt(match.index);
+      const endPos = model.getPositionAt(match.index + fullMatch.length);
+
+      const rgb = `rgb${a ? "a" : ""}(${r}, ${g}, ${b}${
+        a ? `, ${Number(a) / 255}` : ""
+      })`;
+
+      // Create a unique class name for this color
+      const className = `color-preview-${match.index}`;
+
+      // Add a style tag for this specific color
+      const styleTag = document.createElement("style");
+      styleTag.textContent = `
+        .${className}::after {
+          background-color: ${rgb};
+        }
+      `;
+      document.head.appendChild(styleTag);
+
+      decorations.push({
+        range: new monacoRef.current.Range(
+          startPos.lineNumber,
+          startPos.column,
+          endPos.lineNumber,
+          endPos.column
+        ),
+        options: {
+          after: {
+            content: " ",
+            inlineClassName: `color-preview ${className}`,
+          },
+        },
+      });
+    }
+
+    // Update decorations
+    decorationsRef.current = editorRef.current.deltaDecorations(
+      decorationsRef.current,
+      decorations
+    );
+  };
+
+  const handleEditorDidMount = (
+    editor: editor.IStandaloneCodeEditor,
+    monaco: Monaco
+  ) => {
+    editorRef.current = editor;
+    monacoRef.current = monaco;
+
+    // Add base CSS for color previews
+    const style = document.createElement("style");
+    style.textContent = `
+      .color-preview::after {
+        content: '';
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        margin-left: 4px;
+        vertical-align: middle;
+        border: 1px solid #ffffff40;
+        border-radius: 2px;
+      }
+    `;
+    document.head.appendChild(style);
+
+    editor.onDidChangeModelContent(() => {
+      updateDecorations();
+    });
+
+    // Initial decoration update
+    updateDecorations();
   };
 
   const handleEditorWillMount = (monaco: Monaco) => {
@@ -64,7 +157,7 @@ export const FilterEditorSyntax: React.FC<FilterEditorSyntaxProps> = ({
         ],
       },
     });
-    
+
     monaco.editor.defineTheme("poe-filter-dark", customThemeData);
   };
 
@@ -76,6 +169,7 @@ export const FilterEditorSyntax: React.FC<FilterEditorSyntaxProps> = ({
       value={value}
       onChange={handleEditorChange}
       beforeMount={handleEditorWillMount}
+      onMount={handleEditorDidMount}
       options={{
         minimap: { enabled: false },
         fontSize: 14,
