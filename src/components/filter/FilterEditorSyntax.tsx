@@ -11,12 +11,12 @@ const customThemeData: editor.IStandaloneThemeData = {
   base: "vs-dark" as const,
   inherit: true,
   rules: [
-    { token: "showKeyword", foreground: "#00FF00", fontStyle: "bold" }, // Green for Show
-    { token: "hideKeyword", foreground: "#EA2027", fontStyle: "bold" }, // Red for Hide
+    { token: "showKeyword", foreground: "#00FF00", fontStyle: "bold" },
+    { token: "hideKeyword", foreground: "#EA2027", fontStyle: "bold" },
     { token: "keyword", foreground: "#CC7832", fontStyle: "bold" },
-    { token: "condition", foreground: "#ffffff" }, // Updated color
-    { token: "operator", foreground: "#e84393" },  // White for operators
-    { token: "number", foreground: "#1E90FF" },    // Blue for numbers
+    { token: "condition", foreground: "#ffffff" },
+    { token: "operator", foreground: "#e84393" },
+    { token: "number", foreground: "#1E90FF" },
     { token: "string", foreground: "#1dd1a1" },
     { token: "comment", foreground: "#4b4b4b", fontStyle: "italic" },
     { token: "command", foreground: "#ffffff" },
@@ -52,15 +52,15 @@ export const FilterEditorSyntax: React.FC<FilterEditorSyntaxProps> = ({
           [/\bHide\b/, "hideKeyword"],
           [
             /\b(ItemLevel|BaseType|StackSize|AreaLevel|Rarity|Class|WaystoneTier|Quality|Sockets|DropLevel)\b/,
-            "condition", // Match specified items
+            "condition",
           ],
           [
-            /\b(SetTextColor|SetBorderColor|SetBackgroundColor|SetFontSize|PlayEffect|PlayAlertSound|MinimapIcon)\b/,
+            /\b(SetTextColor|SetBorderColor|SetBackgroundColor|SetFontSize|PlayEffect|PlayAlertSound|MinimapIcon|CustomAlertSound)\b/,
             "command",
           ],
           [/[0-9]+/, "number"],
           [/"[^"]*"/, "string"],
-          [/==|>=|<=|=|<|>/, "operator"], // Match operators
+          [/==|>=|<=|=|<|>/, "operator"],
         ],
       },
     });

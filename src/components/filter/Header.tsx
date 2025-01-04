@@ -11,7 +11,10 @@ const Header: React.FC = () => {
           PoE2 Loot Filter Editor
         </h2>
       </div>
-      <button className="p-2 text-zinc-400 hover:text-white rounded-md bg-[#050505] flex items-center">
+      <button
+        className="p-2 text-zinc-600 rounded bg-[#0e0e0e] flex items-center"
+        disabled
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           role="img"
