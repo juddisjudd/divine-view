@@ -102,7 +102,7 @@ const parseConditionValue = (value: string): string | string[] => {
     return unquotedValues[0];
   }
 
-  return unquotedValues.join(" ");
+  return unquotedValues;
 };
 
 const parseCondition = (line: string): FilterCondition | null => {
@@ -177,88 +177,49 @@ const evaluateNumericCondition = (
 
 const compareStringValues = (
   actual: string,
-  expected: string | string[]
+  expected: string | number | string[] | number[],
+  type: "BaseType" | "Class" | "Rarity" = "BaseType"
 ): boolean => {
+  if (type === "Class") {
+    if (actual === "Stackable Currency") {
+      if (Array.isArray(expected)) {
+        return expected.some(
+          (v) =>
+            String(v).toLowerCase() === "currency" ||
+            String(v).toLowerCase() === "stackable currency"
+        );
+      }
+      const expectedStr = String(expected).toLowerCase();
+      return expectedStr === "currency" || expectedStr === "stackable currency";
+    }
+  }
+
+  const checkMatch = (
+    expectedVal: string | number,
+    actualStr: string
+  ): boolean => {
+    const expectedStr = String(expectedVal).toLowerCase().trim();
+    actualStr = actualStr.toLowerCase().trim();
+
+    if (type === "BaseType") {
+      return actualStr.split(" ").some((word) => {
+        return (
+          expectedStr === word ||
+          actualStr === expectedStr ||
+          actualStr.startsWith(expectedStr + " ") ||
+          word.startsWith(expectedStr)
+        );
+      });
+    }
+
+    return actualStr === expectedStr;
+  };
+
   if (Array.isArray(expected)) {
-    return expected.some(
-      (v) => actual.toLowerCase() === String(v).toLowerCase().trim()
-    );
+    return expected.some((v) => checkMatch(v, actual));
   }
 
-  const actualLower = actual.toLowerCase().trim();
-  const expectedLower = String(expected).toLowerCase().trim();
-
-  return actualLower === expectedLower;
-};
-
-const evaluateCondition = (
-  condition: FilterCondition,
-  context: FilterContext
-): boolean => {
-  switch (condition.type) {
-    case "BaseType":
-      return context.baseType
-        ? compareStringValues(
-            context.baseType,
-            condition.value as string | string[]
-          )
-        : false;
-
-    case "Class":
-      return context.itemClass
-        ? compareStringValues(
-            context.itemClass,
-            condition.value as string | string[]
-          )
-        : false;
-
-    case "Rarity":
-      return context.rarity
-        ? compareStringValues(
-            context.rarity,
-            condition.value as string | string[]
-          )
-        : false;
-
-    case "AreaLevel":
-      return context.areaLevel !== undefined
-        ? evaluateNumericCondition(
-            context.areaLevel,
-            condition.operator || "=",
-            Number(condition.value)
-          )
-        : false;
-
-    case "ItemLevel":
-      return context.itemLevel !== undefined
-        ? evaluateNumericCondition(
-            context.itemLevel,
-            condition.operator || "=",
-            Number(condition.value)
-          )
-        : false;
-
-    case "Quality":
-      return context.quality !== undefined
-        ? evaluateNumericCondition(
-            context.quality,
-            condition.operator || "=",
-            Number(condition.value)
-          )
-        : false;
-
-    case "StackSize":
-      return context.stackSize !== undefined
-        ? evaluateNumericCondition(
-            context.stackSize,
-            condition.operator || "=",
-            Number(condition.value)
-          )
-        : false;
-
-    default:
-      return false;
-  }
+  return checkMatch(expected, actual);
 };
 
 const getItemStyle = (
@@ -271,83 +232,62 @@ const getItemStyle = (
 
   const blocks = filterContent.split(/\n(?=Show|Hide)/g).filter(Boolean);
 
-  const checkBaseTypeMatch = (line: string): boolean => {
-    if (!line.startsWith("BaseType")) return false;
+  const evaluateCondition = (condition: FilterCondition): boolean => {
+    switch (condition.type) {
+      case "BaseType":
+        return context.baseType
+          ? compareStringValues(context.baseType, condition.value, "BaseType")
+          : false;
 
-    const isExactMatch = line.includes("==");
+      case "Class":
+        return context.itemClass
+          ? compareStringValues(context.itemClass, condition.value, "Class")
+          : false;
 
-    const values =
-      line.match(/"([^"]*)"/g)?.map((s) => s.replace(/"/g, "")) || [];
+      case "Rarity":
+        return context.rarity
+          ? compareStringValues(context.rarity, condition.value, "Rarity")
+          : false;
 
-    if (isExactMatch) {
-      return values.some((value) => context.baseType.includes(value));
-    } else {
-      return values.includes(context.baseType);
-    }
-  };
-
-  const checkBlockMatch = (lines: string[]): boolean => {
-    let hasBaseTypeOrClassMatch = false;
-    let allConditionsMatch = true;
-
-    for (const line of lines) {
-      const cleanLine = line.split("#")[0].trim();
-      if (!cleanLine || cleanLine === "Show" || cleanLine === "Hide") continue;
-
-      if (cleanLine.startsWith("BaseType")) {
-        hasBaseTypeOrClassMatch = checkBaseTypeMatch(cleanLine);
-        if (!hasBaseTypeOrClassMatch) {
-          allConditionsMatch = false;
-          break;
-        }
-      } else if (cleanLine.startsWith("Rarity") && context.rarity) {
-        const rarityMatch = cleanLine
-          .toLowerCase()
-          .includes(context.rarity.toLowerCase());
-        if (!rarityMatch) {
-          allConditionsMatch = false;
-          break;
-        }
-      } else if (
-        cleanLine.startsWith("AreaLevel") &&
-        context.areaLevel !== undefined
-      ) {
-        const match = cleanLine.match(/AreaLevel\s*([<>]=?|=|==)\s*(\d+)/);
-        if (match) {
-          const [_, operator, value] = match;
-          if (
-            !evaluateNumericCondition(
+      case "AreaLevel":
+        return context.areaLevel !== undefined
+          ? evaluateNumericCondition(
               context.areaLevel,
-              operator as FilterOperator,
-              parseInt(value)
+              condition.operator || "=",
+              Number(condition.value)
             )
-          ) {
-            allConditionsMatch = false;
-            break;
-          }
-        }
-      } else if (
-        cleanLine.startsWith("ItemLevel") &&
-        context.itemLevel !== undefined
-      ) {
-        const match = cleanLine.match(/ItemLevel\s*([<>]=?|=|==)\s*(\d+)/);
-        if (match) {
-          const [_, operator, value] = match;
-          if (
-            !evaluateNumericCondition(
-              context.itemLevel,
-              operator as FilterOperator,
-              parseInt(value)
-            )
-          ) {
-            allConditionsMatch = false;
-            break;
-          }
-        }
-      }
-    }
+          : false;
 
-    return hasBaseTypeOrClassMatch && allConditionsMatch;
+      case "ItemLevel":
+        return context.itemLevel !== undefined
+          ? evaluateNumericCondition(
+              context.itemLevel,
+              condition.operator || "=",
+              Number(condition.value)
+            )
+          : false;
+
+      case "Quality":
+        return context.quality !== undefined
+          ? evaluateNumericCondition(
+              context.quality,
+              condition.operator || "=",
+              Number(condition.value)
+            )
+          : false;
+
+      case "StackSize":
+        return context.stackSize !== undefined
+          ? evaluateNumericCondition(
+              context.stackSize,
+              condition.operator || "=",
+              Number(condition.value)
+            )
+          : false;
+
+      default:
+        return false;
+    }
   };
 
   for (const block of blocks) {
@@ -357,20 +297,22 @@ const getItemStyle = (
       .filter(Boolean);
     if (lines.length === 0) continue;
 
-    const blockType = lines[0];
+    const blockType = lines[0] as FilterBlockType;
     if (blockType !== "Show" && blockType !== "Hide") continue;
 
-    if (checkBlockMatch(lines)) {
-      const style: FilterStyle = {};
-      for (const line of lines) {
-        const cleanLine = line.split("#")[0].trim();
-        if (!cleanLine) continue;
+    const conditions: FilterCondition[] = [];
+    const style: FilterStyle = {};
 
-        if (cleanLine.startsWith("Set") || cleanLine.startsWith("Play")) {
-          Object.assign(style, parseStyle([cleanLine]));
-        }
+    for (const line of lines.slice(1)) {
+      const condition = parseCondition(line);
+      if (condition) {
+        conditions.push(condition);
+      } else if (line.startsWith("Set") || line.startsWith("Play")) {
+        Object.assign(style, parseStyle([line]));
       }
+    }
 
+    if (conditions.length > 0 && conditions.every(evaluateCondition)) {
       return {
         isHidden: blockType === "Hide",
         style: {

@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import { Card } from "@/components/ui/card";
-import Header from "@/components/filter/Header";
-import { Footer } from "@/components/filter/Footer";
 import { FileImport } from "@/components/filter/FileImport";
 import { ItemSelector } from "@/components/filter/ItemSelector";
 import { ItemPreview } from "@/components/filter/ItemPreview";
@@ -48,23 +46,9 @@ const QUALITY_RESTRICTED_CLASSES = [
   "Relics",
 ];
 
-import { useToast } from "@/hooks/use-toast";
-import { ToastAction } from "@/components/ui/toast";
-
 export const FilterEditor: React.FC = () => {
-  const { toast } = useToast();
   const [filterContent, setFilterContent] = useState<string>("");
 
-  useEffect(() => {
-    toast({
-      variant: "destructive",
-      title: "🚧 Development Build",
-      description:
-        "Under active development. You will encounter bugs and incomplete features.",
-      action: <ToastAction altText="Dismiss">Dismiss</ToastAction>,
-      duration: 10000,
-    });
-  }, [toast]);
   const [selectedItemType, setSelectedItemType] = useState<string>("");
   const [selectedBaseType, setSelectedBaseType] = useState<string>("");
   const [selectedRarity, setSelectedRarity] = useState<string>("");
@@ -151,8 +135,7 @@ export const FilterEditor: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-[#121212]">
-      <Header />
+    <div className="flex flex-col h-full">
       <div className="flex flex-1 overflow-hidden">
         {/* Left Panel - Filter Editor */}
         <div
@@ -161,7 +144,7 @@ export const FilterEditor: React.FC = () => {
           }`}
         >
           <FileImport onImport={setFilterContent} content={filterContent} />
-          <div className="flex-1 p-4">
+          <div className="flex-1 p-4 overflow-hidden">
             <Card className="h-full bg-[#1a1a1a] border-[#2a2a2a]">
               <FilterEditorSyntax
                 value={filterContent}
@@ -187,153 +170,161 @@ export const FilterEditor: React.FC = () => {
 
         {/* Right Panel - Item Preview */}
         {showPreview && (
-          <div className="w-full md:w-96 flex-col bg-[#1a1a1a] overflow-y-auto">
-            <div className="p-4 md:p-6 space-y-4 md:space-y-6 border-b border-[#2a2a2a]">
-              <h2 className="text-lg font-medium text-white">Item Preview</h2>
+          <div className="w-full md:w-96 flex flex-col bg-[#1a1a1a] border-l border-[#2a2a2a] overflow-hidden">
+            {/* Preview Header & Controls - Fixed */}
+            <div className="shrink-0 p-4 md:p-6 space-y-4 md:space-y-6 border-b border-[#2a2a2a] bg-[#1a1a1a] overflow-y-auto max-h-[calc(100vh-6rem)]">
+              <h2 className="text-lg font-medium text-white sticky top-0 bg-[#1a1a1a] py-2 z-10">
+                Item Preview
+              </h2>
 
-              <ItemSelector
-                selectedItemType={selectedItemType}
-                selectedBaseType={selectedBaseType}
-                onItemTypeChange={handleItemTypeChange}
-                onBaseTypeChange={handleBaseTypeChange}
-              />
-
-              {!hasRestrictedRarity && (
-                <RaritySelector
-                  value={selectedRarity}
-                  onChange={setSelectedRarity}
+              <div className="space-y-4">
+                <ItemSelector
+                  selectedItemType={selectedItemType}
+                  selectedBaseType={selectedBaseType}
+                  onItemTypeChange={handleItemTypeChange}
+                  onBaseTypeChange={handleBaseTypeChange}
                 />
-              )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <label className="block text-sm font-medium text-gray-400">
-                    Area Level
-                  </label>
-                  <Select
-                    value={areaLevel !== undefined ? String(areaLevel) : ""}
-                    onValueChange={(value) =>
-                      setAreaLevel(value ? Number(value) : undefined)
-                    }
-                  >
-                    <SelectTrigger className="w-full bg-[#2a2a2a] border-[#3a3a3a] text-gray-200 h-9">
-                      <SelectValue placeholder="Select area level" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-[#2a2a2a] border-[#3a3a3a]">
-                      {[1, 10, 20, 30, 40, 50, 60, 70, 80, 90].map((level) => (
-                        <SelectItem
-                          key={level}
-                          value={String(level)}
-                          className="text-gray-200"
-                        >
-                          Level {level}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                {!hasRestrictedRarity && (
+                  <RaritySelector
+                    value={selectedRarity}
+                    onChange={setSelectedRarity}
+                  />
+                )}
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="block text-sm font-medium text-gray-400">
+                      Area Level
+                    </label>
+                    <Select
+                      value={areaLevel !== undefined ? String(areaLevel) : ""}
+                      onValueChange={(value) =>
+                        setAreaLevel(value ? Number(value) : undefined)
+                      }
+                    >
+                      <SelectTrigger className="w-full bg-[#2a2a2a] border-[#3a3a3a] text-gray-200 h-9">
+                        <SelectValue placeholder="Select area level" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#2a2a2a] border-[#3a3a3a] z-50">
+                        {[1, 10, 20, 30, 40, 50, 60, 70, 80, 90].map(
+                          (level) => (
+                            <SelectItem
+                              key={level}
+                              value={String(level)}
+                              className="text-gray-200"
+                            >
+                              Level {level}
+                            </SelectItem>
+                          )
+                        )}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="block text-sm font-medium text-gray-400">
+                      Item Level
+                    </label>
+                    <Select
+                      value={itemLevel !== undefined ? String(itemLevel) : ""}
+                      onValueChange={(value) =>
+                        setItemLevel(value ? Number(value) : undefined)
+                      }
+                    >
+                      <SelectTrigger className="w-full bg-[#2a2a2a] border-[#3a3a3a] text-gray-200 h-9">
+                        <SelectValue placeholder="Select item level" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#2a2a2a] border-[#3a3a3a] z-50">
+                        {[1, 10, 20, 30, 40, 50, 60, 70, 80, 90].map(
+                          (level) => (
+                            <SelectItem
+                              key={level}
+                              value={String(level)}
+                              className="text-gray-200"
+                            >
+                              Level {level}
+                            </SelectItem>
+                          )
+                        )}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
-                <div className="space-y-1.5">
-                  <label className="block text-sm font-medium text-gray-400">
-                    Item Level
-                  </label>
-                  <Select
-                    value={itemLevel !== undefined ? String(itemLevel) : ""}
-                    onValueChange={(value) =>
-                      setItemLevel(value ? Number(value) : undefined)
-                    }
-                  >
-                    <SelectTrigger className="w-full bg-[#2a2a2a] border-[#3a3a3a] text-gray-200 h-9">
-                      <SelectValue placeholder="Select item level" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-[#2a2a2a] border-[#3a3a3a]">
-                      {[1, 10, 20, 30, 40, 50, 60, 70, 80, 90].map((level) => (
-                        <SelectItem
-                          key={level}
-                          value={String(level)}
-                          className="text-gray-200"
-                        >
-                          Level {level}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+                {isStackable && (
+                  <div className="space-y-1.5">
+                    <label className="block text-sm font-medium text-gray-400">
+                      Stack Size
+                    </label>
+                    <Select
+                      value={String(stackSize)}
+                      onValueChange={(value) => setStackSize(Number(value))}
+                    >
+                      <SelectTrigger className="w-full bg-[#2a2a2a] border-[#3a3a3a] text-gray-200 h-9">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#2a2a2a] border-[#3a3a3a] z-50">
+                        {[
+                          1, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000,
+                        ].map((size) => (
+                          <SelectItem
+                            key={size}
+                            value={String(size)}
+                            className="text-gray-200"
+                          >
+                            {size.toLocaleString()}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+
+                {!hasRestrictedQuality && (
+                  <div className="space-y-1.5">
+                    <label className="block text-sm font-medium text-gray-400">
+                      Quality
+                    </label>
+                    <Select
+                      value={quality !== undefined ? String(quality) : ""}
+                      onValueChange={(value) =>
+                        setQuality(value ? Number(value) : undefined)
+                      }
+                    >
+                      <SelectTrigger className="w-full bg-[#2a2a2a] border-[#3a3a3a] text-gray-200 h-9">
+                        <SelectValue placeholder="Select quality" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#2a2a2a] border-[#3a3a3a] z-50">
+                        {[0, 5, 10, 15, 20].map((q) => (
+                          <SelectItem
+                            key={q}
+                            value={String(q)}
+                            className="text-gray-200"
+                          >
+                            {q}%
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
               </div>
-
-              {isStackable && (
-                <div className="space-y-1.5">
-                  <label className="block text-sm font-medium text-gray-400">
-                    Stack Size
-                  </label>
-                  <Select
-                    value={String(stackSize)}
-                    onValueChange={(value) => setStackSize(Number(value))}
-                  >
-                    <SelectTrigger className="w-full bg-[#2a2a2a] border-[#3a3a3a] text-gray-200 h-9">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-[#2a2a2a] border-[#3a3a3a]">
-                      {[
-                        1, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000,
-                      ].map((size) => (
-                        <SelectItem
-                          key={size}
-                          value={String(size)}
-                          className="text-gray-200"
-                        >
-                          {size.toLocaleString()}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
-
-              {!hasRestrictedQuality && (
-                <div className="space-y-1.5">
-                  <label className="block text-sm font-medium text-gray-400">
-                    Quality
-                  </label>
-                  <Select
-                    value={quality !== undefined ? String(quality) : ""}
-                    onValueChange={(value) =>
-                      setQuality(value ? Number(value) : undefined)
-                    }
-                  >
-                    <SelectTrigger className="w-full bg-[#2a2a2a] border-[#3a3a3a] text-gray-200 h-9">
-                      <SelectValue placeholder="Select quality" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-[#2a2a2a] border-[#3a3a3a]">
-                      {[0, 5, 10, 15, 20].map((q) => (
-                        <SelectItem
-                          key={q}
-                          value={String(q)}
-                          className="text-gray-200"
-                        >
-                          {q}%
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
             </div>
 
-            <div className="flex-1 p-4">
+            {/* Preview Area - Scrollable */}
+            <div className="flex-1 p-4 overflow-y-auto min-h-[300px]">
               <Card className="h-full bg-[#1f1f1f] border-[#2a2a2a]">
-                <div className="h-full">
-                  <ItemPreview
-                    filterContent={filterContent}
-                    itemName={selectedBaseType}
-                    itemClass={currentItemClass}
-                    areaLevel={areaLevel}
-                    itemLevel={itemLevel}
-                    stackSize={stackSize}
-                    rarity={selectedRarity}
-                    quality={quality}
-                  />
-                </div>
+                <ItemPreview
+                  filterContent={filterContent}
+                  itemName={selectedBaseType}
+                  itemClass={currentItemClass}
+                  areaLevel={areaLevel}
+                  itemLevel={itemLevel}
+                  stackSize={stackSize}
+                  rarity={selectedRarity}
+                  quality={quality}
+                />
               </Card>
             </div>
           </div>
@@ -386,8 +377,6 @@ export const FilterEditor: React.FC = () => {
           </div>
         </div>
       )}
-
-      <Footer />
     </div>
   );
 };
