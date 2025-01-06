@@ -1074,4 +1074,27 @@ export const itemData = [
       "Waystone (Tier 16)",
     ],
   },
+  {
+    itemType: "Omen",
+    itemClass: "Omen",
+    baseTypes: [
+      "Omen of Refreshment",
+      "Omen of Resurgence",
+      "Omen of Amelioration",
+      "Omen of Whittling",
+      "Omen of Sinistral Erasure",
+      "Omen of Dextral Erasure",
+      "Omen of Sinistral Alchemy",
+      "Omen of Dextral Alchemy",
+      "Omen of Sinistral Coronation",
+      "Omen of Dextral Coronation",
+      "Omen of Corruption",
+      "Omen of Greater Exaltation",
+      "Omen of Sinistral Exaltation",
+      "Omen of Dextral Exaltation",
+      "Omen of Greater Annulment",
+      "Omen of Sinistral Annulment",
+      "Omen of Dextral Annulment",
+    ]
+  }
 ];
