@@ -1370,6 +1370,15 @@ export const itemData = [
       "Omen of Greater Annulment",
       "Omen of Sinistral Annulment",
       "Omen of Dextral Annulment",
-    ]
-  }
+    ],
+      options: {
+      stackable: false,
+      rarity: false,
+      areaLevel: false,
+      itemLevel: false,
+      dropLevel: false,
+      quality: false,
+      sockets: false,
+    },
+  },
 ];
