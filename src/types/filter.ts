@@ -19,6 +19,7 @@ export interface FilterCondition {
     | "Rarity"
     | "StackSize"
     | "Quality"
+    | "Sockets"
     | "WaystoneTier";
   operator?: FilterOperator;
   value: string | string[] | number;
@@ -32,12 +33,30 @@ export interface FilterBlock {
   style: FilterStyle;
 }
 
+export interface ItemOptions {
+  stackable: boolean;
+  rarity: string[] | false;
+  areaLevel: boolean;
+  itemLevel: boolean;
+  dropLevel: boolean;
+  quality: boolean;
+  sockets: boolean;
+}
+
 export interface FilterContext {
   baseType: string;
-  itemClass?: string;
+  itemClass: string;
+  itemOptions?: ItemOptions;
   areaLevel?: number;
   itemLevel?: number;
   rarity?: string;
   stackSize?: number;
   quality?: number;
+  sockets?: number;
+}
+
+export interface ValidationMessage {
+  line: number;
+  message: string;
+  severity: "error" | "warning";
 }

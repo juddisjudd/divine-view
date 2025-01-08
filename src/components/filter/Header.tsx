@@ -9,6 +9,7 @@ const navigation = [
   { name: "Editor", href: "/" },
   { name: "Community Filters", href: "/community" },
   { name: "Resources", href: "/resources" },
+  { name: "Discord", href: "https://discord.divineview.app" },
 ];
 
 export default function Header() {

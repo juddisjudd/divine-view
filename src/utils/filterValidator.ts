@@ -27,15 +27,33 @@ const NUMERIC_CONDITIONS = [
   "BaseEvasion",
   "BaseArmour",
   "BaseEnergyShield",
-  "HasExplicitMod",
-];
+] as const;
 
-const COMPARISON_CONDITIONS = [
-  ...NUMERIC_CONDITIONS,
-  "Rarity",
-  "Class",
-  "BaseType",
-];
+const OPERATORS = ["=", "==", ">", "<", ">=", "<="] as const;
+
+const COLOR_COMMANDS = [
+  "SetTextColor",
+  "SetBorderColor",
+  "SetBackgroundColor",
+] as const;
+
+const VALID_EFFECT_COLORS = [
+  "Red",
+  "Green",
+  "Blue",
+  "Brown",
+  "White",
+  "Yellow",
+  "Cyan",
+  "Grey",
+  "Orange",
+  "Pink",
+  "Purple",
+] as const;
+
+const validateOperator = (operator: string): boolean => {
+  return OPERATORS.includes(operator as (typeof OPERATORS)[number]);
+};
 
 const validateFilterLine = (
   line: string,
@@ -48,36 +66,40 @@ const validateFilterLine = (
     return errors;
   }
 
-  if (trimmedLine.startsWith("HasExplicitMod")) {
-    const parts = trimmedLine.split(/\s+/);
-    if (parts.length < 2) {
-      errors.push({
-        line: lineNumber,
-        message: "HasExplicitMod requires at least one value",
-        severity: "error",
-      });
-      return errors;
-    }
-
-    let startIndex = 1;
-    if (parts[1].match(/^[<>]=?\d+$/)) {
-      startIndex = 2;
-    }
-
-    for (let i = startIndex; i < parts.length; i++) {
-      if (!parts[i].match(/^"[^"]*"$/)) {
+  for (const condition of NUMERIC_CONDITIONS) {
+    if (trimmedLine.startsWith(condition)) {
+      const parts = trimmedLine.split(/\s+/);
+      if (parts.length < 3) {
         errors.push({
           line: lineNumber,
-          message: "HasExplicitMod string values must be in quotes",
+          message: `${condition} requires an operator and value`,
           severity: "error",
         });
-        break;
+        return errors;
       }
+
+      if (!validateOperator(parts[1])) {
+        errors.push({
+          line: lineNumber,
+          message: `Invalid operator "${parts[1]}" for ${condition}`,
+          severity: "error",
+        });
+      }
+
+      const value = parseInt(parts[2]);
+      if (isNaN(value) || value < 0) {
+        errors.push({
+          line: lineNumber,
+          message: `${condition} requires a non-negative numeric value`,
+          severity: "error",
+        });
+      }
+
+      return errors;
     }
-    return errors;
   }
 
-  if (trimmedLine.match(/Set(Text|Border|Background)Color/)) {
+  if (COLOR_COMMANDS.some((cmd) => trimmedLine.startsWith(cmd))) {
     const colorValues = trimmedLine.split(" ").slice(1);
     colorValues.forEach((value, index) => {
       const num = parseInt(value);
@@ -112,11 +134,7 @@ const validateFilterLine = (
     }
   }
 
-  if (
-    trimmedLine.startsWith("BaseType") ||
-    trimmedLine.startsWith("Class") ||
-    trimmedLine.startsWith("HasExplicitMod")
-  ) {
+  if (trimmedLine.startsWith("BaseType") || trimmedLine.startsWith("Class")) {
     const valuesPart = trimmedLine.split(/\s+/).slice(1).join(" ");
     const hasMultipleValues = valuesPart.split(/\s+/).length > 1;
     if (hasMultipleValues && !trimmedLine.includes('"')) {
@@ -130,25 +148,16 @@ const validateFilterLine = (
 
   if (trimmedLine.startsWith("PlayEffect")) {
     const parts = trimmedLine.split(" ");
-    const validColors = [
-      "Red",
-      "Green",
-      "Blue",
-      "Brown",
-      "White",
-      "Yellow",
-      "Cyan",
-      "Grey",
-      "Orange",
-      "Pink",
-      "Purple",
-    ];
-    if (!validColors.includes(parts[1])) {
+    if (
+      !VALID_EFFECT_COLORS.includes(
+        parts[1] as (typeof VALID_EFFECT_COLORS)[number]
+      )
+    ) {
       errors.push({
         line: lineNumber,
         message: `Invalid effect color: ${
           parts[1]
-        }. Must be one of: ${validColors.join(", ")}`,
+        }. Must be one of: ${VALID_EFFECT_COLORS.join(", ")}`,
         severity: "error",
       });
     }

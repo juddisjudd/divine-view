@@ -129,7 +129,7 @@ const parseCondition = (line: string): FilterCondition | null => {
   }
 
   const numericMatch = trimmedLine.match(
-    /^(AreaLevel|ItemLevel|StackSize|Quality|WaystoneTier)\s*([<>]=?|==?|=)\s*(\d+)$/
+    /^(AreaLevel|ItemLevel|StackSize|Quality|WaystoneTier|Sockets)\s*([<>]=?|==?|=)\s*(\d+)$/
   );
   if (numericMatch) {
     const [_, type, operator, value] = numericMatch;
@@ -141,11 +141,13 @@ const parseCondition = (line: string): FilterCondition | null => {
   }
 
   if (trimmedLine.startsWith("Rarity")) {
-    const matches = trimmedLine.match(/^Rarity\s+(.+)$/);
+    const matches = trimmedLine.match(/^Rarity\s+([<>]=?|==?|=)?\s*(.+)$/);
     if (matches) {
+      const [_, operator, value] = matches;
       return {
         type: "Rarity",
-        value: parseConditionValue(matches[1]),
+        operator: operator as FilterOperator,
+        value: parseConditionValue(value),
       };
     }
   }
@@ -232,7 +234,24 @@ const getItemStyle = (
 
   const blocks = filterContent.split(/\n(?=Show|Hide)/g).filter(Boolean);
 
-  const evaluateCondition = (condition: FilterCondition): boolean => {
+  const evaluateCondition = (
+    condition: FilterCondition,
+    initialSelection: boolean = false
+  ): boolean => {
+    if (initialSelection) {
+      if (condition.type === "BaseType") {
+        return context.baseType
+          ? compareStringValues(context.baseType, condition.value, "BaseType")
+          : false;
+      }
+      if (condition.type === "Class") {
+        return context.itemClass
+          ? compareStringValues(context.itemClass, condition.value, "Class")
+          : false;
+      }
+      return true;
+    }
+
     switch (condition.type) {
       case "BaseType":
         return context.baseType
@@ -285,10 +304,32 @@ const getItemStyle = (
             )
           : false;
 
+      case "Sockets":
+        return context.sockets !== undefined
+          ? evaluateNumericCondition(
+              context.sockets,
+              condition.operator || "=",
+              Number(condition.value)
+            )
+          : false;
+
       default:
         return false;
     }
   };
+
+  let matchedBlock: {
+    type: FilterBlockType;
+    style: FilterStyle;
+  } | null = null;
+
+  const isInitialSelection =
+    !context.areaLevel &&
+    !context.itemLevel &&
+    !context.quality &&
+    !context.stackSize &&
+    !context.sockets &&
+    !context.rarity;
 
   for (const block of blocks) {
     const lines = block
@@ -301,35 +342,46 @@ const getItemStyle = (
     if (blockType !== "Show" && blockType !== "Hide") continue;
 
     const conditions: FilterCondition[] = [];
-    const style: FilterStyle = {};
+    const blockStyle: FilterStyle = { ...DEFAULT_STYLE };
 
     for (const line of lines.slice(1)) {
       const condition = parseCondition(line);
       if (condition) {
         conditions.push(condition);
       } else if (line.startsWith("Set") || line.startsWith("Play")) {
-        Object.assign(style, parseStyle([line]));
+        const parsedStyle = parseStyle([line]);
+        if (parsedStyle.textColor) blockStyle.textColor = parsedStyle.textColor;
+        if (parsedStyle.borderColor)
+          blockStyle.borderColor = parsedStyle.borderColor;
+        if (parsedStyle.backgroundColor)
+          blockStyle.backgroundColor = parsedStyle.backgroundColor;
+        if (parsedStyle.fontSize) blockStyle.fontSize = parsedStyle.fontSize;
+        if (parsedStyle.beam) blockStyle.beam = parsedStyle.beam;
       }
     }
 
-    if (conditions.length > 0 && conditions.every(evaluateCondition)) {
-      return {
-        isHidden: blockType === "Hide",
-        style: {
-          textColor: style.textColor || DEFAULT_STYLE.textColor,
-          borderColor: style.borderColor || DEFAULT_STYLE.borderColor,
-          backgroundColor:
-            style.backgroundColor || DEFAULT_STYLE.backgroundColor,
-          fontSize: style.fontSize || DEFAULT_STYLE.fontSize,
-          beam: style.beam,
-        },
+    if (
+      conditions.length > 0 &&
+      conditions.every((cond) => evaluateCondition(cond, isInitialSelection))
+    ) {
+      matchedBlock = {
+        type: blockType,
+        style: blockStyle,
       };
+      break;
     }
   }
 
+  if (!matchedBlock) {
+    return {
+      isHidden: false,
+      style: { ...DEFAULT_STYLE },
+    };
+  }
+
   return {
-    isHidden: false,
-    style: { ...DEFAULT_STYLE },
+    isHidden: matchedBlock.type === "Hide",
+    style: matchedBlock.style,
   };
 };
 

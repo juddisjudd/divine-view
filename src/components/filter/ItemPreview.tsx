@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { EyeOff } from "lucide-react";
-import { FilterContext, FilterStyle } from "@/types/filter";
+import { FilterContext, FilterStyle, ItemOptions } from "@/types/filter";
 import { getItemStyle } from "@/utils/filterParser";
 import { cn } from "@/lib/utils";
 
@@ -8,22 +8,26 @@ interface ItemPreviewProps {
   filterContent: string;
   itemName: string;
   itemClass: string;
+  itemOptions?: ItemOptions;
   areaLevel?: number;
   itemLevel?: number;
   rarity?: string;
   stackSize?: number;
   quality?: number;
+  sockets?: number;
 }
 
 export const ItemPreview: React.FC<ItemPreviewProps> = ({
   filterContent,
   itemName,
   itemClass,
+  itemOptions,
   areaLevel,
   itemLevel,
   rarity,
   stackSize,
   quality,
+  sockets,
 }) => {
   const [isAltPressed, setIsAltPressed] = useState(false);
 
@@ -54,26 +58,49 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({
     const context: FilterContext = {
       baseType: itemName,
       itemClass: itemClass,
+      itemOptions,
     };
 
-    if (areaLevel !== undefined) context.areaLevel = areaLevel;
-    if (itemLevel !== undefined) context.itemLevel = itemLevel;
-    if (rarity) context.rarity = rarity;
-    if (itemName === "Gold" && stackSize !== undefined)
-      context.stackSize = stackSize;
-    if (quality !== undefined) context.quality = quality;
+    if (itemOptions?.areaLevel && areaLevel !== undefined) {
+      context.areaLevel = areaLevel;
+    }
 
-    console.log("Evaluating with context:", context);
+    if (itemOptions?.itemLevel && itemLevel !== undefined) {
+      context.itemLevel = itemLevel;
+    }
+
+    if (itemOptions?.rarity && rarity) {
+      context.rarity = rarity;
+    }
+
+    if (
+      itemOptions?.stackable &&
+      itemName === "Gold" &&
+      stackSize !== undefined
+    ) {
+      context.stackSize = stackSize;
+    }
+
+    if (itemOptions?.quality && quality !== undefined) {
+      context.quality = quality;
+    }
+
+    if (itemOptions?.sockets && sockets !== undefined) {
+      context.sockets = sockets;
+    }
+
     return getItemStyle(filterContent, context);
   }, [
     filterContent,
     itemName,
     itemClass,
+    itemOptions,
     areaLevel,
     itemLevel,
     rarity,
     stackSize,
     quality,
+    sockets,
   ]);
 
   const renderItemContent = () => {
