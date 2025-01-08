@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Select,
   SelectContent,
@@ -7,12 +7,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { itemData } from "@/data/item-data";
+import type { ItemOptions } from "@/types/filter";
 
 interface ItemSelectorProps {
   selectedItemType: string;
   selectedBaseType: string;
   onItemTypeChange: (value: string) => void;
   onBaseTypeChange: (value: string) => void;
+  onOptionsChange?: (options: ItemOptions | undefined) => void;
+  onItemClassChange?: (itemClass: string) => void;
 }
 
 export const ItemSelector: React.FC<ItemSelectorProps> = ({
@@ -20,17 +23,37 @@ export const ItemSelector: React.FC<ItemSelectorProps> = ({
   selectedBaseType,
   onItemTypeChange,
   onBaseTypeChange,
+  onOptionsChange,
+  onItemClassChange,
 }) => {
-  const itemTypes = [...new Set(itemData.map((item) => item.itemType))];
+  const itemTypes = useMemo(
+    () => [...new Set(itemData.map((item) => item.itemType))],
+    []
+  );
 
-  const getBaseTypes = (itemType: string) => {
-    const item = itemData.find((i) => i.itemType === itemType);
-    return item ? item.baseTypes : [];
+  const selectedItem = useMemo(
+    () => itemData.find((i) => i.itemType === selectedItemType),
+    [selectedItemType]
+  );
+
+  const handleItemTypeChange = (value: string) => {
+    const newSelectedItem = itemData.find((i) => i.itemType === value);
+    onItemTypeChange(value);
+    if (newSelectedItem) {
+      const options: ItemOptions = {
+        ...newSelectedItem.options,
+        rarity: Array.isArray(newSelectedItem.options.rarity)
+          ? newSelectedItem.options.rarity
+          : false,
+      };
+      onOptionsChange?.(options);
+      onItemClassChange?.(newSelectedItem.itemClass);
+    }
   };
 
   return (
     <div className="space-y-2">
-      <Select value={selectedItemType} onValueChange={onItemTypeChange}>
+      <Select value={selectedItemType} onValueChange={handleItemTypeChange}>
         <SelectTrigger className="w-full bg-[#2a2a2a] border-[#3a3a3a] text-gray-200">
           <SelectValue
             placeholder="Select item type"
@@ -60,7 +83,7 @@ export const ItemSelector: React.FC<ItemSelectorProps> = ({
           />
         </SelectTrigger>
         <SelectContent className="bg-[#2a2a2a] border-[#3a3a3a]">
-          {getBaseTypes(selectedItemType).map((type) => (
+          {selectedItem?.baseTypes.map((type) => (
             <SelectItem key={type} value={type} className="text-gray-200">
               {type}
             </SelectItem>
