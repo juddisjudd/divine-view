@@ -1392,7 +1392,7 @@ export const itemData = [
       "Ritual Precursor Tablet",
     ],
     options: {
-      stackable: false, // Unsure
+      stackable: false, // Unsure about these options
       rarity: false,
       areaLevel: false,
       itemLevel: false,
