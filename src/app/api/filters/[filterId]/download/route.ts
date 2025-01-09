@@ -2,16 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import type { ApiResponse } from "@/types/api";
 
-type Props = {
-  params: { filterId: string };
-};
-
 export async function POST(
   request: NextRequest,
-  { params }: Props
+  { params }: { params: { filterId: string } }
 ): Promise<NextResponse<ApiResponse>> {
   try {
-    const { filterId } = await Promise.resolve(params);
+    const { filterId } = params;
 
     const filter = await prisma.filter.findUnique({
       where: { id: filterId },
