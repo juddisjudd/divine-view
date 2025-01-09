@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +16,7 @@ import { useFilterDownloads } from "@/hooks/use-filter-downloads";
 import { ThumbsUp, ThumbsDown, Download, Import } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
+import { EditFilterDialog } from "@/components/community/EditFilterDialog";
 import type { FilterResponse } from "@/types/api";
 import Image from "next/image";
 
@@ -25,10 +27,13 @@ interface FilterCardProps {
 
 export function FilterCard({ filter, onVoteChange }: FilterCardProps) {
   const router = useRouter();
+  const { data: session } = useSession();
   const { toast } = useToast();
   const { vote, removeVote, isLoading: isVoting } = useFilterVotes();
   const { downloadFilter, isLoading: isDownloading } = useFilterDownloads();
   const [isImporting, setIsImporting] = useState(false);
+  const isOwner = session?.user?.id === filter.author.id;
+
   const [voteState, setVoteState] = useState({
     upvotes: filter.votes.upvotes,
     downvotes: filter.votes.downvotes,
@@ -108,6 +113,9 @@ export function FilterCard({ filter, onVoteChange }: FilterCardProps) {
             </div>
           </div>
           <div className="flex gap-2">
+            {isOwner && (
+              <EditFilterDialog filter={filter} onSuccess={onVoteChange} />
+            )}
             <Button
               variant="secondary"
               size="sm"
