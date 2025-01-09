@@ -4,11 +4,17 @@ import type { ApiResponse } from "@/types/api";
 
 export async function POST(
   request: NextRequest,
-  context: { params: { filterId: string } }
+  context: { params: Promise<{ filterId: string }> }
 ): Promise<NextResponse<ApiResponse>> {
   try {
-    const { params } = context;
-    const filterId = (await params).filterId; 
+    const { filterId } = await context.params;
+
+    if (!filterId) {
+      return NextResponse.json(
+        { success: false, message: "Invalid or missing filter ID" },
+        { status: 400 }
+      );
+    }
 
     const filter = await prisma.filter.findUnique({
       where: { id: filterId },
@@ -16,10 +22,7 @@ export async function POST(
 
     if (!filter) {
       return NextResponse.json(
-        {
-          success: false,
-          message: "Filter not found",
-        },
+        { success: false, message: "Filter not found" },
         { status: 404 }
       );
     }
@@ -32,11 +35,7 @@ export async function POST(
 
     await prisma.filter.update({
       where: { id: filterId },
-      data: {
-        downloads: {
-          increment: 1,
-        },
-      },
+      data: { downloads: { increment: 1 } },
     });
 
     const filename = filter.githubUrl.split("/").pop() || `${filter.name}.filter`;
@@ -47,14 +46,11 @@ export async function POST(
         "Content-Disposition": `attachment; filename="${filename}"`,
       },
     });
-  } catch (error: unknown) {
+  } catch (error) {
     console.error("[FILTER_DOWNLOAD]", error);
     const message = error instanceof Error ? error.message : "Internal server error";
     return NextResponse.json(
-      {
-        success: false,
-        message,
-      },
+      { success: false, message },
       { status: 500 }
     );
   }
