@@ -4,10 +4,11 @@ import type { ApiResponse } from "@/types/api";
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { filterId: string } }
+  context: { params: { filterId: string } }
 ): Promise<NextResponse<ApiResponse>> {
   try {
-    const { filterId } = params;
+    const { params } = context;
+    const filterId = (await params).filterId; 
 
     const filter = await prisma.filter.findUnique({
       where: { id: filterId },
@@ -38,8 +39,7 @@ export async function POST(
       },
     });
 
-    const filename =
-      filter.githubUrl.split("/").pop() || `${filter.name}.filter`;
+    const filename = filter.githubUrl.split("/").pop() || `${filter.name}.filter`;
 
     return new NextResponse(content, {
       headers: {
@@ -49,8 +49,7 @@ export async function POST(
     });
   } catch (error: unknown) {
     console.error("[FILTER_DOWNLOAD]", error);
-    const message =
-      error instanceof Error ? error.message : "Internal server error";
+    const message = error instanceof Error ? error.message : "Internal server error";
     return NextResponse.json(
       {
         success: false,
