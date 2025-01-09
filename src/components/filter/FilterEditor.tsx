@@ -8,9 +8,11 @@ import { ValidationPanel } from "@/components/filter/ValidationPanel";
 import { ItemPreviewPanel } from "@/components/filter/ItemPreviewPanel";
 import { itemData } from "@/data/item-data";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import type { ItemOptions, ValidationMessage } from "@/types/filter";
 
 export const FilterEditor: React.FC = () => {
+  const { toast } = useToast();
   const [filterContent, setFilterContent] = useState<string>("");
   const [validationMessages, setValidationMessages] = useState<
     ValidationMessage[]
@@ -31,6 +33,29 @@ export const FilterEditor: React.FC = () => {
 
   const [showPreview, setShowPreview] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkImportedFilter = async () => {
+      const importedFilter = localStorage.getItem("importedFilter");
+      const importedFilterName = localStorage.getItem("importedFilterName");
+
+      if (importedFilter) {
+        setFilterContent(importedFilter);
+
+        localStorage.removeItem("importedFilter");
+        localStorage.removeItem("importedFilterName");
+
+        toast({
+          title: "Filter Imported",
+          description: `Successfully imported ${
+            importedFilterName || "filter"
+          }`,
+        });
+      }
+    };
+
+    checkImportedFilter();
+  }, []);
 
   useEffect(() => {
     const checkMobile = () => {

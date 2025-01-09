@@ -1,6 +1,6 @@
 export const Footer: React.FC = () => {
   return (
-    <footer className="flex items-center justify-center px-4 py-2 text-sm text-gray-500 border-t border-[#2a2a2a] bg-[#1a1a1a] shrink-0">
+    <footer className="flex items-center justify-center px-4 py-2 text-sm text-gray-500 border-t border-[#2a2a2a] bg-[#030303] shrink-0">
       &copy; {new Date().getFullYear()} Divine View. Licensed under the{" "}
       <a
         href="https://opensource.org/licenses/MIT"

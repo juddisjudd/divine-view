@@ -16,7 +16,7 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="bg-[#1a1a1a] border-b border-[#2a2a2a]">
+    <header className="bg-[#030303] border-b border-[#2a2a2a]">
       <div className="flex flex-col px-4 py-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-6">
