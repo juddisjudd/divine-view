@@ -38,7 +38,7 @@ export function useFilters() {
         });
         utils.filter.getAll.invalidate();
       },
-      onError: (error: TRPCClientErrorLike<any>) => {
+      onError: (error: TRPCClientErrorLike<AppRouter>) => {
         toast({
           title: "Error",
           description: error.message,
@@ -56,7 +56,7 @@ export function useFilters() {
         });
         utils.filter.getAll.invalidate();
       },
-      onError: (error: TRPCClientErrorLike<any>) => {
+      onError: (error: TRPCClientErrorLike<AppRouter>) => {
         toast({
           title: "Error",
           description: error.message,

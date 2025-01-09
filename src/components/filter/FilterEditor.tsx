@@ -55,7 +55,7 @@ export const FilterEditor: React.FC = () => {
     };
 
     checkImportedFilter();
-  }, []);
+  }, [toast]);
 
   useEffect(() => {
     const checkMobile = () => {

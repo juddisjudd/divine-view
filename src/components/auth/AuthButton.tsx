@@ -2,6 +2,7 @@
 
 import { useSession, signIn, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
+import Image from 'next/image';
 
 export default function AuthButton() {
   const { data: session } = useSession();
@@ -9,10 +10,12 @@ export default function AuthButton() {
   if (session?.user) {
     return (
       <div className="flex items-center gap-2">
-        <img
+        <Image
           src={session.user.image || "/discord-default-avatar.png"}
           alt={session.user.name || "User avatar"}
           className="h-10 w-10 rounded-full"
+          width={40}
+          height={40}
         />
         <span className="text-white">{session.user.name}</span>
         <Button

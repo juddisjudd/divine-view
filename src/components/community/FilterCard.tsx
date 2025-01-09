@@ -16,6 +16,7 @@ import { ThumbsUp, ThumbsDown, Download, Import } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import type { FilterResponse } from "@/types/api";
+import Image from "next/image";
 
 interface FilterCardProps {
   filter: FilterResponse;
@@ -174,10 +175,12 @@ export function FilterCard({ filter, onVoteChange }: FilterCardProps) {
       <CardFooter className="mt-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           {filter.author.image && (
-            <img
+            <Image
               src={filter.author.image}
               alt={`${filter.author.name}'s avatar`}
               className="h-8 w-8 rounded-full bg-zinc-800"
+              width={32}
+              height={32}
             />
           )}
           <span className="text-sm text-zinc-400">by {filter.author.name}</span>

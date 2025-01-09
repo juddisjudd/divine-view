@@ -42,7 +42,7 @@ export function useFilterDownloads() {
         setIsLoading(false);
       }
     },
-    []
+    [toast]
   );
 
   return {
