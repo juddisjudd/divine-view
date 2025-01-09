@@ -1371,7 +1371,43 @@ export const itemData = [
       "Omen of Sinistral Annulment",
       "Omen of Dextral Annulment",
     ],
-      options: {
+    options: {
+      stackable: false,
+      rarity: false,
+      areaLevel: false,
+      itemLevel: false,
+      dropLevel: false,
+      quality: false,
+      sockets: false,
+    },
+  },
+  {
+    itemType: "Tablet",
+    itemClass: "Tablet",
+    baseTypes: [
+      "Breach Precusor Tablet",
+      "Delirium Precursor Tablet",
+      "Precursor Tablet",
+      "Expedition Precursor Tablet",
+      "Ritual Precursor Tablet",
+    ],
+    options: {
+      stackable: false, // Unsure
+      rarity: false,
+      areaLevel: false,
+      itemLevel: false,
+      dropLevel: false,
+      quality: false,
+      sockets: false,
+    },
+  },
+  {
+    itemType: "Inscribed Ultimatum",
+    itemClass: "Inscribed Ultimatum",
+    baseTypes: [
+      "Inscribed Ultimatum",
+    ],
+    options: {
       stackable: false,
       rarity: false,
       areaLevel: false,
