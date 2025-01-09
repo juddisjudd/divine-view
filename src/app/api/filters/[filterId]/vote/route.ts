@@ -3,16 +3,12 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import type { ApiResponse, VoteInput } from "@/types/api";
 
-type Props = {
-  params: { filterId: string };
-};
-
 export async function POST(
   request: NextRequest,
-  { params }: Props
+  context: { params: Promise<{ filterId: string }> }
 ): Promise<NextResponse<ApiResponse>> {
   try {
-    const { filterId } = await Promise.resolve(params);
+    const { filterId } = await context.params;
     const session = await auth();
 
     if (!session?.user?.id) {
@@ -88,10 +84,10 @@ export async function POST(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: Props
+  context: { params: Promise<{ filterId: string }> }
 ): Promise<NextResponse<ApiResponse>> {
   try {
-    const { filterId } = await Promise.resolve(params);
+    const { filterId } = await context.params;
     const session = await auth();
 
     if (!session?.user?.id) {
