@@ -125,33 +125,9 @@ export const FilterEditor: React.FC = () => {
     setShowPreview(!showPreview);
   };
 
-  const toggleSyntaxGuide = () => {
-    setShowSyntaxGuide(!showSyntaxGuide);
-  };
-
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center p-4 border-b border-[#2a2a2a] bg-[#131313]">
-        <div className="flex space-x-2">
-          <Button
-            variant="outline"
-            className={`text-gray-300 hover:text-white bg-[#2a2a2a] border-[#3a3a3a] hover:bg-[#3a3a3a] ${
-              !showSyntaxGuide ? "bg-[#3a3a3a]" : ""
-            }`}
-            onClick={() => setShowSyntaxGuide(false)}
-          >
-            Editor
-          </Button>
-          <Button
-            variant="outline"
-            className={`text-gray-300 hover:text-white bg-[#2a2a2a] border-[#3a3a3a] hover:bg-[#3a3a3a] ${
-              showSyntaxGuide ? "bg-[#3a3a3a]" : ""
-            }`}
-            onClick={() => setShowSyntaxGuide(true)}
-          >
-            Syntax Guide
-          </Button>
-        </div>
+      <div className="flex items-center border-[#2a2a2a] bg-[#131313]">
         <div className="ml-auto">
           <Button
             variant="outline"
@@ -172,7 +148,12 @@ export const FilterEditor: React.FC = () => {
             !showPreview ? "w-full" : "md:w-[60%]"
           }`}
         >
-          <FileImport onImport={setFilterContent} content={filterContent} />
+          <FileImport
+            onImport={setFilterContent}
+            content={filterContent}
+            showSyntaxGuide={showSyntaxGuide}
+            setShowSyntaxGuide={setShowSyntaxGuide}
+          />
           <div className="flex-1 p-4 overflow-hidden">
             <Card className="h-full bg-[#1a1a1a] border-[#2a2a2a]">
               {showSyntaxGuide ? (

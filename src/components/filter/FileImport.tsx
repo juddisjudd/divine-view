@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Download, Upload } from "lucide-react";
+import { Download, Upload, Code, BookOpen } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import {
   Dialog,
@@ -9,17 +9,22 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface FileImportProps {
   onImport: (content: string) => void;
   content?: string;
   className?: string;
+  showSyntaxGuide: boolean;
+  setShowSyntaxGuide: (show: boolean) => void;
 }
 
 export const FileImport: React.FC<FileImportProps> = ({
   onImport,
   content,
   className,
+  showSyntaxGuide,
+  setShowSyntaxGuide,
 }) => {
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -139,6 +144,26 @@ export const FileImport: React.FC<FileImportProps> = ({
         >
           <Download className="w-4 h-4 mr-2" />
           Export Filter
+        </Button>
+        <Button
+          variant="outline"
+          className={`text-gray-300 hover:text-white bg-[#2a2a2a] border-[#3a3a3a] hover:bg-[#3a3a3a] ${
+            !showSyntaxGuide ? "bg-[#3a3a3a]" : ""
+          }`}
+          onClick={() => setShowSyntaxGuide(false)}
+        >
+          <Code className="w-4 h-4 mr-2" />
+          Editor
+        </Button>
+        <Button
+          variant="outline"
+          className={`text-gray-300 hover:text-white bg-[#2a2a2a] border-[#3a3a3a] hover:bg-[#3a3a3a] ${
+            showSyntaxGuide ? "bg-[#3a3a3a]" : ""
+          }`}
+          onClick={() => setShowSyntaxGuide(true)}
+        >
+          <BookOpen className="w-4 h-4 mr-2" />
+          Syntax Guide
         </Button>
         <input
           ref={fileInputRef}
