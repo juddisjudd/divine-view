@@ -22,7 +22,7 @@ Hide
         </div>
         <p className="text-gray-400 mb-2">
           A block is defined as a collection of lines, which have a singular
-          purpose. A block must begin with a "Show" or "Hide" line. A block ends
+          purpose. A block must begin with a &quot;Show&quot; or &quot;Hide&quot; line. A block ends
           when another line containing Show or Hide is read by the client.
         </p>
         <p className="text-gray-400">
@@ -162,13 +162,13 @@ Hide
         </p>
         <div className="bg-[#0e0e0e] p-4 rounded-md mb-4">
           <pre className="text-gray-300">
-            {`# Incorrect - will match "One", "Hand", and "Swords" separately
+            {`# Incorrect - will match &quot;One&quot;, &quot;Hand&quot;, and &quot;Swords&quot; separately
 Show
     Class One Hand Swords
     
-# Correct - will only match "One Hand Swords" exactly
+# Correct - will only match &quot;One Hand Swords&quot; exactly
 Show
-    Class "One Hand Swords"`}
+    Class &quot;One Hand Swords&quot;`}
           </pre>
         </div>
       </div>
@@ -180,24 +180,24 @@ Show
             {`# Highlight quality gems
 Show
     Class Gem
-    Quality > 0
+    Quality &gt; 0
     SetBackgroundColor 0 40 30
     SetBorderColor 0 50 160
 
 # Highlight rare gems
 Show
     Class Gem
-    BaseType "Empower" "Enhance" "Portal" "Detonate Mines"
+    BaseType &quot;Empower&quot; &quot;Enhance&quot; &quot;Portal&quot; &quot;Detonate Mines&quot;
     SetBorderColor 0 50 160
     
 # Hide low-level flasks
 Hide
     BaseType Flask
-    Quality < 10
+    Quality &lt; 10
     
 # Show valuable currency
 Show
-    BaseType "Chaos Orb" "Exalted Orb"
+    BaseType &quot;Chaos Orb&quot; &quot;Exalted Orb&quot;
     SetTextColor 255 0 0
     SetBorderColor 255 0 0
     SetBackgroundColor 20 20 0 255
