@@ -2,29 +2,87 @@
 
 import { useSession, signIn, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import Image from 'next/image';
+import Image from "next/image";
+import { useState, useRef, useEffect } from "react";
 
 export default function AuthButton() {
   const { data: session } = useSession();
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   if (session?.user) {
     return (
-      <div className="flex items-center gap-2">
-        <Image
-          src={session.user.image || "/discord-default-avatar.png"}
-          alt={session.user.name || "User avatar"}
-          className="h-10 w-10 rounded-full"
-          width={40}
-          height={40}
-        />
-        <span className="text-white">{session.user.name}</span>
-        <Button
-          variant="ghost"
-          className="text-zinc-400 hover:text-white bg-[#0e0e0e] hover:bg-[#922729] h-8"
-          onClick={() => signOut()}
+      <div className="relative" ref={dropdownRef}>
+        <button
+          onClick={() => setShowDropdown(!showDropdown)}
+          className="flex items-center justify-center h-8 w-8 rounded-full overflow-hidden"
         >
-          Sign out
-        </Button>
+          <Image
+            src={session.user.image || "/images/default-avatar.png"}
+            alt={session.user.name || "User avatar"}
+            className="h-8 w-8 rounded-full"
+            width={32}
+            height={32}
+          />
+        </button>
+
+        {showDropdown && (
+          <div className="absolute right-0 mt-2 w-48 bg-[#0e0e0e] border border-[#2a2a2a] shadow-lg rounded-md z-50">
+            <div className="py-2 px-4 border-b border-[#2a2a2a]">
+              <p className="text-white font-medium">My Account</p>
+            </div>
+            <button
+              onClick={() => signOut()}
+              className="flex items-center w-full text-left px-4 py-2 text-zinc-400 hover:text-white hover:bg-[#202020]"
+            >
+              <svg
+                className="w-4 h-4 mr-2"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M16 17L21 12L16 7"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M21 12H9"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              Sign out
+            </button>
+          </div>
+        )}
       </div>
     );
   }

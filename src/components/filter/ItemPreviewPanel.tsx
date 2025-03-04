@@ -47,13 +47,18 @@ export const ItemPreviewPanel: React.FC<ItemPreviewPanelProps> = ({
   onStackSizeChange,
 }) => {
   return (
-    <div className="w-full md:w-96 flex flex-col bg-[#1a1a1a] border-l border-[#2a2a2a] overflow-hidden">
-      <div className="shrink-0 p-4 md:p-6 space-y-4 md:space-y-6 border-b border-[#2a2a2a] bg-[#1a1a1a] overflow-y-auto max-h-[calc(100vh-6rem)]">
-        <h2 className="text-lg font-medium text-white sticky top-0 bg-[#1a1a1a] py-2 z-10">
-          Item Preview
-        </h2>
+    <div className="w-full md:w-96 flex flex-col bg-[#1a1a1a] border-l border-[#2a2a2a] overflow-hidden z-20 relative">
+      <div className="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center z-30">
+        <span className="text-white text-lg">
+          Currently unavailable due to being rewritten
+        </span>
+      </div>
+      <div className="p-4 border-b border-[#2a2a2a] bg-[#1a1a1a]">
+        <h2 className="text-lg font-medium text-white">Item Preview</h2>
+      </div>
 
-        <div className="space-y-4">
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="p-4 space-y-4 overflow-y-auto">
           <ItemSelector
             selectedItemType={selectedItemType}
             selectedBaseType={selectedBaseType}
@@ -76,22 +81,22 @@ export const ItemPreviewPanel: React.FC<ItemPreviewPanelProps> = ({
             onStackSizeChange={onStackSizeChange}
           />
         </div>
-      </div>
 
-      <div className="flex-1 p-4 overflow-y-auto min-h-[300px]">
-        <Card className="h-full bg-[#1f1f1f] border-[#2a2a2a]">
-          <ItemPreview
-            filterContent={filterContent}
-            itemName={selectedBaseType}
-            itemClass={currentItemClass}
-            itemOptions={itemOptions}
-            areaLevel={areaLevel}
-            itemLevel={itemLevel}
-            stackSize={stackSize}
-            rarity={selectedRarity}
-            quality={quality}
-          />
-        </Card>
+        <div className="flex-1 min-h-[300px] p-4 overflow-hidden">
+          <Card className="h-full bg-[#1f1f1f] border-[#2a2a2a] flex items-center justify-center">
+            <ItemPreview
+              filterContent={filterContent}
+              itemName={selectedBaseType}
+              itemClass={currentItemClass}
+              itemOptions={itemOptions}
+              areaLevel={areaLevel}
+              itemLevel={itemLevel}
+              stackSize={stackSize}
+              rarity={selectedRarity}
+              quality={quality}
+            />
+          </Card>
+        </div>
       </div>
     </div>
   );

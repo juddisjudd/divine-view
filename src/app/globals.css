@@ -70,3 +70,14 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.custom-scrollbar {
+  max-height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  display: none;
+}

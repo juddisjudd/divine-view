@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { SubmitFilterDialog } from "@/components/community/SubmitFilterDialog";
 import { FilterCard } from "@/components/community/FilterCard";
 import { FilterControls } from "@/components/community/FilterControls";
@@ -250,7 +250,7 @@ function CommunityPageContent() {
 export default function CommunityPage() {
   return (
     <DefaultLayout>
-      <div className="container mx-auto py-6 px-4">
+      <div className="container mx-auto py-6 px-4 custom-scrollbar">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-white">Community Filters</h1>
           <SubmitFilterDialog />
