@@ -37,11 +37,11 @@ Hide
         <ul className="space-y-2">
           <li>
             <code className="bg-[#0e0e0e] px-2 py-1 rounded">Class</code> - Item
-            class (e.g., "Amulets", "Body Armours")
+            class (e.g., &quot;Amulets&quot;, &quot;Body Armours&quot;)
           </li>
           <li>
             <code className="bg-[#0e0e0e] px-2 py-1 rounded">BaseType</code> -
-            Base item type (e.g., "Chaos Orb", "Solar Amulet")
+            Base item type (e.g., &quot;Chaos Orb&quot;, &quot;Solar Amulet&quot;)
           </li>
           <li>
             <code className="bg-[#0e0e0e] px-2 py-1 rounded">
