@@ -81,3 +81,267 @@ body {
 .custom-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* 
+ * Additional responsive utility classes to enhance Tailwind CSS
+ * Add these to your globals.css file
+ */
+
+/* Mobile-first responsive container classes */
+.container-fluid {
+  width: 100%;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.container-sm {
+  max-width: 640px;
+  width: 100%;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.container-md {
+  max-width: 768px;
+  width: 100%;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.container-lg {
+  max-width: 1024px;
+  width: 100%;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.container-xl {
+  max-width: 1280px;
+  width: 100%;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* Touch-friendly enhancements */
+@media (hover: none) {
+  /* Increase touch targets for better mobile interaction */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Remove hover effects and replace with active state effects */
+  .touch-friendly {
+    transition: none;
+  }
+  
+  .touch-friendly:hover {
+    /* Override any hover styles */
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  
+  .touch-friendly:active {
+    /* Apply effects on active state instead */
+    transform: scale(0.98);
+    opacity: 0.8;
+  }
+}
+
+/* Responsive typography for better readability on mobile */
+html {
+  font-size: 16px; /* Base font size */
+}
+
+@media (max-width: 640px) {
+  html {
+    font-size: 14px; /* Slightly smaller base size on mobile */
+  }
+  
+  h1 {
+    font-size: 1.5rem !important; /* ~24px on mobile vs ~28px on desktop */
+  }
+  
+  h2 {
+    font-size: 1.25rem !important; /* ~20px on mobile vs ~24px on desktop */
+  }
+  
+  h3 {
+    font-size: 1.125rem !important; /* ~18px on mobile vs ~20px on desktop */
+  }
+}
+
+/* Flexbox utilities for responsive layouts */
+.flex-responsive {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .flex-responsive {
+    flex-direction: row;
+  }
+}
+
+/* Grid utilities for responsive layouts */
+.grid-responsive {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .grid-responsive {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-responsive {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Responsive forms utility classes */
+.form-input-responsive {
+  height: 3rem; /* Larger touch targets on mobile */
+  padding: 0.75rem;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .form-input-responsive {
+    height: 2.5rem; /* Standard size on desktop */
+    padding: 0.5rem;
+  }
+}
+
+/* Responsive images */
+.img-responsive {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Override scrollbar styles for touch devices */
+@media (pointer: coarse) {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 12px; /* Larger for touch */
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 3px solid transparent;
+    background-clip: padding-box;
+  }
+}
+
+/* Additional media query breakpoints to supplement Tailwind's defaults */
+/* These should be used sparingly when Tailwind's built-in breakpoints are not enough */
+@media (max-width: 370px) {
+  .xs-only {
+    display: block;
+  }
+  
+  .xs-hidden {
+    display: none;
+  }
+}
+
+@media (min-width: 371px) and (max-width: 639px) {
+  .sm-only {
+    display: block;
+  }
+  
+  .sm-hidden {
+    display: none;
+  }
+}
+
+/* Mobile-first spacing utilities */
+.mt-responsive {
+  margin-top: 0.75rem;
+}
+
+.mb-responsive {
+  margin-bottom: 0.75rem;
+}
+
+.mx-responsive {
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+}
+
+.my-responsive {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.p-responsive {
+  padding: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .mt-responsive {
+    margin-top: 1.5rem;
+  }
+  
+  .mb-responsive {
+    margin-bottom: 1.5rem;
+  }
+  
+  .mx-responsive {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+  }
+  
+  .my-responsive {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .p-responsive {
+    padding: 1.5rem;
+  }
+}
+
+/* Utility for avoiding content being hidden under fixed headers on anchor link jumps */
+.scroll-margin-for-header {
+  scroll-margin-top: 4rem;
+}
+
+/* High contrast mode adjustments for accessibility */
+@media (prefers-contrast: high) {
+  :root {
+    --border: 255 255 255;
+    --ring: 255 255 255;
+  }
+  
+  * {
+    border-color: white !important;
+  }
+  
+  button, a {
+    outline: 2px solid white !important;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

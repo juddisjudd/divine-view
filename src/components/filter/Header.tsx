@@ -1,10 +1,11 @@
 "use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 import AuthButton from "@/components/auth/AuthButton";
 import { cn } from "@/lib/utils";
+import { Menu, X } from "lucide-react";
 
 const navigation = [
   { name: "Editor", href: "/", icon: "code" },
@@ -19,6 +20,22 @@ const navigation = [
 
 export default function Header() {
   const pathname = usePathname();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+      if (window.innerWidth >= 768) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const renderIcon = (iconName: string) => {
     switch (iconName) {
@@ -115,28 +132,78 @@ export default function Header() {
           </div>
         </Link>
 
-        <nav className="absolute left-1/2 transform -translate-x-1/2">
-          <div className="flex space-x-4">
-            {navigation.map((item) => {
-              const isActive = pathname === item.href;
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={cn(
-                    "px-3 py-1 text-sm font-medium transition-colors rounded-md flex items-center",
-                    isActive
-                      ? "text-white bg-[#2a2a2a]"
-                      : "text-zinc-400 hover:text-white hover:bg-[#2a2a2a]"
-                  )}
-                >
-                  {renderIcon(item.icon)}
-                  {item.name}
-                </Link>
-              );
-            })}
+        {/* Mobile menu button */}
+        {isMobile && (
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="text-zinc-400 hover:text-white p-2 focus:outline-none z-50"
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+          >
+            {isMobileMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </button>
+        )}
+
+        {/* Desktop navigation */}
+        {!isMobile && (
+          <nav className="absolute left-1/2 transform -translate-x-1/2">
+            <div className="flex space-x-4">
+              {navigation.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={cn(
+                      "px-3 py-1 text-sm font-medium transition-colors rounded-md flex items-center",
+                      isActive
+                        ? "text-white bg-[#2a2a2a]"
+                        : "text-zinc-400 hover:text-white hover:bg-[#2a2a2a]"
+                    )}
+                  >
+                    {renderIcon(item.icon)}
+                    {item.name}
+                  </Link>
+                );
+              })}
+            </div>
+          </nav>
+        )}
+
+        {/* Mobile navigation - slides in from top */}
+        {isMobile && (
+          <div
+            className={cn(
+              "fixed inset-0 bg-black bg-opacity-90 z-40 transition-transform duration-300 ease-in-out transform",
+              isMobileMenuOpen ? "translate-y-0" : "-translate-y-full"
+            )}
+          >
+            <div className="flex flex-col items-center justify-center h-full space-y-6 pt-16">
+              {navigation.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={cn(
+                      "px-4 py-3 text-lg font-medium transition-colors rounded-md flex items-center",
+                      isActive
+                        ? "text-white bg-[#2a2a2a]"
+                        : "text-zinc-400 hover:text-white hover:bg-[#2a2a2a]"
+                    )}
+                  >
+                    {renderIcon(item.icon)}
+                    {item.name}
+                  </Link>
+                );
+              })}
+            </div>
           </div>
-        </nav>
+        )}
 
         <div className="relative z-50">
           <AuthButton />

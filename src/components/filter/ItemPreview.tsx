@@ -30,8 +30,11 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({
   sockets,
 }) => {
   const [isAltPressed, setIsAltPressed] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   useEffect(() => {
+    setIsTouchDevice("ontouchstart" in window || navigator.maxTouchPoints > 0);
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Alt") {
         e.preventDefault();
@@ -103,6 +106,14 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({
     sockets,
   ]);
 
+  const [touchShowHidden, setTouchShowHidden] = useState(false);
+
+  const toggleHiddenVisibility = () => {
+    if (isTouchDevice && isHidden) {
+      setTouchShowHidden(!touchShowHidden);
+    }
+  };
+
   const renderItemContent = () => {
     if (!itemName || !itemClass) {
       return (
@@ -112,37 +123,52 @@ export const ItemPreview: React.FC<ItemPreviewProps> = ({
       );
     }
 
-    if (isHidden && !isAltPressed) {
+    const showHiddenItem = (isAltPressed || touchShowHidden) && isHidden;
+
+    if (isHidden && !showHiddenItem) {
       return (
-        <div className="flex flex-col items-center text-gray-400 bg-black/50 p-4 rounded">
+        <div
+          className="flex flex-col items-center text-gray-400 bg-black/50 p-4 rounded"
+          onClick={toggleHiddenVisibility}
+        >
           <EyeOff className="w-8 h-8 mb-2" />
           <p className="text-sm text-center">
             This item is hidden by filter
             <br />
-            <span className="text-xs opacity-75">
-              (Hold Alt to show hidden items)
-            </span>
+            {isTouchDevice ? (
+              <span className="text-xs opacity-75">
+                (Tap to preview hidden item)
+              </span>
+            ) : (
+              <span className="text-xs opacity-75">
+                (Hold Alt to show hidden items)
+              </span>
+            )}
           </p>
         </div>
       );
     }
 
     return (
-      <div className={cn("relative", isHidden && isAltPressed && "opacity-50")}>
+      <div className={cn("relative", showHiddenItem && "opacity-50")}>
         {style.beam && !isHidden && <Beam color={style.beam.color} />}
         <ItemLabel
           name={itemName}
           style={style}
           isHidden={isHidden}
-          isAltPressed={isAltPressed}
+          isAltPressed={showHiddenItem}
         />
       </div>
     );
   };
 
   return (
-    <div className="w-full h-full flex items-center justify-center">
-      <div className="relative w-[384px] h-[245px]">
+    <div
+      className="w-full h-full flex items-center justify-center"
+      onClick={toggleHiddenVisibility}
+    >
+      {/* Make the preview container responsive */}
+      <div className="relative w-full max-w-[384px] h-[245px] max-h-full">
         <div
           className="absolute inset-0 flex items-center justify-center bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/images/preview-bg.png')" }}
@@ -185,7 +211,6 @@ const Beam: React.FC<{ color: string }> = ({ color }) => (
         }}
       />
     </div>
-
     {/* Lower beam section */}
     <div
       className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
@@ -194,27 +219,18 @@ const Beam: React.FC<{ color: string }> = ({ color }) => (
       {/* Central beam */}
       <div
         className="absolute left-1/2 -translate-x-1/2 w-[2px] h-full"
-        style={{
-          background: color,
-        }}
+        style={{ background: color }}
       />
       {/* Inner glow */}
       <div
         className="absolute left-1/2 -translate-x-1/2 w-[4px] h-full"
-        style={{
-          background: `${color}80`,
-          filter: "blur(3px)",
-        }}
+        style={{ background: `${color}80`, filter: "blur(3px)" }}
       />
       {/* Outer glow */}
       <div
         className="absolute left-1/2 -translate-x-1/2 w-[8px] h-full"
-        style={{
-          background: `${color}40`,
-          filter: "blur(6px)",
-        }}
+        style={{ background: `${color}40`, filter: "blur(6px)" }}
       />
-
       {/* Base glow effect */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
         <div
@@ -267,7 +283,7 @@ const ItemLabel: React.FC<ItemLabelProps> = ({
     {name}
     {isHidden && isAltPressed && (
       <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-gray-400 whitespace-nowrap bg-black/75 px-1 rounded">
-        Hidden by filter (Alt pressed)
+        Hidden by filter
       </div>
     )}
   </div>
