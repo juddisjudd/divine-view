@@ -29,6 +29,12 @@ const FILTER_RESOURCES = [
       "Easy-to-use custom loot filter generation website with minimal changes to styles. Contains fully economy-tiered currency items.",
     url: "https://poe2filter.com/",
   },
+  {
+    title: "Chromatic PoE",
+    description:
+      "Chromatic PoE is a tool to generate item filters for Path of Exile. It is free and open source for the peace of mind of anyone that uses it.",
+    url: "https://github.com/jchantrell/chromatic-poe",
+  },
 ];
 
 const TRADE_TOOLS = [
