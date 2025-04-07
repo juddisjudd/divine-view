@@ -1,6 +1,7 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/db";
 import Discord from "next-auth/providers/discord";
+import PoE from "@/lib/providers/poe-provider";
 import { DefaultSession } from "next-auth";
 
 interface Session extends DefaultSession {
@@ -25,6 +26,10 @@ export const authConfig = {
     Discord({
       clientId: process.env.DISCORD_CLIENT_ID as string,
       clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
+    }),
+    PoE({
+      clientId: process.env.POE_CLIENT_ID as string,
+      clientSecret: process.env.POE_CLIENT_SECRET as string,
     }),
   ],
   callbacks: {
