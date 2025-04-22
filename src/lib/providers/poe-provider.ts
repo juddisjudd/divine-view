@@ -16,11 +16,7 @@ interface TokenSet {
 export default function PoE<P extends PoEProfile>(
   options: OAuthUserConfig<P>
 ): OAuthConfig<P> {
-  console.log("PoE Provider Initialization");
-  console.log("Client ID:", options.clientId);
-
-  const baseUrl = process.env.AUTH_URL || process.env.AUTH_URL || "";
-  const normalizedBaseUrl = baseUrl.replace(/\/$/, "");
+  console.log("PoE Provider initialized with client ID:", options.clientId);
 
   return {
     id: "poe",
@@ -35,15 +31,10 @@ export default function PoE<P extends PoEProfile>(
       params: {
         scope: "account:profile account:item_filter",
         response_type: "code",
-        redirect_uri: `${normalizedBaseUrl}/api/auth/callback/poe`,
+        client_id: options.clientId,
       },
     },
-    token: {
-      url: "https://www.pathofexile.com/oauth/token",
-      params: {
-        redirect_uri: `${normalizedBaseUrl}/api/auth/callback/poe`,
-      },
-    },
+    token: "https://www.pathofexile.com/oauth/token",
     userinfo: {
       url: "https://www.pathofexile.com/api/profile",
       async request({
