@@ -16,7 +16,10 @@ interface TokenSet {
 export default function PoE<P extends PoEProfile>(
   options: OAuthUserConfig<P>
 ): OAuthConfig<P> {
-  const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "";
+  console.log("PoE Provider Initialization");
+  console.log("Client ID:", options.clientId);
+
+  const baseUrl = process.env.AUTH_URL || process.env.AUTH_URL || "";
   const normalizedBaseUrl = baseUrl.replace(/\/$/, "");
 
   return {
