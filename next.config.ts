@@ -1,4 +1,3 @@
-// next.config.ts
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -8,11 +7,17 @@ const nextConfig: NextConfig = {
       allowedOrigins: undefined,
     },
   },
+  env: {
+    POE_CLIENT_ID: process.env.POE_CLIENT_ID,
+    POE_CLIENT_SECRET: process.env.POE_CLIENT_SECRET,
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL || process.env.AUTH_URL,
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET,
+  },
   serverRuntimeConfig: {
-    // Runtime configuration that is only available on the server side
+    POE_CLIENT_ID: process.env.POE_CLIENT_ID,
+    POE_CLIENT_SECRET: process.env.POE_CLIENT_SECRET,
   },
   publicRuntimeConfig: {
-    // Runtime configuration that is available on both server and client side
   },
   images: {
     deviceSizes: [320, 640, 750, 828, 1080, 1200, 1920, 2048],

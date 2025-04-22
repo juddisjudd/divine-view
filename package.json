@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "seed": "npx ts-node prisma/seed.ts",
+    "reset-db": "npx ts-node prisma/reset.ts",
     "postinstall": "prisma generate"
   },
   "prisma": {
