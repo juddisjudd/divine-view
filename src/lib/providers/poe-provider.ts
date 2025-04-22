@@ -16,8 +16,6 @@ interface TokenSet {
 export default function PoE<P extends PoEProfile>(
   options: OAuthUserConfig<P>
 ): OAuthConfig<P> {
-  console.log("PoE Provider initialized with client ID:", options.clientId);
-
   return {
     id: "poe",
     name: "Path of Exile",
@@ -32,6 +30,9 @@ export default function PoE<P extends PoEProfile>(
         scope: "account:profile account:item_filter",
         response_type: "code",
         client_id: options.clientId,
+        redirect_uri: `${
+          process.env.AUTH_URL || process.env.NEXTAUTH_URL
+        }/api/auth/callback/poe`,
       },
     },
     token: "https://www.pathofexile.com/oauth/token",

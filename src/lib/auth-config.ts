@@ -40,4 +40,5 @@ export const authConfig = {
     signOut: "/auth/signout",
     error: "/auth/error",
   },
+  secret: process.env.AUTH_SECRET,
 };

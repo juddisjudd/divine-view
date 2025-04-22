@@ -1,9 +1,28 @@
+import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 
-export default auth;
+export async function middleware(request: NextRequest) {
+  const session = await auth();
 
-export const runtime = 'nodejs';
+  if (
+    request.nextUrl.pathname.startsWith("/auth") ||
+    request.nextUrl.pathname.startsWith("/api/auth")
+  ) {
+    return NextResponse.next();
+  }
+
+  const publicRoutes = ["/", "/resources"];
+  if (publicRoutes.some((route) => request.nextUrl.pathname === route)) {
+    return NextResponse.next();
+  }
+
+  if (request.nextUrl.pathname.startsWith("/community") && !session) {
+    return NextResponse.redirect(new URL("/auth/signin", request.url));
+  }
+
+  return NextResponse.next();
+}
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };
