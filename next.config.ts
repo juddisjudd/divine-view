@@ -9,7 +9,6 @@ const nextConfig: NextConfig = {
   },
   env: {
     POE_CLIENT_ID: process.env.POE_CLIENT_ID,
-    POE_CLIENT_SECRET: process.env.POE_CLIENT_SECRET,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL || process.env.AUTH_URL,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET,
   },

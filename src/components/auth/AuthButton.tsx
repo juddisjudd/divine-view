@@ -1,10 +1,11 @@
 "use client";
-import { useSession, signOut, signIn } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { LogOut } from "lucide-react";
 import PoEIcon from "@/components/icons/PoEIcon";
+import { toast } from "sonner"; // Assuming you're using the Sonner toast library
 
 export default function AuthButton() {
   const { data: session } = useSession();
@@ -24,7 +25,7 @@ export default function AuthButton() {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        dropdownRef.current && 
+        dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
         setShowDropdown(false);
@@ -37,18 +38,18 @@ export default function AuthButton() {
   }, []);
 
   const handleLogin = () => {
-    signIn("poe");
+    toast("Login is temporarily disabled."); // Trigger the toast message
   };
 
   if (session?.user) {
     return (
       <div className="relative" ref={dropdownRef}>
-        <button 
+        <button
           onClick={() => setShowDropdown(!showDropdown)}
           className="flex items-center justify-center h-8 w-8 rounded-full overflow-hidden"
           aria-label="User menu"
         >
-          <Image 
+          <Image
             src={session.user.image || "/images/default-avatar.png"}
             alt={session.user.name || "User avatar"}
             className="h-8 w-8 rounded-full"
@@ -58,9 +59,11 @@ export default function AuthButton() {
         </button>
 
         {showDropdown && (
-          <div className={`absolute right-0 mt-2 w-48 bg-[#0e0e0e] border border-[#2a2a2a] shadow-lg rounded-md z-50 ${
-            isMobile ? "right-0" : "right-0"
-          }`}>
+          <div
+            className={`absolute right-0 mt-2 w-48 bg-[#0e0e0e] border border-[#2a2a2a] shadow-lg rounded-md z-50 ${
+              isMobile ? "right-0" : "right-0"
+            }`}
+          >
             <div className="py-2 px-4 border-b border-[#2a2a2a]">
               <p className="text-white font-medium truncate">
                 {session.user.name || "User"}
@@ -85,9 +88,9 @@ export default function AuthButton() {
   }
 
   return (
-    <Button 
+    <Button
       onClick={handleLogin}
-      className="p-2 text-zinc-400 hover:text-white rounded bg-[#0e0e0e] hover:bg-[#0e0e0e] flex items-center"
+      className="p-2 text-zinc-400 bg-[#0e0e0e] flex items-center rounded opacity-50 cursor-not-allowed"
       aria-label="Login with Path of Exile"
     >
       <PoEIcon className="w-4 h-4 mr-2" />

@@ -11,12 +11,12 @@ export async function middleware(request: NextRequest) {
 
   const session = await auth();
 
-  const publicRoutes = ["/", "/resources"];
+  const publicRoutes = ["/", "/resources", "/community" ];
   if (publicRoutes.some((route) => request.nextUrl.pathname === route)) {
     return NextResponse.next();
   }
 
-  if (request.nextUrl.pathname.startsWith("/community") && !session) {
+  if (request.nextUrl.pathname.startsWith("/admin") && !session) {
     return NextResponse.redirect(new URL("/auth/signin", request.url));
   }
 
