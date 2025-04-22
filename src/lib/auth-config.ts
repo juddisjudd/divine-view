@@ -36,9 +36,9 @@ export const authConfig = {
     },
   },
   pages: {
-    signIn: "/auth/signin",
     signOut: "/auth/signout",
     error: "/auth/error",
   },
   secret: process.env.AUTH_SECRET,
+  debug: true,
 };
