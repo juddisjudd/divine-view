@@ -16,6 +16,9 @@ interface TokenSet {
 export default function PoE<P extends PoEProfile>(
   options: OAuthUserConfig<P>
 ): OAuthConfig<P> {
+  const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "";
+  const normalizedBaseUrl = baseUrl.replace(/\/$/, "");
+
   return {
     id: "poe",
     name: "Path of Exile",
@@ -29,13 +32,15 @@ export default function PoE<P extends PoEProfile>(
       params: {
         scope: "account:profile account:item_filter",
         response_type: "code",
-        client_id: options.clientId,
-        redirect_uri: `${
-          process.env.AUTH_URL || process.env.NEXTAUTH_URL
-        }/api/auth/callback/poe`,
+        redirect_uri: `${normalizedBaseUrl}/api/auth/callback/poe`,
       },
     },
-    token: "https://www.pathofexile.com/oauth/token",
+    token: {
+      url: "https://www.pathofexile.com/oauth/token",
+      params: {
+        redirect_uri: `${normalizedBaseUrl}/api/auth/callback/poe`,
+      },
+    },
     userinfo: {
       url: "https://www.pathofexile.com/api/profile",
       async request({
