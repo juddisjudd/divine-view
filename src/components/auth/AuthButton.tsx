@@ -1,11 +1,10 @@
 "use client";
-import { useSession, signOut } from "next-auth/react";
+import { useSession, signOut, signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { LogOut } from "lucide-react";
 import PoEIcon from "@/components/icons/PoEIcon";
-import { toast } from "sonner"; // Assuming you're using the Sonner toast library
 
 export default function AuthButton() {
   const { data: session } = useSession();
@@ -38,7 +37,7 @@ export default function AuthButton() {
   }, []);
 
   const handleLogin = () => {
-    toast("Login is temporarily disabled."); // Trigger the toast message
+    signIn("poe");
   };
 
   if (session?.user) {
@@ -90,7 +89,7 @@ export default function AuthButton() {
   return (
     <Button
       onClick={handleLogin}
-      className="p-2 text-zinc-400 bg-[#0e0e0e] flex items-center rounded opacity-50 cursor-not-allowed"
+      className="p-2 text-zinc-400 bg-[#0e0e0e] hover:bg-[#1a1a1a] flex items-center rounded transition-colors"
       aria-label="Login with Path of Exile"
     >
       <PoEIcon className="w-4 h-4 mr-2" />
