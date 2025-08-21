@@ -1,7 +1,7 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/db";
 import PoE from "@/lib/providers/poe-provider";
-import type { DefaultSession } from "next-auth";
+import type { DefaultSession, NextAuthConfig } from "next-auth";
 
 interface Session extends DefaultSession {
   user?: {
@@ -19,7 +19,7 @@ interface User {
   image?: string | null;
 }
 
-export const authConfig = {
+export const authConfig: NextAuthConfig = {
   adapter: PrismaAdapter(prisma),
   providers: [
     PoE({
@@ -34,11 +34,23 @@ export const authConfig = {
       }
       return session;
     },
+    async signIn(params) {
+      console.log("SignIn callback:", params);
+      return true;
+    },
+  },
+  events: {
+    async signIn(params) {
+      console.log("SignIn event:", params);
+    },
+    async signOut(params) {
+      console.log("SignOut event:", params);
+    },
   },
   pages: {
     signOut: "/auth/signout",
     error: "/auth/error",
   },
   secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET,
-  debug: process.env.NODE_ENV === "development",
+  debug: true,
 };

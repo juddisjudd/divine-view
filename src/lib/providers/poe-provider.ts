@@ -22,19 +22,20 @@ export default function PoE<P extends PoEProfile>(
     id: "poe",
     name: "Path of Exile",
     type: "oauth",
-    client: {
-      client_id: options.clientId,
-      client_secret: options.clientSecret,
-    },
     authorization: {
       url: "https://www.pathofexile.com/oauth/authorize",
       params: {
         scope: "account:profile account:item_filter",
         response_type: "code",
-        client_id: options.clientId,
       },
     },
-    token: "https://www.pathofexile.com/oauth/token",
+    token: {
+      url: "https://www.pathofexile.com/oauth/token",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    },
+    checks: ["pkce", "state"],
     userinfo: {
       url: "https://www.pathofexile.com/api/profile",
       async request({
@@ -59,9 +60,9 @@ export default function PoE<P extends PoEProfile>(
         console.log("PoE Profile response:", profile);
         
         return {
-          id: profile.uuid,
-          name: profile.name,
-          avatar: profile.avatar || null,
+          id: profile.sub || profile.uuid,
+          name: profile.username || profile.name,
+          avatar: profile.avatar?.image || profile.image || null,
         };
       },
     },
