@@ -47,9 +47,17 @@ export default function PoE<P extends PoEProfile>(
         const response = await fetch(provider.userinfo?.url as string, {
           headers: {
             Authorization: `Bearer ${tokens.access_token}`,
+            "User-Agent": "DivineView/1.0",
           },
         });
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch profile: ${response.status} ${response.statusText}`);
+        }
+        
         const profile = await response.json();
+        console.log("PoE Profile response:", profile);
+        
         return {
           id: profile.uuid,
           name: profile.name,
