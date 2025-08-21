@@ -7,7 +7,7 @@ export function useFilterVotes() {
   const { toast } = useToast();
   const utils = api.useContext();
 
-  const { mutate: voteMutation, isLoading: isVoting } =
+  const { mutate: voteMutation, isPending: isVoting } =
     api.vote.vote.useMutation({
       onSuccess: () => {
         utils.filter.getAll.invalidate();
@@ -21,7 +21,7 @@ export function useFilterVotes() {
       },
     });
 
-  const { mutate: removeVoteMutation, isLoading: isRemoving } =
+  const { mutate: removeVoteMutation, isPending: isRemoving } =
     api.vote.removeVote.useMutation({
       onSuccess: () => {
         utils.filter.getAll.invalidate();

@@ -11,7 +11,7 @@ export function useFilters() {
   const { data: filters, isLoading: isLoadingFilters } =
     api.filter.getAll.useQuery();
 
-  const { mutate: createFilterMutation, isLoading: isCreating } =
+  const { mutate: createFilterMutation, isPending: isCreating } =
     api.filter.create.useMutation({
       onSuccess: () => {
         toast({
@@ -29,7 +29,7 @@ export function useFilters() {
       },
     });
 
-  const { mutate: updateFilterMutation, isLoading: isUpdating } =
+  const { mutate: updateFilterMutation, isPending: isUpdating } =
     api.filter.update.useMutation({
       onSuccess: () => {
         toast({
@@ -47,7 +47,7 @@ export function useFilters() {
       },
     });
 
-  const { mutate: deleteFilterMutation, isLoading: isDeleting } =
+  const { mutate: deleteFilterMutation, isPending: isDeleting } =
     api.filter.delete.useMutation({
       onSuccess: () => {
         toast({
