@@ -19,12 +19,6 @@ interface User {
   image?: string | null;
 }
 
-console.log("Auth config environment variables:", {
-  POE_CLIENT_ID: process.env.POE_CLIENT_ID,
-  POE_CLIENT_SECRET: process.env.POE_CLIENT_SECRET ? "***SET***" : "undefined",
-  AUTH_SECRET: process.env.AUTH_SECRET ? "***SET***" : "undefined",
-});
-
 export const authConfig: NextAuthConfig = {
   adapter: PrismaAdapter(prisma),
   providers: [

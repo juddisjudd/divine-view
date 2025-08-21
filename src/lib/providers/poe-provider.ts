@@ -22,6 +22,8 @@ export default function PoE<P extends PoEProfile>(
     id: "poe",
     name: "Path of Exile",
     type: "oauth",
+    clientId: options.clientId,
+    clientSecret: options.clientSecret,
     authorization: {
       url: "https://www.pathofexile.com/oauth/authorize",
       params: {
