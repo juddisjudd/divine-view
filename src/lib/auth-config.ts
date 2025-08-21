@@ -1,7 +1,7 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/db";
 import PoE from "@/lib/providers/poe-provider";
-import { DefaultSession } from "next-auth";
+import type { DefaultSession } from "next-auth";
 
 interface Session extends DefaultSession {
   user?: {
@@ -23,8 +23,8 @@ export const authConfig = {
   adapter: PrismaAdapter(prisma),
   providers: [
     PoE({
-      clientId: process.env.POE_CLIENT_ID as string,
-      clientSecret: process.env.POE_CLIENT_SECRET as string,
+      clientId: process.env.POE_CLIENT_ID!,
+      clientSecret: process.env.POE_CLIENT_SECRET!,
     }),
   ],
   callbacks: {
@@ -39,6 +39,6 @@ export const authConfig = {
     signOut: "/auth/signout",
     error: "/auth/error",
   },
-  secret: process.env.AUTH_SECRET,
-  debug: true,
+  secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET,
+  debug: process.env.NODE_ENV === "development",
 };
