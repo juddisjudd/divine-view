@@ -78,8 +78,8 @@ export default function SimulatorPage() {
   const { data: session } = useSession();
   const { toast } = useToast();
   
-  // Restrict access to specific user for testing
-  const isAuthorizedUser = session?.user?.name === "ohitsjudd#7248";
+  // Allow all authenticated users
+  const isAuthorizedUser = true;
   const [criteria, setCriteria] = useState<ItemCriteria>(defaultCriteria);
   const [modifierToggles, setModifierToggles] = useState<ModifierToggles>(defaultToggles);
   const [currentItem, setCurrentItem] = useState<GeneratedItem | null>(null);
@@ -413,43 +413,29 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
     );
   }
 
-  if (!isAuthorizedUser) {
-    return (
-      <DefaultLayout>
-        <div className="container mx-auto py-6 px-4 text-center">
-          <div className="max-w-md mx-auto space-y-4">
-            <h1 className="text-2xl font-bold text-white">Loot Drop Simulator</h1>
-            <div className="bg-[#1a1a1a] border border-orange-500 rounded-lg p-6">
-              <div className="text-orange-400 text-6xl mb-4">🚧</div>
-              <h2 className="text-xl font-semibold text-orange-400 mb-2">Under Development</h2>
-              <p className="text-zinc-400 mb-4">
-                The Loot Drop Simulator is currently in development and not yet available for public use.
-              </p>
-              <p className="text-zinc-500 text-sm">
-                Check back later for access to this feature!
-              </p>
-            </div>
-            <Link href="/">
-              <Button variant="outline" className="text-zinc-400 hover:text-white">
-                Go to Editor
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </DefaultLayout>
-    );
-  }
 
   return (
     <DefaultLayout>
       <div className="container mx-auto py-6 px-4">
         <div className="space-y-6">
           {/* Header */}
-          <div className="text-center space-y-2">
+          <div className="text-center space-y-3">
             <h1 className="text-3xl font-bold text-white">Loot Drop Simulator</h1>
             <p className="text-zinc-400">
               Generate items and see how they would appear with your loot filter
             </p>
+            
+            {/* Testing Disclaimer */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-900/20 border border-yellow-600 rounded-lg mb-4">
+              <div className="text-yellow-400 text-lg">⚠️</div>
+              <div className="text-left">
+                <div className="text-yellow-300 text-sm font-medium">Testing Phase</div>
+                <div className="text-yellow-200 text-xs">
+                  This simulator is under development and may not always be accurate
+                </div>
+              </div>
+            </div>
+            
             {baseTypesData.length > 0 && (
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-900/20 border border-green-700 rounded-lg">
                 <div className="w-2 h-2 bg-green-400 rounded-full"></div>
@@ -736,19 +722,6 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
                   Generate Item Drop
                 </Button>
 
-                {/* Filter Accuracy Info */}
-                <div className="mt-6 p-4 bg-[#2a2a2a] border border-[#3a3a3a] rounded-lg">
-                  <h3 className="text-sm font-semibold text-white mb-2">Filter Simulation Accuracy</h3>
-                  <div className="space-y-2 text-xs text-zinc-400">
-                    <p>• <span className="text-green-400">Rule Priority:</span> First matching rule wins (top-down evaluation)</p>
-                    <p>• <span className="text-green-400">Styling Support:</span> Colors, borders, backgrounds, font sizes</p>
-                    <p>• <span className="text-purple-400">Beam Effects:</span> PlayEffect creates vertical colored beams (not glows)</p>
-                    <p>• <span className="text-green-400">Conditions:</span> Class, BaseType, Rarity, ItemLevel, AreaLevel, DropLevel, Quality, Sockets, StackSize</p>
-                    <p>• <span className="text-blue-400">Global Scenario:</span> Area Level applies to all drops (toggleable baseline)</p>
-                    <p>• <span className="text-green-400">Hidden Items:</span> Press and hold Alt key to show filtered items</p>
-                    <p>• <span className="text-yellow-400">Note:</span> Only enabled modifiers are evaluated by the filter</p>
-                  </div>
-                </div>
               </div>
             </Card>
 
@@ -788,7 +761,7 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
                           <div
                             className="absolute pointer-events-none"
                             style={{
-                              background: `linear-gradient(to top, ${currentItem.displayStyle.beamColor}80 0%, ${currentItem.displayStyle.beamColor}60 30%, ${currentItem.displayStyle.beamColor}40 70%, transparent 100%)`,
+                              background: `linear-gradient(to bottom, ${currentItem.displayStyle.beamColor}80 0%, ${currentItem.displayStyle.beamColor}60 30%, ${currentItem.displayStyle.beamColor}40 70%, transparent 100%)`,
                               width: '6px',
                               height: '150px',
                               left: '50%',
@@ -802,7 +775,7 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
                           <div
                             className="absolute pointer-events-none"
                             style={{
-                              background: `linear-gradient(to top, ${currentItem.displayStyle.beamColor}25 0%, ${currentItem.displayStyle.beamColor}15 40%, ${currentItem.displayStyle.beamColor}10 80%, transparent 100%)`,
+                              background: `linear-gradient(to bottom, ${currentItem.displayStyle.beamColor}25 0%, ${currentItem.displayStyle.beamColor}15 40%, ${currentItem.displayStyle.beamColor}10 80%, transparent 100%)`,
                               width: '16px',
                               height: '150px',
                               left: '50%',
