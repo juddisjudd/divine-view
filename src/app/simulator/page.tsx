@@ -329,19 +329,6 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
 
     // Set the current item (visible or hidden)
     setCurrentItem(newItem);
-    
-    if (!isHidden) {
-      toast({
-        title: "Item Generated",
-        description: `Generated ${newItem.name}`,
-      });
-    } else {
-      toast({
-        title: "Item Hidden",
-        description: `${newItem.name} was filtered out by your loot filter (hold Alt to show)`,
-        variant: "destructive",
-      });
-    }
 
     setLoading(false);
   };
@@ -794,7 +781,7 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
                       
                       {/* Item Text */}
                       <div
-                        className={`relative px-4 py-2 rounded border-2 font-medium ${currentItem.isHidden ? 'opacity-60' : ''}`}
+                        className={`relative px-4 py-2 border-2 font-medium ${currentItem.isHidden ? 'opacity-60' : ''}`}
                         style={{
                           backgroundColor: currentItem.displayStyle.backgroundColor,
                           color: currentItem.displayStyle.textColor,
