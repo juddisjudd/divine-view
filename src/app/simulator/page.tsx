@@ -452,7 +452,7 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-0">
             {/* Controls Panel */}
-            <Card className="p-6 bg-[#1a1a1a] border-[#2a2a2a] overflow-y-auto max-h-screen">
+            <Card className="p-6 bg-[#1a1a1a] border-[#2a2a2a]">
               <h2 className="text-xl font-semibold text-white mb-4">Item Generation</h2>
               
               <div className="space-y-4">
