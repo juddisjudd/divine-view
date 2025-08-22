@@ -1,7 +1,6 @@
 "use client";
 import { useSession, signOut, signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { LogOut, User } from "lucide-react";
 import PoEIcon from "@/components/icons/PoEIcon";
@@ -42,37 +41,17 @@ export default function AuthButton() {
   };
 
   if (session?.user) {
-    const userInitial = (session.user.name || "U").charAt(0).toUpperCase();
-    
     return (
       <div className="relative" ref={dropdownRef}>
         <button
           onClick={() => setShowDropdown(!showDropdown)}
-          className="flex items-center justify-center h-8 w-8 rounded-full overflow-hidden"
+          className="flex items-center px-3 py-2 text-zinc-300 hover:text-white hover:bg-[#1a1a1a] rounded transition-colors"
           aria-label="User menu"
         >
-          {session.user.image ? (
-            <Image
-              src={session.user.image}
-              alt={session.user.name || "User avatar"}
-              className="h-8 w-8 rounded-full"
-              width={32}
-              height={32}
-              onError={(e) => {
-                // Hide the image and show the fallback
-                e.currentTarget.style.display = 'none';
-                if (e.currentTarget.nextElementSibling) {
-                  (e.currentTarget.nextElementSibling as HTMLElement).style.display = 'flex';
-                }
-              }}
-            />
-          ) : null}
-          <div 
-            className={`h-8 w-8 rounded-full bg-gradient-to-br from-[#922729] to-[#6b1f21] flex items-center justify-center text-white font-semibold text-sm ${session.user.image ? 'hidden' : 'flex'}`}
-            style={{ display: session.user.image ? 'none' : 'flex' }}
-          >
-            {userInitial}
-          </div>
+          <User className="w-4 h-4 mr-2" />
+          <span className="text-sm font-medium">
+            {session.user.name || "User"}
+          </span>
         </button>
 
         {showDropdown && (
