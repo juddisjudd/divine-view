@@ -45,21 +45,48 @@ function FilterCard({ filter, onSync, onDelete }: {
 }) {
   const { toast } = useToast();
 
-  const handleDownload = () => {
-    const blob = new Blob([filter.filter], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${filter.filter_name}.filter`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-    toast({
-      title: "Filter Downloaded",
-      description: `${filter.filter_name} has been downloaded`,
-    });
+  const handleDownload = async () => {
+    try {
+      // Fetch the full filter content from the API
+      const response = await fetch(`/api/poe/item-filter/${filter.id}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const fullFilter = await response.json();
+      const filterContent = fullFilter.filter || '';
+      
+      if (!filterContent) {
+        toast({
+          title: "Error",
+          description: "Filter content is empty",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      const blob = new Blob([filterContent], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${filter.filter_name}.filter`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      toast({
+        title: "Filter Downloaded",
+        description: `${filter.filter_name} has been downloaded`,
+      });
+    } catch (error) {
+      console.error('Failed to download filter:', error);
+      toast({
+        title: "Error",
+        description: "Failed to download filter",
+        variant: "destructive",
+      });
+    }
   };
 
 
@@ -98,7 +125,7 @@ function FilterCard({ filter, onSync, onDelete }: {
             variant="outline"
             size="sm"
             onClick={handleDownload}
-            className="text-zinc-400 hover:text-white"
+            className="bg-zinc-800 border-zinc-700 text-zinc-300 hover:bg-zinc-700 hover:text-white"
           >
             <Download className="w-4 h-4" />
           </Button>
@@ -106,7 +133,7 @@ function FilterCard({ filter, onSync, onDelete }: {
             variant="outline"
             size="sm"
             onClick={onSync}
-            className="text-blue-400 hover:text-blue-300"
+            className="bg-blue-900 border-blue-700 text-blue-300 hover:bg-blue-800 hover:text-blue-200"
           >
             <Upload className="w-4 h-4" />
           </Button>
@@ -114,7 +141,7 @@ function FilterCard({ filter, onSync, onDelete }: {
             variant="outline"
             size="sm"
             onClick={onDelete}
-            className="text-red-400 hover:text-red-300"
+            className="bg-red-900 border-red-700 text-red-300 hover:bg-red-800 hover:text-red-200"
           >
             <Trash2 className="w-4 h-4" />
           </Button>
@@ -202,27 +229,42 @@ export default function ProfilePage() {
   };
 
   const handleSyncFilter = async (filter: PoEFilter) => {
-    // This would load the filter content into the editor
-    // Store in localStorage for the editor to pick up
-    console.log('Syncing filter:', filter); // Debug log
-    const filterContent = filter.filter || '';
-    
-    if (!filterContent) {
+    try {
+      // Fetch the full filter content from the API
+      const response = await fetch(`/api/poe/item-filter/${filter.id}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const fullFilter = await response.json();
+      console.log('Full filter data:', fullFilter); // Debug log
+      
+      const filterContent = fullFilter.filter || '';
+      
+      if (!filterContent) {
+        toast({
+          title: "Error",
+          description: "Filter content is empty or undefined",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      localStorage.setItem('importedFilter', filterContent);
+      localStorage.setItem('importedFilterName', filter.filter_name);
+      
+      toast({
+        title: "Filter Synced",
+        description: `${filter.filter_name} has been loaded into the editor`,
+      });
+    } catch (error) {
+      console.error('Failed to sync filter:', error);
       toast({
         title: "Error",
-        description: "Filter content is empty or undefined",
+        description: "Failed to load filter content",
         variant: "destructive",
       });
-      return;
     }
-    
-    localStorage.setItem('importedFilter', filterContent);
-    localStorage.setItem('importedFilterName', filter.filter_name);
-    
-    toast({
-      title: "Filter Synced",
-      description: `${filter.filter_name} has been loaded into the editor`,
-    });
   };
 
   if (status === "loading" || loading) {
