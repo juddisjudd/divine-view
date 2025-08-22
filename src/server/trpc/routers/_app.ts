@@ -1,10 +1,7 @@
 import { createTRPCRouter } from "../trpc";
-import { filterRouter } from "./filter";
-import { voteRouter } from "./vote";
 
 export const appRouter = createTRPCRouter({
-  filter: filterRouter,
-  vote: voteRouter,
+  // No routers currently
 });
 
 export type AppRouter = typeof appRouter;

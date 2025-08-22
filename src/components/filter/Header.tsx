@@ -9,7 +9,6 @@ import { Menu, X } from "lucide-react";
 
 const navigation = [
   { name: "Editor", href: "/", icon: "code" },
-  { name: "Community Filters", href: "/community", icon: "file" },
   { name: "Resources", href: "/resources", icon: "book" },
   {
     name: "Discord",

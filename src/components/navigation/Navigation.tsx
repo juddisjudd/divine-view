@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 
 const navigation = [
   { name: "Editor", href: "/" },
-  { name: "Community Filters", href: "/community" },
 ];
 
 export function Navigation() {

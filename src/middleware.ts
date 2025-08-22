@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest) {
 
   const session = await auth();
 
-  const publicRoutes = ["/", "/resources", "/community" ];
+  const publicRoutes = ["/", "/resources"];
   if (publicRoutes.some((route) => request.nextUrl.pathname === route)) {
     return NextResponse.next();
   }
