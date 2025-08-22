@@ -524,8 +524,8 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
                     </div>
                   )}
                   <div className="grid grid-cols-2 gap-3">
-                    {/* Rarity - not available for Quest Items */}
-                    {criteria.class !== 'Quest Items' && (
+                    {/* Rarity - not available for Quest Items or Stackable Currency */}
+                    {!['Quest Items', 'Stackable Currency'].includes(criteria.class) && (
                       <div className="flex items-center space-x-2">
                         <input
                           type="checkbox"
@@ -619,8 +619,8 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
                   </div>
                 </div>
 
-                {/* Rarity - not shown for Quest Items */}
-                {criteria.class !== 'Quest Items' && (
+                {/* Rarity - not shown for Quest Items or Stackable Currency */}
+                {!['Quest Items', 'Stackable Currency'].includes(criteria.class) && (
                   <div className="space-y-2">
                     <Label className={`text-zinc-300 ${!modifierToggles.rarity ? 'opacity-50' : ''}`}>Rarity</Label>
                     <select
