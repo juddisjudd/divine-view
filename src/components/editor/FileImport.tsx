@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Download, Upload, Code, BookOpen } from "lucide-react";
+import { Download, Upload, Code, BookOpen, Cloud, Save } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import {
   Dialog,
@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 interface FileImportProps {
   onImport: (content: string) => void;
@@ -27,9 +28,11 @@ export const FileImport: React.FC<FileImportProps> = ({
   setShowSyntaxGuide,
 }) => {
   const { toast } = useToast();
+  const { data: session } = useSession();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [showExportDialog, setShowExportDialog] = useState(false);
   const [exportFilename, setExportFilename] = useState("filter");
+  const [exportMode, setExportMode] = useState<'download' | 'sync' | 'update'>('download');
 
   const handleFileImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
@@ -84,7 +87,7 @@ export const FileImport: React.FC<FileImportProps> = ({
     }
   };
 
-  const handleExport = () => {
+  const handleDownload = () => {
     try {
       if (!content) return;
 
@@ -114,16 +117,73 @@ export const FileImport: React.FC<FileImportProps> = ({
       setExportFilename("filter");
 
       toast({
-        title: "Filter exported",
-        description: `Successfully exported as ${filename}`,
+        title: "Filter downloaded",
+        description: `Successfully downloaded as ${filename}`,
       });
     } catch (error) {
-      console.error("Error exporting file:", error);
+      console.error("Error downloading file:", error);
       toast({
-        title: "Export failed",
-        description: "Failed to export filter file. Please try again.",
+        title: "Download failed",
+        description: "Failed to download filter file. Please try again.",
         variant: "destructive",
       });
+    }
+  };
+
+  const handleSyncToPoE = async () => {
+    try {
+      if (!content || !session?.user?.accessToken) {
+        toast({
+          title: "Error",
+          description: "Please sign in to sync filters to PoE",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const filterName = exportFilename.trim() || "filter";
+      
+      const response = await fetch('/api/poe/item-filter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          filter_name: filterName,
+          realm: 'poe2',
+          description: `Created from Divine View editor`,
+          type: 'Normal',
+          public: false,
+          filter: content,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      setShowExportDialog(false);
+      setExportFilename("filter");
+
+      toast({
+        title: "Filter synced to PoE",
+        description: `Successfully created "${filterName}" in your PoE account`,
+      });
+    } catch (error) {
+      console.error("Error syncing to PoE:", error);
+      toast({
+        title: "Sync failed",
+        description: "Failed to sync filter to PoE. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleExport = () => {
+    if (exportMode === 'download') {
+      handleDownload();
+    } else if (exportMode === 'sync') {
+      handleSyncToPoE();
     }
   };
 
@@ -171,8 +231,8 @@ export const FileImport: React.FC<FileImportProps> = ({
           onClick={handleExportClick}
           disabled={!content}
         >
-          <Download className="w-4 h-4 mr-2" />
-          Export Filter
+          <Save className="w-4 h-4 mr-2" />
+          Save/Export
         </Button>
         <input
           ref={fileInputRef}
@@ -188,11 +248,37 @@ export const FileImport: React.FC<FileImportProps> = ({
           <DialogHeader className="text-white">
             <DialogTitle>Export Filter</DialogTitle>
           </DialogHeader>
-          <div className="space-y-2 py-2">
+          <div className="space-y-4 py-2">
+            {/* Export Mode Selection */}
+            <div className="space-y-3">
+              <p className="text-sm text-gray-300">Choose export option:</p>
+              <div className="grid grid-cols-1 gap-2">
+                <Button
+                  variant="outline"
+                  className={`justify-start ${exportMode === 'download' ? 'bg-[#3a3a3a] border-blue-500' : 'bg-[#2a2a2a] border-[#3a3a3a]'} text-gray-300 hover:text-white hover:bg-[#3a3a3a]`}
+                  onClick={() => setExportMode('download')}
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Download to Computer
+                </Button>
+                {session?.user?.accessToken && (
+                  <Button
+                    variant="outline"
+                    className={`justify-start ${exportMode === 'sync' ? 'bg-[#3a3a3a] border-blue-500' : 'bg-[#2a2a2a] border-[#3a3a3a]'} text-gray-300 hover:text-white hover:bg-[#3a3a3a]`}
+                    onClick={() => setExportMode('sync')}
+                  >
+                    <Cloud className="w-4 h-4 mr-2" />
+                    Sync to PoE Account
+                  </Button>
+                )}
+              </div>
+            </div>
+
+            {/* Filename Input */}
             <div className="space-y-2">
               <Input
                 type="text"
-                placeholder="Enter filename"
+                placeholder={exportMode === 'download' ? "Enter filename" : "Enter filter name"}
                 value={exportFilename}
                 onChange={(e) => setExportFilename(e.target.value)}
                 className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
@@ -203,9 +289,14 @@ export const FileImport: React.FC<FileImportProps> = ({
                 }}
               />
               <p className="text-sm text-gray-400">
-                .filter will be appended automatically if not included
+                {exportMode === 'download' 
+                  ? ".filter will be appended automatically if not included"
+                  : "This will be the filter name in your PoE account"
+                }
               </p>
             </div>
+
+            {/* Action Buttons */}
             <div className="flex justify-end space-x-2">
               <Button
                 variant="outline"
@@ -218,7 +309,17 @@ export const FileImport: React.FC<FileImportProps> = ({
                 onClick={handleExport}
                 className="bg-[#922729] hover:bg-[#922729]/90 text-white"
               >
-                Export
+                {exportMode === 'download' ? (
+                  <>
+                    <Download className="w-4 h-4 mr-2" />
+                    Download
+                  </>
+                ) : (
+                  <>
+                    <Cloud className="w-4 h-4 mr-2" />
+                    Sync to PoE
+                  </>
+                )}
               </Button>
             </div>
           </div>
