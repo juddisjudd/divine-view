@@ -27,12 +27,8 @@ interface ItemCriteria {
 }
 
 interface ModifierToggles {
-  rarity: boolean;
   itemLevel: boolean;
   areaLevel: boolean;
-  quality: boolean;
-  sockets: boolean;
-  stackSize: boolean;
 }
 
 interface GeneratedItem {
@@ -47,6 +43,7 @@ interface GeneratedItem {
     beamColor?: string;
     fontSize?: number;
   };
+  isHidden: boolean;
 }
 
 const defaultCriteria: ItemCriteria = {
@@ -61,12 +58,8 @@ const defaultCriteria: ItemCriteria = {
 };
 
 const defaultToggles: ModifierToggles = {
-  rarity: true,
   itemLevel: true,
   areaLevel: true,
-  quality: false,
-  sockets: false,
-  stackSize: false,
 };
 
 export default function SimulatorPage() {
@@ -78,6 +71,7 @@ export default function SimulatorPage() {
   const [criteria, setCriteria] = useState<ItemCriteria>(defaultCriteria);
   const [modifierToggles, setModifierToggles] = useState<ModifierToggles>(defaultToggles);
   const [currentItem, setCurrentItem] = useState<GeneratedItem | null>(null);
+  const [showHidden, setShowHidden] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState<string>("");
   const [userFilters, setUserFilters] = useState<Array<{id: string; filter_name: string}>>([]);
   const [selectedFilterContent, setSelectedFilterContent] = useState<string>("");
@@ -104,6 +98,29 @@ export default function SimulatorPage() {
 
     loadUserFilters();
   }, [session]);
+
+  // Handle Alt key for showing hidden items
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.altKey) {
+        setShowHidden(true);
+      }
+    };
+
+    const handleKeyUp = (event: KeyboardEvent) => {
+      if (!event.altKey) {
+        setShowHidden(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, []);
 
   // Load base types data from CSV
   useEffect(() => {
@@ -186,32 +203,8 @@ export default function SimulatorPage() {
       }));
     }
 
-    // Update toggle defaults based on item class
-    if (selectedClass === 'Stackable Currency') {
-      setModifierToggles(prev => ({
-        ...prev,
-        rarity: false,
-        quality: false,
-        sockets: false,
-        stackSize: true,
-      }));
-    } else if (['Amulets', 'Rings', 'Body Armours', 'Helmets', 'Gloves', 'Boots', 'Shields', 'Belts'].includes(selectedClass)) {
-      // Gear items
-      setModifierToggles(prev => ({
-        ...prev,
-        rarity: true,
-        quality: false,
-        sockets: false,
-        stackSize: false,
-      }));
-    } else {
-      // Default for other items
-      setModifierToggles(prev => ({
-        ...prev,
-        rarity: true,
-        stackSize: false,
-      }));
-    }
+    // Keep default scenario modifiers for all item classes
+    // Item properties (rarity, quality, sockets, stackSize) are always included in filter evaluation
   };
 
   // Handle base type selection
@@ -222,16 +215,18 @@ export default function SimulatorPage() {
   const generateItem = () => {
     setLoading(true);
     
-    // Create filter context from criteria, only including enabled modifiers
+    // Create filter context - always include item properties, scenario modifiers only if enabled
     const filterContext: FilterContext = {
       baseType: criteria.baseType,
       itemClass: criteria.class,
-      rarity: modifierToggles.rarity ? criteria.rarity : undefined,
+      // Item properties (always present for the generated item)
+      rarity: criteria.rarity,
+      quality: criteria.quality,
+      sockets: criteria.sockets,
+      stackSize: criteria.stackSize,
+      // Scenario conditions (only if modifier is enabled for filter evaluation)
       areaLevel: modifierToggles.areaLevel ? criteria.areaLevel : undefined,
       itemLevel: modifierToggles.itemLevel ? criteria.itemLevel : undefined,
-      quality: modifierToggles.quality ? criteria.quality : undefined,
-      sockets: modifierToggles.sockets ? criteria.sockets : undefined,
-      stackSize: modifierToggles.stackSize ? criteria.stackSize : undefined,
     };
 
     // Get item styling from filter or use default
@@ -293,10 +288,10 @@ Class "Stackable Currency"`;
         console.log('Final Display Style:', JSON.stringify(displayStyle, null, 2));
       } catch (error) {
         console.error('Filter parsing error:', error);
-        displayStyle = getItemDisplayStyle(criteria, modifierToggles.rarity);
+        displayStyle = getItemDisplayStyle(criteria);
       }
     } else {
-      displayStyle = getItemDisplayStyle(criteria, modifierToggles.rarity);
+      displayStyle = getItemDisplayStyle(criteria);
     }
 
     // Generate a unique item based on criteria
@@ -306,6 +301,7 @@ Class "Stackable Currency"`;
       criteria: { ...criteria },
       modifierToggles: { ...modifierToggles },
       displayStyle,
+      isHidden,
     };
 
     // Set the current item (visible or hidden)
@@ -319,7 +315,7 @@ Class "Stackable Currency"`;
     } else {
       toast({
         title: "Item Hidden",
-        description: `${newItem.name} was filtered out by your loot filter`,
+        description: `${newItem.name} was filtered out by your loot filter (hold Alt to show)`,
         variant: "destructive",
       });
     }
@@ -332,15 +328,7 @@ Class "Stackable Currency"`;
     return criteria.baseType;
   };
 
-  const getItemDisplayStyle = (criteria: ItemCriteria, useRarity: boolean) => {
-    // If rarity is disabled, use neutral styling
-    if (!useRarity) {
-      return {
-        backgroundColor: "rgba(255, 255, 255, 0.1)",
-        textColor: "#c8c8c8",
-        borderColor: "#666666",
-      };
-    }
+  const getItemDisplayStyle = (criteria: ItemCriteria) => {
 
     switch (criteria.rarity) {
       case "Normal":
@@ -504,18 +492,9 @@ Class "Stackable Currency"`;
 
                 {/* Modifier Toggles */}
                 <div className="space-y-3">
-                  <Label className="text-zinc-300 font-semibold">Filter Modifiers</Label>
+                  <Label className="text-zinc-300 font-semibold">Scenario Modifiers</Label>
+                  <p className="text-xs text-zinc-500 mb-2">These control whether scenario conditions (like area level) are used in filter matching</p>
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        id="toggle-rarity"
-                        checked={modifierToggles.rarity}
-                        onChange={(e) => setModifierToggles(prev => ({ ...prev, rarity: e.target.checked }))}
-                        className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
-                      />
-                      <label htmlFor="toggle-rarity" className="text-sm text-zinc-300">Rarity</label>
-                    </div>
                     <div className="flex items-center space-x-2">
                       <input
                         type="checkbox"
@@ -536,56 +515,23 @@ Class "Stackable Currency"`;
                       />
                       <label htmlFor="toggle-arealevel" className="text-sm text-zinc-300">Area Level</label>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        id="toggle-quality"
-                        checked={modifierToggles.quality}
-                        onChange={(e) => setModifierToggles(prev => ({ ...prev, quality: e.target.checked }))}
-                        className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
-                      />
-                      <label htmlFor="toggle-quality" className="text-sm text-zinc-300">Quality</label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        id="toggle-sockets"
-                        checked={modifierToggles.sockets}
-                        onChange={(e) => setModifierToggles(prev => ({ ...prev, sockets: e.target.checked }))}
-                        className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
-                      />
-                      <label htmlFor="toggle-sockets" className="text-sm text-zinc-300">Sockets</label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        id="toggle-stacksize"
-                        checked={modifierToggles.stackSize}
-                        onChange={(e) => setModifierToggles(prev => ({ ...prev, stackSize: e.target.checked }))}
-                        className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
-                      />
-                      <label htmlFor="toggle-stacksize" className="text-sm text-zinc-300">Stack Size</label>
-                    </div>
                   </div>
                 </div>
 
                 {/* Rarity */}
                 <div className="space-y-2">
-                  <Label className={`text-zinc-300 ${!modifierToggles.rarity ? 'opacity-50' : ''}`}>Rarity</Label>
+                  <Label className="text-zinc-300">Rarity</Label>
                   <select
                     value={criteria.rarity}
                     onChange={(e) => setCriteria(prev => ({ ...prev, rarity: e.target.value as 'Normal' | 'Magic' | 'Rare' | 'Unique' }))}
                     className="w-full px-3 py-2 bg-[#2a2a2a] border border-[#3a3a3a] text-white rounded-md"
-                    disabled={!modifierToggles.rarity}
                   >
                     <option value="Normal">Normal</option>
                     <option value="Magic">Magic</option>
                     <option value="Rare">Rare</option>
                     <option value="Unique">Unique</option>
                   </select>
-                  {!modifierToggles.rarity && (
-                    <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
-                  )}
+                  <p className="text-zinc-500 text-xs">Item property - always included in filter evaluation</p>
                 </div>
 
                 {/* Levels and Properties Grid */}
@@ -627,7 +573,7 @@ Class "Stackable Currency"`;
                   </div>
 
                   <div className="space-y-2">
-                    <Label className={`text-zinc-300 ${!modifierToggles.quality ? 'opacity-50' : ''}`}>
+                    <Label className="text-zinc-300">
                       Quality
                     </Label>
                     <Input
@@ -637,15 +583,12 @@ Class "Stackable Currency"`;
                       className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
                       min="0"
                       max="20"
-                      disabled={!modifierToggles.quality}
                     />
-                    {!modifierToggles.quality && (
-                      <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
-                    )}
+                    <p className="text-zinc-500 text-xs">Item property - always included in filter evaluation</p>
                   </div>
 
                   <div className="space-y-2">
-                    <Label className={`text-zinc-300 ${!modifierToggles.sockets ? 'opacity-50' : ''}`}>
+                    <Label className="text-zinc-300">
                       Sockets
                     </Label>
                     <Input
@@ -655,15 +598,12 @@ Class "Stackable Currency"`;
                       className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
                       min="0"
                       max="6"
-                      disabled={!modifierToggles.sockets}
                     />
-                    {!modifierToggles.sockets && (
-                      <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
-                    )}
+                    <p className="text-zinc-500 text-xs">Item property - always included in filter evaluation</p>
                   </div>
 
                   <div className="space-y-2">
-                    <Label className={`text-zinc-300 ${!modifierToggles.stackSize ? 'opacity-50' : ''}`}>
+                    <Label className="text-zinc-300">
                       Stack Size
                     </Label>
                     <Input
@@ -672,11 +612,8 @@ Class "Stackable Currency"`;
                       onChange={(e) => setCriteria(prev => ({ ...prev, stackSize: parseInt(e.target.value) || 1 }))}
                       className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
                       min="1"
-                      disabled={!modifierToggles.stackSize}
                     />
-                    {!modifierToggles.stackSize && (
-                      <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
-                    )}
+                    <p className="text-zinc-500 text-xs">Item property - always included in filter evaluation</p>
                   </div>
                 </div>
 
@@ -694,9 +631,10 @@ Class "Stackable Currency"`;
                 <div className="mt-6 p-4 bg-[#2a2a2a] border border-[#3a3a3a] rounded-lg">
                   <h3 className="text-sm font-semibold text-white mb-2">Filter Simulation Accuracy</h3>
                   <div className="space-y-2 text-xs text-zinc-400">
-                    <p>• <span className="text-green-400">Rule Priority:</span> First matching rule wins (topmost in filter)</p>
+                    <p>• <span className="text-green-400">Rule Priority:</span> First matching rule wins (top-down evaluation)</p>
                     <p>• <span className="text-green-400">Styling Support:</span> Colors, borders, backgrounds, font sizes, beam effects</p>
                     <p>• <span className="text-green-400">Conditions:</span> Class, BaseType, Rarity, ItemLevel, AreaLevel, Quality, Sockets, StackSize</p>
+                    <p>• <span className="text-green-400">Hidden Items:</span> Press and hold Alt key to show filtered items</p>
                     <p>• <span className="text-yellow-400">Note:</span> Some advanced filter features may not be fully simulated</p>
                   </div>
                 </div>
@@ -723,23 +661,36 @@ Class "Stackable Currency"`;
                     <p className="text-zinc-400 text-center bg-black/50 px-4 py-2 rounded">
                       Generate an item to see how it appears in-game
                     </p>
+                  ) : currentItem.isHidden && !showHidden ? (
+                    <div className="text-center bg-black/70 px-4 py-2 rounded border border-red-500">
+                      <p className="text-red-400 font-medium mb-1">{currentItem.name}</p>
+                      <p className="text-zinc-500 text-sm">Hidden by filter</p>
+                      <p className="text-zinc-400 text-xs mt-1">Hold Alt to show hidden items</p>
+                    </div>
                   ) : (
-                    <div
-                      className="px-4 py-2 rounded border-2 font-medium shadow-lg"
-                      style={{
-                        backgroundColor: currentItem.displayStyle.backgroundColor,
-                        color: currentItem.displayStyle.textColor,
-                        borderColor: currentItem.displayStyle.borderColor,
-                        fontSize: Math.max(16, Math.min(32, (currentItem.displayStyle.fontSize || 32) / 1.5)),
-                        boxShadow: currentItem.displayStyle.beamColor 
-                          ? `0 0 20px ${currentItem.displayStyle.beamColor}, 0 0 40px ${currentItem.displayStyle.beamColor}30` 
-                          : "0 4px 8px rgba(0,0,0,0.5)",
-                        textShadow: currentItem.displayStyle.beamColor 
-                          ? `0 0 12px ${currentItem.displayStyle.beamColor}` 
-                          : "2px 2px 4px rgba(0,0,0,0.8)",
-                      }}
-                    >
-                      {currentItem.name}
+                    <div className="relative">
+                      <div
+                        className={`px-4 py-2 rounded border-2 font-medium shadow-lg ${currentItem.isHidden ? 'opacity-60' : ''}`}
+                        style={{
+                          backgroundColor: currentItem.displayStyle.backgroundColor,
+                          color: currentItem.displayStyle.textColor,
+                          borderColor: currentItem.displayStyle.borderColor,
+                          fontSize: Math.max(16, Math.min(32, (currentItem.displayStyle.fontSize || 32) / 1.5)),
+                          boxShadow: currentItem.displayStyle.beamColor 
+                            ? `0 0 20px ${currentItem.displayStyle.beamColor}, 0 0 40px ${currentItem.displayStyle.beamColor}30` 
+                            : "0 4px 8px rgba(0,0,0,0.5)",
+                          textShadow: currentItem.displayStyle.beamColor 
+                            ? `0 0 12px ${currentItem.displayStyle.beamColor}` 
+                            : "2px 2px 4px rgba(0,0,0,0.8)",
+                        }}
+                      >
+                        {currentItem.name}
+                      </div>
+                      {currentItem.isHidden && showHidden && (
+                        <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-red-900/80 text-red-200 text-xs px-2 py-1 rounded">
+                          Hidden (Alt pressed)
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -753,28 +704,26 @@ Class "Stackable Currency"`;
                   <div className="grid grid-cols-2 gap-2 text-xs">
                     <div className="text-zinc-400">Class: <span className="text-white">{criteria.class}</span></div>
                     <div className="text-zinc-400">BaseType: <span className="text-white">{criteria.baseType}</span></div>
-                    {modifierToggles.rarity && (
-                      <div className="text-zinc-400">Rarity: <span className="text-white">{criteria.rarity}</span></div>
-                    )}
+                    <div className="text-zinc-400">Rarity: <span className="text-white">{criteria.rarity}</span></div>
                     {modifierToggles.areaLevel && (
                       <div className="text-zinc-400">AreaLevel: <span className="text-white">{criteria.areaLevel}</span></div>
                     )}
                     {modifierToggles.itemLevel && (
                       <div className="text-zinc-400">ItemLevel: <span className="text-white">{criteria.itemLevel}</span></div>
                     )}
-                    {modifierToggles.quality && (
-                      <div className="text-zinc-400">Quality: <span className="text-white">{criteria.quality}</span></div>
-                    )}
-                    {modifierToggles.sockets && (
-                      <div className="text-zinc-400">Sockets: <span className="text-white">{criteria.sockets}</span></div>
-                    )}
-                    {modifierToggles.stackSize && (
-                      <div className="text-zinc-400">StackSize: <span className="text-white">{criteria.stackSize}</span></div>
-                    )}
+                    <div className="text-zinc-400">Quality: <span className="text-white">{criteria.quality}</span></div>
+                    <div className="text-zinc-400">Sockets: <span className="text-white">{criteria.sockets}</span></div>
+                    <div className="text-zinc-400">StackSize: <span className="text-white">{criteria.stackSize}</span></div>
                   </div>
                   <div className="mt-2 text-xs text-zinc-500">
-                    Only enabled properties are sent to the filter parser
+                    Item properties always evaluated. Scenario modifiers (Area/Item Level) only when enabled.
                   </div>
+                  {currentItem?.isHidden && (
+                    <div className="mt-2 p-2 bg-red-900/20 border border-red-800 rounded text-xs">
+                      <div className="text-red-400 font-medium">Item Hidden by Filter</div>
+                      <div className="text-zinc-400">Press and hold Alt key to reveal hidden items</div>
+                    </div>
+                  )}
                 </div>
               )}
             </Card>
