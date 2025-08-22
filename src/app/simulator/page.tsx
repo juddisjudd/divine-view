@@ -224,6 +224,15 @@ export default function SimulatorPage() {
         sockets: false,
         stackSize: true,
       }));
+    } else if (selectedClass === 'Quest Items') {
+      // Quest items have no modifiers except area/item level
+      setModifierToggles(prev => ({
+        ...prev,
+        rarity: false,
+        quality: false,
+        sockets: false,
+        stackSize: false,
+      }));
     } else if (['Amulets', 'Rings', 'Body Armours', 'Helmets', 'Gloves', 'Boots', 'Shields', 'Belts'].includes(selectedClass)) {
       // Gear items
       setModifierToggles(prev => ({
@@ -499,17 +508,25 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
                 <div className="space-y-3">
                   <Label className="text-zinc-300 font-semibold">Filter Modifiers</Label>
                   <p className="text-xs text-zinc-500 mb-2">Enable/disable which properties are considered in filter matching</p>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        id="toggle-rarity"
-                        checked={modifierToggles.rarity}
-                        onChange={(e) => setModifierToggles(prev => ({ ...prev, rarity: e.target.checked }))}
-                        className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
-                      />
-                      <label htmlFor="toggle-rarity" className="text-sm text-zinc-300">Rarity</label>
+                  {criteria.class === 'Quest Items' && (
+                    <div className="text-xs text-amber-400 bg-amber-900/20 border border-amber-600 rounded p-2 mb-3">
+                      Quest items only use Class and BaseType for filtering
                     </div>
+                  )}
+                  <div className="grid grid-cols-2 gap-3">
+                    {/* Rarity - not available for Quest Items */}
+                    {criteria.class !== 'Quest Items' && (
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          id="toggle-rarity"
+                          checked={modifierToggles.rarity}
+                          onChange={(e) => setModifierToggles(prev => ({ ...prev, rarity: e.target.checked }))}
+                          className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
+                        />
+                        <label htmlFor="toggle-rarity" className="text-sm text-zinc-300">Rarity</label>
+                      </div>
+                    )}
                     <div className="flex items-center space-x-2">
                       <input
                         type="checkbox"
@@ -541,57 +558,68 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
                       <label htmlFor="toggle-arealevel" className="text-sm text-zinc-300">Area Level</label>
                       <span className="text-xs text-blue-400 ml-auto">Global</span>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        id="toggle-quality"
-                        checked={modifierToggles.quality}
-                        onChange={(e) => setModifierToggles(prev => ({ ...prev, quality: e.target.checked }))}
-                        className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
-                      />
-                      <label htmlFor="toggle-quality" className="text-sm text-zinc-300">Quality</label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        id="toggle-sockets"
-                        checked={modifierToggles.sockets}
-                        onChange={(e) => setModifierToggles(prev => ({ ...prev, sockets: e.target.checked }))}
-                        className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
-                      />
-                      <label htmlFor="toggle-sockets" className="text-sm text-zinc-300">Sockets</label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        id="toggle-stacksize"
-                        checked={modifierToggles.stackSize}
-                        onChange={(e) => setModifierToggles(prev => ({ ...prev, stackSize: e.target.checked }))}
-                        className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
-                      />
-                      <label htmlFor="toggle-stacksize" className="text-sm text-zinc-300">Stack Size</label>
-                    </div>
+                    {/* Quality - not available for Quest Items or Stackable Currency */}
+                    {!['Quest Items', 'Stackable Currency'].includes(criteria.class) && (
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          id="toggle-quality"
+                          checked={modifierToggles.quality}
+                          onChange={(e) => setModifierToggles(prev => ({ ...prev, quality: e.target.checked }))}
+                          className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
+                        />
+                        <label htmlFor="toggle-quality" className="text-sm text-zinc-300">Quality</label>
+                      </div>
+                    )}
+                    {/* Sockets - not available for Quest Items or Stackable Currency */}
+                    {!['Quest Items', 'Stackable Currency'].includes(criteria.class) && (
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          id="toggle-sockets"
+                          checked={modifierToggles.sockets}
+                          onChange={(e) => setModifierToggles(prev => ({ ...prev, sockets: e.target.checked }))}
+                          className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
+                        />
+                        <label htmlFor="toggle-sockets" className="text-sm text-zinc-300">Sockets</label>
+                      </div>
+                    )}
+                    {/* Stack Size - only available for Stackable Currency */}
+                    {criteria.class === 'Stackable Currency' && (
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          id="toggle-stacksize"
+                          checked={modifierToggles.stackSize}
+                          onChange={(e) => setModifierToggles(prev => ({ ...prev, stackSize: e.target.checked }))}
+                          className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
+                        />
+                        <label htmlFor="toggle-stacksize" className="text-sm text-zinc-300">Stack Size</label>
+                      </div>
+                    )}
                   </div>
                 </div>
 
-                {/* Rarity */}
-                <div className="space-y-2">
-                  <Label className={`text-zinc-300 ${!modifierToggles.rarity ? 'opacity-50' : ''}`}>Rarity</Label>
-                  <select
-                    value={criteria.rarity}
-                    onChange={(e) => setCriteria(prev => ({ ...prev, rarity: e.target.value as 'Normal' | 'Magic' | 'Rare' | 'Unique' }))}
-                    className="w-full px-3 py-2 bg-[#2a2a2a] border border-[#3a3a3a] text-white rounded-md"
-                    disabled={!modifierToggles.rarity}
-                  >
-                    <option value="Normal">Normal</option>
-                    <option value="Magic">Magic</option>
-                    <option value="Rare">Rare</option>
-                    <option value="Unique">Unique</option>
-                  </select>
-                  {!modifierToggles.rarity && (
-                    <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
-                  )}
-                </div>
+                {/* Rarity - not shown for Quest Items */}
+                {criteria.class !== 'Quest Items' && (
+                  <div className="space-y-2">
+                    <Label className={`text-zinc-300 ${!modifierToggles.rarity ? 'opacity-50' : ''}`}>Rarity</Label>
+                    <select
+                      value={criteria.rarity}
+                      onChange={(e) => setCriteria(prev => ({ ...prev, rarity: e.target.value as 'Normal' | 'Magic' | 'Rare' | 'Unique' }))}
+                      className="w-full px-3 py-2 bg-[#2a2a2a] border border-[#3a3a3a] text-white rounded-md"
+                      disabled={!modifierToggles.rarity}
+                    >
+                      <option value="Normal">Normal</option>
+                      <option value="Magic">Magic</option>
+                      <option value="Rare">Rare</option>
+                      <option value="Unique">Unique</option>
+                    </select>
+                    {!modifierToggles.rarity && (
+                      <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
+                    )}
+                  </div>
+                )}
 
                 {/* Levels and Properties Grid */}
                 <div className="grid grid-cols-2 gap-4">
@@ -649,58 +677,67 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
                     )}
                   </div>
 
-                  <div className="space-y-2">
-                    <Label className={`text-zinc-300 ${!modifierToggles.quality ? 'opacity-50' : ''}`}>
-                      Quality
-                    </Label>
-                    <Input
-                      type="number"
-                      value={criteria.quality}
-                      onChange={(e) => setCriteria(prev => ({ ...prev, quality: parseInt(e.target.value) || 0 }))}
-                      className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
-                      min="0"
-                      max="20"
-                      disabled={!modifierToggles.quality}
-                    />
-                    {!modifierToggles.quality && (
-                      <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
-                    )}
-                  </div>
+                  {/* Quality - not shown for Quest Items or Stackable Currency */}
+                  {!['Quest Items', 'Stackable Currency'].includes(criteria.class) && (
+                    <div className="space-y-2">
+                      <Label className={`text-zinc-300 ${!modifierToggles.quality ? 'opacity-50' : ''}`}>
+                        Quality
+                      </Label>
+                      <Input
+                        type="number"
+                        value={criteria.quality}
+                        onChange={(e) => setCriteria(prev => ({ ...prev, quality: parseInt(e.target.value) || 0 }))}
+                        className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
+                        min="0"
+                        max="20"
+                        disabled={!modifierToggles.quality}
+                      />
+                      {!modifierToggles.quality && (
+                        <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
+                      )}
+                    </div>
+                  )}
 
-                  <div className="space-y-2">
-                    <Label className={`text-zinc-300 ${!modifierToggles.sockets ? 'opacity-50' : ''}`}>
-                      Sockets
-                    </Label>
-                    <Input
-                      type="number"
-                      value={criteria.sockets}
-                      onChange={(e) => setCriteria(prev => ({ ...prev, sockets: parseInt(e.target.value) || 0 }))}
-                      className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
-                      min="0"
-                      max="6"
-                      disabled={!modifierToggles.sockets}
-                    />
-                    {!modifierToggles.sockets && (
-                      <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
-                    )}
-                  </div>
+                  {/* Sockets - not shown for Quest Items or Stackable Currency */}
+                  {!['Quest Items', 'Stackable Currency'].includes(criteria.class) && (
+                    <div className="space-y-2">
+                      <Label className={`text-zinc-300 ${!modifierToggles.sockets ? 'opacity-50' : ''}`}>
+                        Sockets
+                      </Label>
+                      <Input
+                        type="number"
+                        value={criteria.sockets}
+                        onChange={(e) => setCriteria(prev => ({ ...prev, sockets: parseInt(e.target.value) || 0 }))}
+                        className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
+                        min="0"
+                        max="6"
+                        disabled={!modifierToggles.sockets}
+                      />
+                      {!modifierToggles.sockets && (
+                        <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
+                      )}
+                    </div>
+                  )}
 
-                  <div className="space-y-2">
-                    <Label className={`text-zinc-300 ${!modifierToggles.stackSize ? 'opacity-50' : ''}`}>
-                      Stack Size
-                    </Label>
-                    <Input
-                      type="number"
-                      value={criteria.stackSize}
-                      onChange={(e) => setCriteria(prev => ({ ...prev, stackSize: parseInt(e.target.value) || 1 }))}
-                      className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
-                      min="1"
-                      disabled={!modifierToggles.stackSize}
-                    />
-                    {!modifierToggles.stackSize && (
-                      <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
-                    )}
-                  </div>
+                  {/* Stack Size - only shown for Stackable Currency */}
+                  {criteria.class === 'Stackable Currency' && (
+                    <div className="space-y-2">
+                      <Label className={`text-zinc-300 ${!modifierToggles.stackSize ? 'opacity-50' : ''}`}>
+                        Stack Size
+                      </Label>
+                      <Input
+                        type="number"
+                        value={criteria.stackSize}
+                        onChange={(e) => setCriteria(prev => ({ ...prev, stackSize: parseInt(e.target.value) || 1 }))}
+                        className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
+                        min="1"
+                        disabled={!modifierToggles.stackSize}
+                      />
+                      {!modifierToggles.stackSize && (
+                        <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 {/* Generate Button */}
