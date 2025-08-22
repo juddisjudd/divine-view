@@ -62,65 +62,86 @@ function FilterCard({ filter, onSync, onDelete }: {
     });
   };
 
+  const formatLastUpdated = (dateString: string) => {
+    try {
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
+      
+      if (diffInMinutes < 60) {
+        return diffInMinutes < 1 ? 'Just now' : `${diffInMinutes}m ago`;
+      } else if (diffInMinutes < 1440) { // Less than 24 hours
+        const hours = Math.floor(diffInMinutes / 60);
+        return `${hours}h ago`;
+      } else if (diffInMinutes < 10080) { // Less than 7 days
+        const days = Math.floor(diffInMinutes / 1440);
+        return `${days}d ago`;
+      } else {
+        return date.toLocaleDateString();
+      }
+    } catch {
+      return 'Unknown';
+    }
+  };
+
   return (
-    <Card className="p-6 bg-[#1a1a1a] border-[#2a2a2a] hover:border-[#3a3a3a] transition-colors">
-      <div className="space-y-4">
-        <div className="flex justify-between items-start">
-          <div className="space-y-1">
-            <h3 className="text-xl font-semibold text-white">{filter.filter_name}</h3>
-            <div className="flex items-center gap-2">
+    <Card className="p-4 bg-[#1a1a1a] border-[#2a2a2a] hover:border-[#3a3a3a] transition-colors">
+      <div className="flex justify-between items-center">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1">
+            <h3 className="text-lg font-semibold text-white truncate">{filter.filter_name}</h3>
+            {filter.version && <span className="text-xs text-zinc-500 bg-zinc-800 px-2 py-0.5 rounded">v{filter.version}</span>}
+          </div>
+          <div className="flex items-center gap-2 mb-2">
+            {filter.type && (
               <Badge variant={filter.type === 'Ruthless' ? 'destructive' : 'default'}>
                 {filter.type}
               </Badge>
-              {filter.public ? (
-                <Badge variant="outline" className="text-green-400 border-green-400">
-                  <Eye className="w-3 h-3 mr-1" />
-                  Public
-                </Badge>
-              ) : (
-                <Badge variant="outline" className="text-zinc-400">
-                  <EyeOff className="w-3 h-3 mr-1" />
-                  Private
-                </Badge>
-              )}
-              {filter.version && <span className="text-sm text-zinc-400">v{filter.version}</span>}
-            </div>
+            )}
+            {filter.public ? (
+              <Badge variant="outline" className="text-green-400 border-green-400">
+                <Eye className="w-3 h-3 mr-1" />
+                Public
+              </Badge>
+            ) : (
+              <Badge variant="outline" className="text-zinc-400">
+                <EyeOff className="w-3 h-3 mr-1" />
+                Private
+              </Badge>
+            )}
+            <span className="text-xs text-zinc-500">
+              Updated {formatLastUpdated(filter.updated_at)}
+            </span>
           </div>
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleDownload}
-              className="text-zinc-400 hover:text-white"
-            >
-              <Download className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onSync}
-              className="text-blue-400 hover:text-blue-300"
-            >
-              <Upload className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onDelete}
-              className="text-red-400 hover:text-red-300"
-            >
-              <Trash2 className="w-4 h-4" />
-            </Button>
-          </div>
+          {filter.description && (
+            <p className="text-zinc-400 text-sm truncate">{filter.description}</p>
+          )}
         </div>
-        
-        {filter.description && (
-          <p className="text-zinc-400 text-sm">{filter.description}</p>
-        )}
-        
-        <div className="text-xs text-zinc-500 space-y-1">
-          <div>Created: {new Date(filter.created_at).toLocaleDateString()}</div>
-          <div>Updated: {new Date(filter.updated_at).toLocaleDateString()}</div>
+        <div className="flex gap-1 ml-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleDownload}
+            className="text-zinc-400 hover:text-white"
+          >
+            <Download className="w-4 h-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onSync}
+            className="text-blue-400 hover:text-blue-300"
+          >
+            <Upload className="w-4 h-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onDelete}
+            className="text-red-400 hover:text-red-300"
+          >
+            <Trash2 className="w-4 h-4" />
+          </Button>
         </div>
       </div>
     </Card>
@@ -316,7 +337,7 @@ export default function ProfilePage() {
                 </div>
               </Card>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-2">
                 {filters.map((filter) => (
                   <FilterCard
                     key={filter.id}
