@@ -21,6 +21,7 @@ interface ItemCriteria {
   rarity: 'Normal' | 'Magic' | 'Rare' | 'Unique';
   itemLevel: number;
   areaLevel: number;
+  dropLevel: number;
   quality: number;
   sockets: number;
   stackSize: number;
@@ -30,6 +31,7 @@ interface ModifierToggles {
   rarity: boolean;
   itemLevel: boolean;
   areaLevel: boolean;
+  dropLevel: boolean;
   quality: boolean;
   sockets: boolean;
   stackSize: boolean;
@@ -56,6 +58,7 @@ const defaultCriteria: ItemCriteria = {
   rarity: "Rare",
   itemLevel: 70,
   areaLevel: 70,
+  dropLevel: 60,
   quality: 0,
   sockets: 0,
   stackSize: 1,
@@ -65,6 +68,7 @@ const defaultToggles: ModifierToggles = {
   rarity: true,
   itemLevel: false,
   areaLevel: true, // Baseline scenario modifier
+  dropLevel: false,
   quality: false,
   sockets: false,
   stackSize: false,
@@ -255,6 +259,7 @@ export default function SimulatorPage() {
       rarity: modifierToggles.rarity ? criteria.rarity : undefined,
       itemLevel: modifierToggles.itemLevel ? criteria.itemLevel : undefined,
       areaLevel: modifierToggles.areaLevel ? criteria.areaLevel : undefined,
+      dropLevel: modifierToggles.dropLevel ? criteria.dropLevel : undefined,
       quality: modifierToggles.quality ? criteria.quality : undefined,
       sockets: modifierToggles.sockets ? criteria.sockets : undefined,
       stackSize: modifierToggles.stackSize ? criteria.stackSize : undefined,
@@ -266,47 +271,43 @@ export default function SimulatorPage() {
 
     if (selectedFilterContent) {
       try {
-        console.log('=== FILTER DEBUGGING ===');
+        console.log('=== FILTER EVALUATION ===');
         console.log('Filter Context:', JSON.stringify(filterContext, null, 2));
-        console.log('Selected Filter Content (first 1000 chars):');
-        console.log(selectedFilterContent.substring(0, 1000));
         
-        // Test with a corrected version of your Divine Orb filter
-        const testFilter = `Show
-Class "Stackable Currency"
-BaseType "Divine Orb" "Mirror of Kalandra" "Perfect Jeweller's Orb"
-SetFontSize 45
+        // Test with a complex hierarchy example to demonstrate proper evaluation
+        const complexTestFilter = `Show
+Class == "Gloves"
+Rarity == "Unique"
+SetTextColor 255 215 0
+SetBackgroundColor 139 69 19 200
+
+Show
+Class == "Gloves"
+Rarity == "Magic"
+SetTextColor 136 136 255
+SetBorderColor 136 136 255
+
+Show
+Class == "Stackable Currency"
+BaseType == "Divine Orb"
 SetTextColor 255 0 0
-SetBorderColor 255 0 0 255
-SetBackgroundColor 255 255 255 255
-PlayEffect Red
+SetFontSize 45
+
+Show
+Class == "Stackable Currency"
+BaseType == "Scroll of Wisdom"
+SetTextColor 100 100 100
 
 Hide
-Class "Stackable Currency"`;
-
-        console.log('=== TESTING WITH CORRECTED DIVINE ORB FILTER ===');
-        const testResult = getItemStyle(testFilter, filterContext);
-        console.log('Test filter result:', JSON.stringify(testResult, null, 2));
+Class == "Stackable Currency"`;
+        
+        console.log('\n=== TESTING COMPLEX HIERARCHY ===');
+        const testResult = getItemStyle(complexTestFilter, filterContext);
+        console.log('Complex filter test result:', JSON.stringify(testResult, null, 2));
         
         const filterResult = getItemStyle(selectedFilterContent, filterContext);
-        console.log('Filter Result:', JSON.stringify(filterResult, null, 2));
+        console.log('\nUser Filter Result:', JSON.stringify(filterResult, null, 2));
         
-        // Check if we got actual styling from the filter
-        const defaultStyle = {
-          textColor: "rgb(158, 155, 138)",
-          borderColor: "rgb(0, 0, 0)",
-          backgroundColor: "rgb(0, 0, 0)",
-          fontSize: 32,
-        };
-        
-        const hasCustomStyling = filterResult.style.textColor !== defaultStyle.textColor || 
-                                 filterResult.style.backgroundColor !== defaultStyle.backgroundColor ||
-                                 filterResult.style.borderColor !== defaultStyle.borderColor ||
-                                 filterResult.style.fontSize !== defaultStyle.fontSize ||
-                                 filterResult.style.beam !== undefined;
-        
-        console.log('Has custom styling from filter:', hasCustomStyling);
-        console.log('Default style check:', defaultStyle);
         
         isHidden = filterResult.isHidden;
         displayStyle = {
@@ -316,7 +317,7 @@ Class "Stackable Currency"`;
           beamColor: filterResult.style.beam?.color,
           fontSize: filterResult.style.fontSize || 32,
         };
-        console.log('Final Display Style:', JSON.stringify(displayStyle, null, 2));
+        console.log('Applied Display Style:', JSON.stringify(displayStyle, null, 2));
       } catch (error) {
         console.error('Filter parsing error:', error);
         displayStyle = getItemDisplayStyle(criteria, modifierToggles.rarity);
@@ -554,6 +555,16 @@ Class "Stackable Currency"`;
                       />
                       <label htmlFor="toggle-itemlevel" className="text-sm text-zinc-300">Item Level</label>
                     </div>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="toggle-droplevel"
+                        checked={modifierToggles.dropLevel}
+                        onChange={(e) => setModifierToggles(prev => ({ ...prev, dropLevel: e.target.checked }))}
+                        className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
+                      />
+                      <label htmlFor="toggle-droplevel" className="text-sm text-zinc-300">Drop Level</label>
+                    </div>
                     <div className="flex items-center space-x-2 bg-[#2a2a2a] p-2 rounded border border-[#4a4a4a]">
                       <input
                         type="checkbox"
@@ -651,6 +662,24 @@ Class "Stackable Currency"`;
                       disabled={!modifierToggles.areaLevel}
                     />
                     {!modifierToggles.areaLevel && (
+                      <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className={`text-zinc-300 ${!modifierToggles.dropLevel ? 'opacity-50' : ''}`}>
+                      Drop Level
+                    </Label>
+                    <Input
+                      type="number"
+                      value={criteria.dropLevel}
+                      onChange={(e) => setCriteria(prev => ({ ...prev, dropLevel: parseInt(e.target.value) || 0 }))}
+                      className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
+                      min="1"
+                      max="100"
+                      disabled={!modifierToggles.dropLevel}
+                    />
+                    {!modifierToggles.dropLevel && (
                       <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
                     )}
                   </div>
@@ -805,6 +834,9 @@ Class "Stackable Currency"`;
                     )}
                     {modifierToggles.itemLevel && (
                       <div className="text-zinc-400">ItemLevel: <span className="text-white">{criteria.itemLevel}</span></div>
+                    )}
+                    {modifierToggles.dropLevel && (
+                      <div className="text-zinc-400">DropLevel: <span className="text-white">{criteria.dropLevel}</span></div>
                     )}
                     {modifierToggles.quality && (
                       <div className="text-zinc-400">Quality: <span className="text-white">{criteria.quality}</span></div>

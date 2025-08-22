@@ -118,27 +118,29 @@ const parseCondition = (line: string): FilterCondition | null => {
   const trimmedLine = line.split("#")[0].trim();
 
   if (trimmedLine.startsWith("Class")) {
-    const match = trimmedLine.match(/^Class\s*(?:==)?\s*(.+)$/);
+    const match = trimmedLine.match(/^Class\s*([<>]=?|==?|=)?\s*(.+)$/);
     if (match) {
       return {
         type: "Class",
-        value: parseConditionValue(match[1]),
+        operator: (match[1] || "==") as FilterOperator,
+        value: parseConditionValue(match[2]),
       };
     }
   }
 
   if (trimmedLine.startsWith("BaseType")) {
-    const match = trimmedLine.match(/^BaseType\s*(?:==)?\s*(.+)$/);
+    const match = trimmedLine.match(/^BaseType\s*([<>]=?|==?|=)?\s*(.+)$/);
     if (match) {
       return {
         type: "BaseType",
-        value: parseConditionValue(match[1]),
+        operator: (match[1] || "==") as FilterOperator,
+        value: parseConditionValue(match[2]),
       };
     }
   }
 
   const numericMatch = trimmedLine.match(
-    /^(AreaLevel|ItemLevel|StackSize|Quality|WaystoneTier|Sockets)\s*([<>]=?|==?|=)\s*(\d+)$/
+    /^(AreaLevel|ItemLevel|DropLevel|StackSize|Quality|WaystoneTier|Sockets)\s*([<>]=?|==?|=)\s*(\d+)$/
   );
   if (numericMatch) {
     const [_, type, operator, value] = numericMatch;
@@ -155,7 +157,7 @@ const parseCondition = (line: string): FilterCondition | null => {
       const [_, operator, value] = matches;
       return {
         type: "Rarity",
-        operator: operator as FilterOperator,
+        operator: (operator || "==") as FilterOperator,
         value: parseConditionValue(value),
       };
     }
@@ -189,6 +191,7 @@ const evaluateNumericCondition = (
 const compareStringValues = (
   actual: string,
   expected: string | number | string[] | number[],
+  operator: FilterOperator = "==",
   type: "BaseType" | "Class" | "Rarity" = "BaseType"
 ): boolean => {
   if (type === "Class") {
@@ -212,17 +215,12 @@ const compareStringValues = (
     const expectedStr = String(expectedVal).toLowerCase().trim();
     actualStr = actualStr.toLowerCase().trim();
 
-    if (type === "BaseType") {
-      return actualStr.split(" ").some((word) => {
-        return (
-          expectedStr === word ||
-          actualStr === expectedStr ||
-          actualStr.startsWith(expectedStr + " ") ||
-          word.startsWith(expectedStr)
-        );
-      });
+    // For exact equality operators, do exact matching
+    if (operator === "==" || operator === "=") {
+      return actualStr === expectedStr;
     }
 
+    // For other operators or default behavior, do exact matching for BaseType/Class/Rarity
     return actualStr === expectedStr;
   };
 
@@ -245,70 +243,104 @@ const getItemStyle = (
   console.log(`Found ${blocks.length} filter blocks`);
 
   const evaluateCondition = (condition: FilterCondition): boolean => {
+    let result = false;
+    const operator = condition.operator || "==";
+    
     switch (condition.type) {
       case "BaseType":
-        return context.baseType
-          ? compareStringValues(context.baseType, condition.value, "BaseType")
+        result = context.baseType
+          ? compareStringValues(context.baseType, condition.value, operator, "BaseType")
           : false;
+        console.log(`  BaseType condition: "${context.baseType}" ${operator} "${condition.value}" = ${result}`);
+        break;
 
       case "Class":
-        return context.itemClass
-          ? compareStringValues(context.itemClass, condition.value, "Class")
+        result = context.itemClass
+          ? compareStringValues(context.itemClass, condition.value, operator, "Class")
           : false;
+        console.log(`  Class condition: "${context.itemClass}" ${operator} "${condition.value}" = ${result}`);
+        break;
 
       case "Rarity":
-        return context.rarity
-          ? compareStringValues(context.rarity, condition.value, "Rarity")
+        result = context.rarity
+          ? compareStringValues(context.rarity, condition.value, operator, "Rarity")
           : false;
+        console.log(`  Rarity condition: "${context.rarity}" ${operator} "${condition.value}" = ${result}`);
+        break;
 
       case "AreaLevel":
-        return context.areaLevel !== undefined
+        result = context.areaLevel !== undefined
           ? evaluateNumericCondition(
               context.areaLevel,
-              condition.operator || "=",
+              operator,
               Number(condition.value)
             )
           : false;
+        console.log(`  AreaLevel condition: ${context.areaLevel} ${operator} ${condition.value} = ${result}`);
+        break;
 
       case "ItemLevel":
-        return context.itemLevel !== undefined
+        result = context.itemLevel !== undefined
           ? evaluateNumericCondition(
               context.itemLevel,
-              condition.operator || "=",
+              operator,
               Number(condition.value)
             )
           : false;
+        console.log(`  ItemLevel condition: ${context.itemLevel} ${operator} ${condition.value} = ${result}`);
+        break;
+
+      case "DropLevel":
+        result = context.dropLevel !== undefined
+          ? evaluateNumericCondition(
+              context.dropLevel,
+              operator,
+              Number(condition.value)
+            )
+          : false;
+        console.log(`  DropLevel condition: ${context.dropLevel} ${operator} ${condition.value} = ${result}`);
+        break;
 
       case "Quality":
-        return context.quality !== undefined
+        result = context.quality !== undefined
           ? evaluateNumericCondition(
               context.quality,
-              condition.operator || "=",
+              operator,
               Number(condition.value)
             )
           : false;
+        console.log(`  Quality condition: ${context.quality} ${operator} ${condition.value} = ${result}`);
+        break;
 
       case "StackSize":
-        return context.stackSize !== undefined
+        result = context.stackSize !== undefined
           ? evaluateNumericCondition(
               context.stackSize,
-              condition.operator || "=",
+              operator,
               Number(condition.value)
             )
           : false;
+        console.log(`  StackSize condition: ${context.stackSize} ${operator} ${condition.value} = ${result}`);
+        break;
 
       case "Sockets":
-        return context.sockets !== undefined
+        result = context.sockets !== undefined
           ? evaluateNumericCondition(
               context.sockets,
-              condition.operator || "=",
+              operator,
               Number(condition.value)
             )
           : false;
+        console.log(`  Sockets condition: ${context.sockets} ${operator} ${condition.value} = ${result}`);
+        break;
 
       default:
-        return false;
+        result = false;
+        console.log(`  Unknown condition type: ${condition.type}`);
+        break;
     }
+    
+    return result;
   };
 
   let matchedBlock: {
@@ -351,11 +383,12 @@ const getItemStyle = (
     const blockMatches = conditions.length === 0 || 
       conditions.every((cond) => evaluateCondition(cond));
     
-    console.log(`Block ${blockType} with ${conditions.length} conditions:`, {
-      conditions: conditions.map(c => `${c.type}: ${c.value}`),
-      matches: blockMatches,
-      style: blockStyle
-    });
+    console.log(`\n=== EVALUATING ${blockType.toUpperCase()} BLOCK ===`);
+    console.log(`Conditions (${conditions.length}):`, conditions.map(c => `${c.type} ${c.operator || '=='} ${c.value}`));
+    console.log(`Block matches: ${blockMatches}`);
+    if (blockMatches) {
+      console.log('Style:', blockStyle);
+    }
     
     if (blockMatches) {
       matchedBlock = {

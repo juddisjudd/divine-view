@@ -16,6 +16,7 @@ export interface FilterCondition {
     | "BaseType"
     | "AreaLevel"
     | "ItemLevel"
+    | "DropLevel"
     | "Rarity"
     | "StackSize"
     | "Quality"
@@ -49,6 +50,7 @@ export interface FilterContext {
   itemOptions?: ItemOptions;
   areaLevel?: number;
   itemLevel?: number;
+  dropLevel?: number;
   rarity?: string;
   stackSize?: number;
   quality?: number;
