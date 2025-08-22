@@ -220,15 +220,20 @@ export default function SimulatorPage() {
       setModifierToggles(prev => ({
         ...prev,
         rarity: false,
+        itemLevel: false,
+        dropLevel: false,
         quality: false,
         sockets: false,
         stackSize: true,
       }));
     } else if (selectedClass === 'Quest Items') {
-      // Quest items have no modifiers except area/item level
+      // Quest items have no modifiers at all
       setModifierToggles(prev => ({
         ...prev,
         rarity: false,
+        itemLevel: false,
+        areaLevel: true, // Keep area level as the global scenario
+        dropLevel: false,
         quality: false,
         sockets: false,
         stackSize: false,
@@ -513,6 +518,11 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
                       Quest items only use Class and BaseType for filtering
                     </div>
                   )}
+                  {criteria.class === 'Stackable Currency' && (
+                    <div className="text-xs text-blue-400 bg-blue-900/20 border border-blue-600 rounded p-2 mb-3">
+                      Currency items use Class, BaseType, and StackSize for filtering
+                    </div>
+                  )}
                   <div className="grid grid-cols-2 gap-3">
                     {/* Rarity - not available for Quest Items */}
                     {criteria.class !== 'Quest Items' && (
@@ -527,37 +537,46 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
                         <label htmlFor="toggle-rarity" className="text-sm text-zinc-300">Rarity</label>
                       </div>
                     )}
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        id="toggle-itemlevel"
-                        checked={modifierToggles.itemLevel}
-                        onChange={(e) => setModifierToggles(prev => ({ ...prev, itemLevel: e.target.checked }))}
-                        className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
-                      />
-                      <label htmlFor="toggle-itemlevel" className="text-sm text-zinc-300">Item Level</label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        id="toggle-droplevel"
-                        checked={modifierToggles.dropLevel}
-                        onChange={(e) => setModifierToggles(prev => ({ ...prev, dropLevel: e.target.checked }))}
-                        className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
-                      />
-                      <label htmlFor="toggle-droplevel" className="text-sm text-zinc-300">Drop Level</label>
-                    </div>
-                    <div className="flex items-center space-x-2 bg-[#2a2a2a] p-2 rounded border border-[#4a4a4a]">
-                      <input
-                        type="checkbox"
-                        id="toggle-arealevel"
-                        checked={modifierToggles.areaLevel}
-                        onChange={(e) => setModifierToggles(prev => ({ ...prev, areaLevel: e.target.checked }))}
-                        className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
-                      />
-                      <label htmlFor="toggle-arealevel" className="text-sm text-zinc-300">Area Level</label>
-                      <span className="text-xs text-blue-400 ml-auto">Global</span>
-                    </div>
+                    {/* Item Level - not available for Quest Items or Stackable Currency */}
+                    {!['Quest Items', 'Stackable Currency'].includes(criteria.class) && (
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          id="toggle-itemlevel"
+                          checked={modifierToggles.itemLevel}
+                          onChange={(e) => setModifierToggles(prev => ({ ...prev, itemLevel: e.target.checked }))}
+                          className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
+                        />
+                        <label htmlFor="toggle-itemlevel" className="text-sm text-zinc-300">Item Level</label>
+                      </div>
+                    )}
+                    {/* Drop Level - not available for Quest Items or Stackable Currency */}
+                    {!['Quest Items', 'Stackable Currency'].includes(criteria.class) && (
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          id="toggle-droplevel"
+                          checked={modifierToggles.dropLevel}
+                          onChange={(e) => setModifierToggles(prev => ({ ...prev, dropLevel: e.target.checked }))}
+                          className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
+                        />
+                        <label htmlFor="toggle-droplevel" className="text-sm text-zinc-300">Drop Level</label>
+                      </div>
+                    )}
+                    {/* Area Level - not available for Quest Items */}
+                    {criteria.class !== 'Quest Items' && (
+                      <div className="flex items-center space-x-2 bg-[#2a2a2a] p-2 rounded border border-[#4a4a4a]">
+                        <input
+                          type="checkbox"
+                          id="toggle-arealevel"
+                          checked={modifierToggles.areaLevel}
+                          onChange={(e) => setModifierToggles(prev => ({ ...prev, areaLevel: e.target.checked }))}
+                          className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
+                        />
+                        <label htmlFor="toggle-arealevel" className="text-sm text-zinc-300">Area Level</label>
+                        <span className="text-xs text-blue-400 ml-auto">Global</span>
+                      </div>
+                    )}
                     {/* Quality - not available for Quest Items or Stackable Currency */}
                     {!['Quest Items', 'Stackable Currency'].includes(criteria.class) && (
                       <div className="flex items-center space-x-2">
@@ -623,59 +642,68 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
 
                 {/* Levels and Properties Grid */}
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label className={`text-zinc-300 ${!modifierToggles.itemLevel ? 'opacity-50' : ''}`}>
-                      Item Level
-                    </Label>
-                    <Input
-                      type="number"
-                      value={criteria.itemLevel}
-                      onChange={(e) => setCriteria(prev => ({ ...prev, itemLevel: parseInt(e.target.value) || 0 }))}
-                      className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
-                      min="1"
-                      max="100"
-                      disabled={!modifierToggles.itemLevel}
-                    />
-                    {!modifierToggles.itemLevel && (
-                      <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
-                    )}
-                  </div>
+                  {/* Item Level - not shown for Quest Items or Stackable Currency */}
+                  {!['Quest Items', 'Stackable Currency'].includes(criteria.class) && (
+                    <div className="space-y-2">
+                      <Label className={`text-zinc-300 ${!modifierToggles.itemLevel ? 'opacity-50' : ''}`}>
+                        Item Level
+                      </Label>
+                      <Input
+                        type="number"
+                        value={criteria.itemLevel}
+                        onChange={(e) => setCriteria(prev => ({ ...prev, itemLevel: parseInt(e.target.value) || 0 }))}
+                        className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
+                        min="1"
+                        max="100"
+                        disabled={!modifierToggles.itemLevel}
+                      />
+                      {!modifierToggles.itemLevel && (
+                        <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
+                      )}
+                    </div>
+                  )}
 
-                  <div className="space-y-2">
-                    <Label className={`text-zinc-300 ${!modifierToggles.areaLevel ? 'opacity-50' : ''}`}>
-                      Area Level
-                    </Label>
-                    <Input
-                      type="number"
-                      value={criteria.areaLevel}
-                      onChange={(e) => setCriteria(prev => ({ ...prev, areaLevel: parseInt(e.target.value) || 0 }))}
-                      className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
-                      min="1"
-                      max="100"
-                      disabled={!modifierToggles.areaLevel}
-                    />
-                    {!modifierToggles.areaLevel && (
-                      <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
-                    )}
-                  </div>
+                  {/* Area Level - not shown for Quest Items */}
+                  {criteria.class !== 'Quest Items' && (
+                    <div className="space-y-2">
+                      <Label className={`text-zinc-300 ${!modifierToggles.areaLevel ? 'opacity-50' : ''}`}>
+                        Area Level
+                      </Label>
+                      <Input
+                        type="number"
+                        value={criteria.areaLevel}
+                        onChange={(e) => setCriteria(prev => ({ ...prev, areaLevel: parseInt(e.target.value) || 0 }))}
+                        className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
+                        min="1"
+                        max="100"
+                        disabled={!modifierToggles.areaLevel}
+                      />
+                      {!modifierToggles.areaLevel && (
+                        <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
+                      )}
+                    </div>
+                  )}
 
-                  <div className="space-y-2">
-                    <Label className={`text-zinc-300 ${!modifierToggles.dropLevel ? 'opacity-50' : ''}`}>
-                      Drop Level
-                    </Label>
-                    <Input
-                      type="number"
-                      value={criteria.dropLevel}
-                      onChange={(e) => setCriteria(prev => ({ ...prev, dropLevel: parseInt(e.target.value) || 0 }))}
-                      className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
-                      min="1"
-                      max="100"
-                      disabled={!modifierToggles.dropLevel}
-                    />
-                    {!modifierToggles.dropLevel && (
-                      <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
-                    )}
-                  </div>
+                  {/* Drop Level - not shown for Quest Items or Stackable Currency */}
+                  {!['Quest Items', 'Stackable Currency'].includes(criteria.class) && (
+                    <div className="space-y-2">
+                      <Label className={`text-zinc-300 ${!modifierToggles.dropLevel ? 'opacity-50' : ''}`}>
+                        Drop Level
+                      </Label>
+                      <Input
+                        type="number"
+                        value={criteria.dropLevel}
+                        onChange={(e) => setCriteria(prev => ({ ...prev, dropLevel: parseInt(e.target.value) || 0 }))}
+                        className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
+                        min="1"
+                        max="100"
+                        disabled={!modifierToggles.dropLevel}
+                      />
+                      {!modifierToggles.dropLevel && (
+                        <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
+                      )}
+                    </div>
+                  )}
 
                   {/* Quality - not shown for Quest Items or Stackable Currency */}
                   {!['Quest Items', 'Stackable Currency'].includes(criteria.class) && (
