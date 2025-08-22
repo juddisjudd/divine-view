@@ -360,10 +360,13 @@ const getItemStyle = (
       }
     }
 
-    if (
-      conditions.length > 0 &&
-      conditions.every((cond) => evaluateCondition(cond, isInitialSelection))
-    ) {
+    // A block matches if:
+    // 1. It has no conditions (catch-all), OR
+    // 2. It has conditions and ALL conditions match
+    const blockMatches = conditions.length === 0 || 
+      conditions.every((cond) => evaluateCondition(cond, isInitialSelection));
+    
+    if (blockMatches) {
       matchedBlock = {
         type: blockType,
         style: blockStyle,

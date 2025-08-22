@@ -77,7 +77,7 @@ export default function SimulatorPage() {
   const isAuthorizedUser = session?.user?.name === "ohitsjudd#7248";
   const [criteria, setCriteria] = useState<ItemCriteria>(defaultCriteria);
   const [modifierToggles, setModifierToggles] = useState<ModifierToggles>(defaultToggles);
-  const [generatedItems, setGeneratedItems] = useState<GeneratedItem[]>([]);
+  const [currentItem, setCurrentItem] = useState<GeneratedItem | null>(null);
   const [selectedFilter, setSelectedFilter] = useState<string>("");
   const [userFilters, setUserFilters] = useState<Array<{id: string; filter_name: string}>>([]);
   const [selectedFilterContent, setSelectedFilterContent] = useState<string>("");
@@ -240,10 +240,24 @@ export default function SimulatorPage() {
 
     if (selectedFilterContent) {
       try {
-        console.log('Filter Context:', filterContext);
-        console.log('Filter Content (first 200 chars):', selectedFilterContent.substring(0, 200));
         const filterResult = getItemStyle(selectedFilterContent, filterContext);
-        console.log('Filter Result:', filterResult);
+        
+        // Check if we got actual styling from the filter
+        const defaultStyle = {
+          textColor: "rgb(158, 155, 138)",
+          borderColor: "rgb(0, 0, 0)",
+          backgroundColor: "rgb(0, 0, 0)",
+          fontSize: 32,
+        };
+        
+        const hasCustomStyling = filterResult.style.textColor !== defaultStyle.textColor || 
+                                 filterResult.style.backgroundColor !== defaultStyle.backgroundColor ||
+                                 filterResult.style.borderColor !== defaultStyle.borderColor ||
+                                 filterResult.style.fontSize !== defaultStyle.fontSize ||
+                                 filterResult.style.beam !== undefined;
+        
+        console.log('Has custom styling from filter:', hasCustomStyling);
+        console.log('Default style check:', defaultStyle);
         
         isHidden = filterResult.isHidden;
         displayStyle = {
@@ -253,7 +267,7 @@ export default function SimulatorPage() {
           beamColor: filterResult.style.beam?.color,
           fontSize: filterResult.style.fontSize || 32,
         };
-        console.log('Final Display Style:', displayStyle);
+        console.log('Final Display Style:', JSON.stringify(displayStyle, null, 2));
       } catch (error) {
         console.error('Filter parsing error:', error);
         displayStyle = getItemDisplayStyle(criteria, modifierToggles.rarity);
@@ -271,9 +285,10 @@ export default function SimulatorPage() {
       displayStyle,
     };
 
-    // Only add visible items to the list
+    // Set the current item (visible or hidden)
+    setCurrentItem(newItem);
+    
     if (!isHidden) {
-      setGeneratedItems(prev => [newItem, ...prev.slice(0, 9)]); // Keep last 10 items
       toast({
         title: "Item Generated",
         description: `Generated ${newItem.name}`,
@@ -476,12 +491,7 @@ export default function SimulatorPage() {
                         onChange={(e) => setModifierToggles(prev => ({ ...prev, rarity: e.target.checked }))}
                         className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
                       />
-                      <label htmlFor="toggle-rarity" className="text-sm text-zinc-300">
-                        Rarity
-                        {criteria.class === 'Stackable Currency' && (
-                          <span className="text-orange-400 ml-1 text-xs">(N/A for currency)</span>
-                        )}
-                      </label>
+                      <label htmlFor="toggle-rarity" className="text-sm text-zinc-300">Rarity</label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <input
@@ -511,12 +521,7 @@ export default function SimulatorPage() {
                         onChange={(e) => setModifierToggles(prev => ({ ...prev, quality: e.target.checked }))}
                         className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
                       />
-                      <label htmlFor="toggle-quality" className="text-sm text-zinc-300">
-                        Quality
-                        {criteria.class === 'Stackable Currency' && (
-                          <span className="text-orange-400 ml-1 text-xs">(N/A for currency)</span>
-                        )}
-                      </label>
+                      <label htmlFor="toggle-quality" className="text-sm text-zinc-300">Quality</label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <input
@@ -526,12 +531,7 @@ export default function SimulatorPage() {
                         onChange={(e) => setModifierToggles(prev => ({ ...prev, sockets: e.target.checked }))}
                         className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
                       />
-                      <label htmlFor="toggle-sockets" className="text-sm text-zinc-300">
-                        Sockets
-                        {criteria.class === 'Stackable Currency' && (
-                          <span className="text-orange-400 ml-1 text-xs">(N/A for currency)</span>
-                        )}
-                      </label>
+                      <label htmlFor="toggle-sockets" className="text-sm text-zinc-300">Sockets</label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <input
@@ -694,66 +694,34 @@ export default function SimulatorPage() {
                   backgroundRepeat: "no-repeat",
                 }}
               >
-                {/* Generated Items */}
-                <div className="absolute inset-0 p-4">
-                  {generatedItems.length === 0 ? (
-                    <div className="flex items-center justify-center h-full">
-                      <p className="text-zinc-400 text-center">
-                        Generate an item to see how it appears in-game
-                      </p>
-                    </div>
+                {/* Generated Item */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  {!currentItem ? (
+                    <p className="text-zinc-400 text-center bg-black/50 px-4 py-2 rounded">
+                      Generate an item to see how it appears in-game
+                    </p>
                   ) : (
-                    <div className="space-y-2">
-                      {generatedItems.map((item, index) => (
-                        <div
-                          key={item.id}
-                          className="inline-block px-3 py-2 rounded border-2 font-medium shadow-lg transition-all duration-300"
-                          style={{
-                            backgroundColor: item.displayStyle.backgroundColor,
-                            color: item.displayStyle.textColor,
-                            borderColor: item.displayStyle.borderColor,
-                            fontSize: Math.max(12, Math.min(24, (item.displayStyle.fontSize || 32) / 2)),
-                            boxShadow: item.displayStyle.beamColor 
-                              ? `0 0 15px ${item.displayStyle.beamColor}, 0 0 30px ${item.displayStyle.beamColor}20` 
-                              : "0 2px 4px rgba(0,0,0,0.3)",
-                            opacity: index === 0 ? 1 : Math.max(0.4, 1 - (index * 0.15)),
-                            transform: index === 0 ? "scale(1)" : `scale(${Math.max(0.8, 1 - (index * 0.05))})`,
-                            textShadow: item.displayStyle.beamColor 
-                              ? `0 0 8px ${item.displayStyle.beamColor}` 
-                              : "none",
-                          }}
-                        >
-                          {item.name}
-                        </div>
-                      ))}
+                    <div
+                      className="px-4 py-2 rounded border-2 font-medium shadow-lg"
+                      style={{
+                        backgroundColor: currentItem.displayStyle.backgroundColor,
+                        color: currentItem.displayStyle.textColor,
+                        borderColor: currentItem.displayStyle.borderColor,
+                        fontSize: Math.max(16, Math.min(32, (currentItem.displayStyle.fontSize || 32) / 1.5)),
+                        boxShadow: currentItem.displayStyle.beamColor 
+                          ? `0 0 20px ${currentItem.displayStyle.beamColor}, 0 0 40px ${currentItem.displayStyle.beamColor}30` 
+                          : "0 4px 8px rgba(0,0,0,0.5)",
+                        textShadow: currentItem.displayStyle.beamColor 
+                          ? `0 0 12px ${currentItem.displayStyle.beamColor}` 
+                          : "2px 2px 4px rgba(0,0,0,0.8)",
+                      }}
+                    >
+                      {currentItem.name}
                     </div>
                   )}
                 </div>
               </div>
 
-              {/* Recent Items List */}
-              {generatedItems.length > 0 && (
-                <div className="mt-4 space-y-2">
-                  <h3 className="text-lg font-medium text-white">Recent Drops</h3>
-                  <div className="max-h-32 overflow-y-auto space-y-1">
-                    {generatedItems.slice(0, 5).map((item) => (
-                      <div
-                        key={item.id}
-                        className="text-sm p-2 rounded bg-[#2a2a2a] border border-[#3a3a3a]"
-                      >
-                        <span style={{ color: item.displayStyle.textColor }}>
-                          {item.name}
-                        </span>
-                        {item.modifierToggles.rarity && (
-                          <span className="text-zinc-500 ml-2">
-                            ({item.criteria.rarity})
-                          </span>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
 
               {/* Current Item Properties */}
               {criteria && (
