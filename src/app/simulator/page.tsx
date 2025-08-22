@@ -26,7 +26,6 @@ interface ItemCriteria {
   quality: number;
   sockets: number;
   stackSize: number;
-  waystoneTier: number;
 }
 
 interface GeneratedItem {
@@ -52,7 +51,6 @@ const defaultCriteria: ItemCriteria = {
   quality: 0,
   sockets: 0,
   stackSize: 1,
-  waystoneTier: 1,
 };
 
 export default function SimulatorPage() {
@@ -71,6 +69,23 @@ export default function SimulatorPage() {
   const [availableClasses, setAvailableClasses] = useState<string[]>([]);
   const [availableBaseTypes, setAvailableBaseTypes] = useState<BaseTypeData[]>([]);
   const [modsData, setModsData] = useState<ModData[]>([]);
+  
+  // Determine which fields should be enabled based on item class
+  const getFieldAvailability = (itemClass: string) => {
+    const isGear = ['Amulets', 'Rings', 'Body Armours', 'Helmets', 'Gloves', 'Boots', 'Shields', 'Belts'].includes(itemClass);
+    const isWeapon = ['Bows', 'Crossbows', 'Wands', 'Staves', 'Quarterstaves', 'Foci', 'One Hand Maces', 'Two Hand Maces', 'Sceptres'].includes(itemClass);
+    const isCurrency = itemClass === 'Stackable Currency';
+    const isGem = ['Skill Gems', 'Support Gems'].includes(itemClass);
+    const isFlask = ['Life Flasks', 'Mana Flasks'].includes(itemClass);
+    const isWaystone = itemClass === 'Waystones';
+    
+    return {
+      itemLevel: isGear || isWeapon || isGem,
+      quality: isGear || isWeapon || isGem || isFlask,
+      sockets: isGear || isWeapon,
+      stackSize: isCurrency || isGem || isFlask || isWaystone || itemClass === 'Map Fragments',
+    };
+  };
 
   // Load user's filters
   useEffect(() => {
@@ -214,16 +229,17 @@ export default function SimulatorPage() {
   const generateItem = () => {
     setLoading(true);
     
-    // Create filter context from criteria
+    // Create filter context from criteria, only including applicable fields
+    const fieldAvailability = getFieldAvailability(criteria.class);
     const filterContext: FilterContext = {
       baseType: criteria.baseType,
       itemClass: criteria.class,
       rarity: criteria.rarity,
       areaLevel: criteria.areaLevel,
-      itemLevel: criteria.itemLevel,
-      quality: criteria.quality,
-      sockets: criteria.sockets,
-      stackSize: criteria.stackSize,
+      itemLevel: fieldAvailability.itemLevel ? criteria.itemLevel : undefined,
+      quality: fieldAvailability.quality ? criteria.quality : undefined,
+      sockets: fieldAvailability.sockets ? criteria.sockets : undefined,
+      stackSize: fieldAvailability.stackSize ? criteria.stackSize : undefined,
     };
 
     // Get item styling from filter or use default
@@ -527,7 +543,9 @@ export default function SimulatorPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="text-zinc-300">Item Level</Label>
+                    <Label className={`text-zinc-300 ${!getFieldAvailability(criteria.class).itemLevel ? 'opacity-50' : ''}`}>
+                      Item Level
+                    </Label>
                     <Input
                       type="number"
                       value={criteria.itemLevel}
@@ -535,7 +553,11 @@ export default function SimulatorPage() {
                       className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
                       min="1"
                       max="100"
+                      disabled={!getFieldAvailability(criteria.class).itemLevel}
                     />
+                    {!getFieldAvailability(criteria.class).itemLevel && (
+                      <p className="text-zinc-500 text-xs">Not applicable for this item type</p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -551,7 +573,9 @@ export default function SimulatorPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="text-zinc-300">Quality</Label>
+                    <Label className={`text-zinc-300 ${!getFieldAvailability(criteria.class).quality ? 'opacity-50' : ''}`}>
+                      Quality
+                    </Label>
                     <Input
                       type="number"
                       value={criteria.quality}
@@ -559,11 +583,17 @@ export default function SimulatorPage() {
                       className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
                       min="0"
                       max="20"
+                      disabled={!getFieldAvailability(criteria.class).quality}
                     />
+                    {!getFieldAvailability(criteria.class).quality && (
+                      <p className="text-zinc-500 text-xs">Not applicable for this item type</p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="text-zinc-300">Sockets</Label>
+                    <Label className={`text-zinc-300 ${!getFieldAvailability(criteria.class).sockets ? 'opacity-50' : ''}`}>
+                      Sockets
+                    </Label>
                     <Input
                       type="number"
                       value={criteria.sockets}
@@ -571,32 +601,29 @@ export default function SimulatorPage() {
                       className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
                       min="0"
                       max="6"
+                      disabled={!getFieldAvailability(criteria.class).sockets}
                     />
+                    {!getFieldAvailability(criteria.class).sockets && (
+                      <p className="text-zinc-500 text-xs">Not applicable for this item type</p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="text-zinc-300">Stack Size</Label>
+                    <Label className={`text-zinc-300 ${!getFieldAvailability(criteria.class).stackSize ? 'opacity-50' : ''}`}>
+                      Stack Size
+                    </Label>
                     <Input
                       type="number"
                       value={criteria.stackSize}
                       onChange={(e) => setCriteria(prev => ({ ...prev, stackSize: parseInt(e.target.value) || 1 }))}
                       className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
                       min="1"
+                      disabled={!getFieldAvailability(criteria.class).stackSize}
                     />
+                    {!getFieldAvailability(criteria.class).stackSize && (
+                      <p className="text-zinc-500 text-xs">Not applicable for this item type</p>
+                    )}
                   </div>
-                </div>
-
-                {/* Waystone Tier */}
-                <div className="space-y-2">
-                  <Label className="text-zinc-300">Waystone Tier</Label>
-                  <Input
-                    type="number"
-                    value={criteria.waystoneTier}
-                    onChange={(e) => setCriteria(prev => ({ ...prev, waystoneTier: parseInt(e.target.value) || 1 }))}
-                    className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
-                    min="1"
-                    max="20"
-                  />
                 </div>
 
                 {/* Generate Button */}
@@ -608,6 +635,17 @@ export default function SimulatorPage() {
                   <Dice1 className="w-4 h-4 mr-2" />
                   Generate Item Drop
                 </Button>
+
+                {/* Filter Accuracy Info */}
+                <div className="mt-6 p-4 bg-[#2a2a2a] border border-[#3a3a3a] rounded-lg">
+                  <h3 className="text-sm font-semibold text-white mb-2">Filter Simulation Accuracy</h3>
+                  <div className="space-y-2 text-xs text-zinc-400">
+                    <p>• <span className="text-green-400">Rule Priority:</span> First matching rule wins (topmost in filter)</p>
+                    <p>• <span className="text-green-400">Styling Support:</span> Colors, borders, backgrounds, font sizes, beam effects</p>
+                    <p>• <span className="text-green-400">Conditions:</span> Class, BaseType, Rarity, ItemLevel, AreaLevel, Quality, Sockets, StackSize</p>
+                    <p>• <span className="text-yellow-400">Note:</span> Some advanced filter features may not be fully simulated</p>
+                  </div>
+                </div>
               </div>
             </Card>
 
@@ -680,6 +718,31 @@ export default function SimulatorPage() {
                         </span>
                       </div>
                     ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Current Item Properties */}
+              {criteria && (
+                <div className="mt-4 p-3 bg-[#2a2a2a] border border-[#3a3a3a] rounded-lg">
+                  <h4 className="text-sm font-medium text-white mb-2">Filter Matching Properties</h4>
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div className="text-zinc-400">Class: <span className="text-white">{criteria.class}</span></div>
+                    <div className="text-zinc-400">BaseType: <span className="text-white">{criteria.baseType}</span></div>
+                    <div className="text-zinc-400">Rarity: <span className="text-white">{criteria.rarity}</span></div>
+                    <div className="text-zinc-400">AreaLevel: <span className="text-white">{criteria.areaLevel}</span></div>
+                    {getFieldAvailability(criteria.class).itemLevel && (
+                      <div className="text-zinc-400">ItemLevel: <span className="text-white">{criteria.itemLevel}</span></div>
+                    )}
+                    {getFieldAvailability(criteria.class).quality && (
+                      <div className="text-zinc-400">Quality: <span className="text-white">{criteria.quality}</span></div>
+                    )}
+                    {getFieldAvailability(criteria.class).sockets && (
+                      <div className="text-zinc-400">Sockets: <span className="text-white">{criteria.sockets}</span></div>
+                    )}
+                    {getFieldAvailability(criteria.class).stackSize && (
+                      <div className="text-zinc-400">StackSize: <span className="text-white">{criteria.stackSize}</span></div>
+                    )}
                   </div>
                 </div>
               )}
