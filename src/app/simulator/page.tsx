@@ -39,6 +39,7 @@ interface GeneratedItem {
   id: string;
   name: string;
   criteria: ItemCriteria;
+  modifierToggles: ModifierToggles;
   displayStyle: {
     backgroundColor: string;
     textColor: string;
@@ -184,6 +185,33 @@ export default function SimulatorPage() {
         baseType: firstBaseType.baseType,
       }));
     }
+
+    // Update toggle defaults based on item class
+    if (selectedClass === 'Stackable Currency') {
+      setModifierToggles(prev => ({
+        ...prev,
+        rarity: false,
+        quality: false,
+        sockets: false,
+        stackSize: true,
+      }));
+    } else if (['Amulets', 'Rings', 'Body Armours', 'Helmets', 'Gloves', 'Boots', 'Shields', 'Belts'].includes(selectedClass)) {
+      // Gear items
+      setModifierToggles(prev => ({
+        ...prev,
+        rarity: true,
+        quality: false,
+        sockets: false,
+        stackSize: false,
+      }));
+    } else {
+      // Default for other items
+      setModifierToggles(prev => ({
+        ...prev,
+        rarity: true,
+        stackSize: false,
+      }));
+    }
   };
 
   // Handle base type selection
@@ -228,10 +256,10 @@ export default function SimulatorPage() {
         console.log('Final Display Style:', displayStyle);
       } catch (error) {
         console.error('Filter parsing error:', error);
-        displayStyle = getItemDisplayStyle(criteria);
+        displayStyle = getItemDisplayStyle(criteria, modifierToggles.rarity);
       }
     } else {
-      displayStyle = getItemDisplayStyle(criteria);
+      displayStyle = getItemDisplayStyle(criteria, modifierToggles.rarity);
     }
 
     // Generate a unique item based on criteria
@@ -239,6 +267,7 @@ export default function SimulatorPage() {
       id: Date.now().toString(),
       name: generateItemName(criteria),
       criteria: { ...criteria },
+      modifierToggles: { ...modifierToggles },
       displayStyle,
     };
 
@@ -265,7 +294,16 @@ export default function SimulatorPage() {
     return criteria.baseType;
   };
 
-  const getItemDisplayStyle = (criteria: ItemCriteria) => {
+  const getItemDisplayStyle = (criteria: ItemCriteria, useRarity: boolean) => {
+    // If rarity is disabled, use neutral styling
+    if (!useRarity) {
+      return {
+        backgroundColor: "rgba(255, 255, 255, 0.1)",
+        textColor: "#c8c8c8",
+        borderColor: "#666666",
+      };
+    }
+
     switch (criteria.rarity) {
       case "Normal":
         return {
@@ -438,7 +476,12 @@ export default function SimulatorPage() {
                         onChange={(e) => setModifierToggles(prev => ({ ...prev, rarity: e.target.checked }))}
                         className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
                       />
-                      <label htmlFor="toggle-rarity" className="text-sm text-zinc-300">Rarity</label>
+                      <label htmlFor="toggle-rarity" className="text-sm text-zinc-300">
+                        Rarity
+                        {criteria.class === 'Stackable Currency' && (
+                          <span className="text-orange-400 ml-1 text-xs">(N/A for currency)</span>
+                        )}
+                      </label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <input
@@ -468,7 +511,12 @@ export default function SimulatorPage() {
                         onChange={(e) => setModifierToggles(prev => ({ ...prev, quality: e.target.checked }))}
                         className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
                       />
-                      <label htmlFor="toggle-quality" className="text-sm text-zinc-300">Quality</label>
+                      <label htmlFor="toggle-quality" className="text-sm text-zinc-300">
+                        Quality
+                        {criteria.class === 'Stackable Currency' && (
+                          <span className="text-orange-400 ml-1 text-xs">(N/A for currency)</span>
+                        )}
+                      </label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <input
@@ -478,7 +526,12 @@ export default function SimulatorPage() {
                         onChange={(e) => setModifierToggles(prev => ({ ...prev, sockets: e.target.checked }))}
                         className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
                       />
-                      <label htmlFor="toggle-sockets" className="text-sm text-zinc-300">Sockets</label>
+                      <label htmlFor="toggle-sockets" className="text-sm text-zinc-300">
+                        Sockets
+                        {criteria.class === 'Stackable Currency' && (
+                          <span className="text-orange-400 ml-1 text-xs">(N/A for currency)</span>
+                        )}
+                      </label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <input
@@ -691,9 +744,11 @@ export default function SimulatorPage() {
                         <span style={{ color: item.displayStyle.textColor }}>
                           {item.name}
                         </span>
-                        <span className="text-zinc-500 ml-2">
-                          ({item.criteria.rarity})
-                        </span>
+                        {item.modifierToggles.rarity && (
+                          <span className="text-zinc-500 ml-2">
+                            ({item.criteria.rarity})
+                          </span>
+                        )}
                       </div>
                     ))}
                   </div>
