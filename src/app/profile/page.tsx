@@ -54,7 +54,10 @@ function FilterCard({ filter, onSync, onDelete }: {
       }
       
       const fullFilter = await response.json();
-      const filterContent = fullFilter.filter || '';
+      console.log('Full filter response:', fullFilter); // Debug log
+      
+      // API returns { filter: ItemFilter } where ItemFilter.filter contains the content
+      const filterContent = fullFilter.filter?.filter || '';
       
       if (!filterContent) {
         toast({
@@ -237,9 +240,10 @@ export default function ProfilePage() {
       }
       
       const fullFilter = await response.json();
-      console.log('Full filter data:', fullFilter); // Debug log
+      console.log('Full filter sync response:', fullFilter); // Debug log
       
-      const filterContent = fullFilter.filter || '';
+      // API returns { filter: ItemFilter } where ItemFilter.filter contains the content
+      const filterContent = fullFilter.filter?.filter || '';
       
       if (!filterContent) {
         toast({

@@ -139,23 +139,6 @@ export const FileImport: React.FC<FileImportProps> = ({
       >
         <Button
           variant="outline"
-          className="text-gray-300 hover:text-white bg-[#2a2a2a] border-[#3a3a3a] hover:bg-[#3a3a3a]"
-          onClick={() => fileInputRef.current?.click()}
-        >
-          <Upload className="w-4 h-4 mr-2" />
-          Import Filter
-        </Button>
-        <Button
-          variant="outline"
-          className="text-gray-300 hover:text-white bg-[#2a2a2a] border-[#3a3a3a] hover:bg-[#3a3a3a]"
-          onClick={handleExportClick}
-          disabled={!content}
-        >
-          <Download className="w-4 h-4 mr-2" />
-          Export Filter
-        </Button>
-        <Button
-          variant="outline"
           className={`text-gray-300 hover:text-white bg-[#2a2a2a] border-[#3a3a3a] hover:bg-[#3a3a3a] ${
             !showSyntaxGuide ? "bg-[#3a3a3a]" : ""
           }`}
@@ -173,6 +156,23 @@ export const FileImport: React.FC<FileImportProps> = ({
         >
           <BookOpen className="w-4 h-4 mr-2" />
           Syntax Guide
+        </Button>
+        <Button
+          variant="outline"
+          className="text-gray-300 hover:text-white bg-[#2a2a2a] border-[#3a3a3a] hover:bg-[#3a3a3a]"
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <Upload className="w-4 h-4 mr-2" />
+          Import Filter
+        </Button>
+        <Button
+          variant="outline"
+          className="text-gray-300 hover:text-white bg-[#2a2a2a] border-[#3a3a3a] hover:bg-[#3a3a3a]"
+          onClick={handleExportClick}
+          disabled={!content}
+        >
+          <Download className="w-4 h-4 mr-2" />
+          Export Filter
         </Button>
         <input
           ref={fileInputRef}
