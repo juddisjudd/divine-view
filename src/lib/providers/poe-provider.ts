@@ -64,7 +64,7 @@ export default function PoE<P extends PoEProfile>(
         return {
           id: profile.sub || profile.uuid,
           name: profile.username || profile.name,
-          avatar: profile.avatar?.image || profile.image || null,
+          avatar: null, // PoE avatars are often broken, use letter fallback
         };
       },
     },
@@ -72,7 +72,7 @@ export default function PoE<P extends PoEProfile>(
       return {
         id: profile.id,
         name: profile.name,
-        image: profile.avatar,
+        image: null, // Use letter-based avatar fallback
       };
     },
   };

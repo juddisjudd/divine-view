@@ -41,6 +41,8 @@ export default function AuthButton() {
   };
 
   if (session?.user) {
+    const userInitial = (session.user.name || "U").charAt(0).toUpperCase();
+    
     return (
       <div className="relative" ref={dropdownRef}>
         <button
@@ -48,13 +50,28 @@ export default function AuthButton() {
           className="flex items-center justify-center h-8 w-8 rounded-full overflow-hidden"
           aria-label="User menu"
         >
-          <Image
-            src={session.user.image || "/images/default-avatar.png"}
-            alt={session.user.name || "User avatar"}
-            className="h-8 w-8 rounded-full"
-            width={32}
-            height={32}
-          />
+          {session.user.image ? (
+            <Image
+              src={session.user.image}
+              alt={session.user.name || "User avatar"}
+              className="h-8 w-8 rounded-full"
+              width={32}
+              height={32}
+              onError={(e) => {
+                // Hide the image and show the fallback
+                e.currentTarget.style.display = 'none';
+                if (e.currentTarget.nextElementSibling) {
+                  (e.currentTarget.nextElementSibling as HTMLElement).style.display = 'flex';
+                }
+              }}
+            />
+          ) : null}
+          <div 
+            className={`h-8 w-8 rounded-full bg-gradient-to-br from-[#922729] to-[#6b1f21] flex items-center justify-center text-white font-semibold text-sm ${session.user.image ? 'hidden' : 'flex'}`}
+            style={{ display: session.user.image ? 'none' : 'flex' }}
+          >
+            {userInitial}
+          </div>
         </button>
 
         {showDropdown && (
