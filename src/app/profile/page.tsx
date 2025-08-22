@@ -69,7 +69,7 @@ function FilterCard({ filter, onSync, onDelete }: {
           <div className="space-y-1">
             <h3 className="text-xl font-semibold text-white">{filter.filter_name}</h3>
             <div className="flex items-center gap-2">
-              <Badge variant={filter.type === 'HARDCORE' ? 'destructive' : 'default'}>
+              <Badge variant={filter.type === 'Ruthless' ? 'destructive' : 'default'}>
                 {filter.type}
               </Badge>
               {filter.public ? (
@@ -83,7 +83,7 @@ function FilterCard({ filter, onSync, onDelete }: {
                   Private
                 </Badge>
               )}
-              <span className="text-sm text-zinc-400">v{filter.version}</span>
+              {filter.version && <span className="text-sm text-zinc-400">v{filter.version}</span>}
             </div>
           </div>
           <div className="flex gap-2">
@@ -138,7 +138,7 @@ export default function ProfilePage() {
     if (!session?.user?.accessToken) return;
     
     try {
-      const response = await fetch('/api/poe/item-filters');
+      const response = await fetch('/api/poe/item-filter');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -183,7 +183,7 @@ export default function ProfilePage() {
     if (!session?.user?.accessToken) return;
     
     try {
-      const response = await fetch(`/api/poe/item-filters/${filterId}`, {
+      const response = await fetch(`/api/poe/item-filter/${filterId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -296,9 +296,9 @@ export default function ProfilePage() {
             <Card className="p-4 bg-[#1a1a1a] border-[#2a2a2a]">
               <div className="text-center">
                 <div className="text-2xl font-bold text-white">
-                  {filters.filter(f => f.type === 'HARDCORE').length}
+                  {filters.filter(f => f.type === 'Ruthless').length}
                 </div>
-                <div className="text-sm text-zinc-400">Hardcore Filters</div>
+                <div className="text-sm text-zinc-400">Ruthless Filters</div>
               </div>
             </Card>
           </div>
