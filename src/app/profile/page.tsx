@@ -62,27 +62,6 @@ function FilterCard({ filter, onSync, onDelete }: {
     });
   };
 
-  const formatLastUpdated = (dateString: string) => {
-    try {
-      const date = new Date(dateString);
-      const now = new Date();
-      const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
-      
-      if (diffInMinutes < 60) {
-        return diffInMinutes < 1 ? 'Just now' : `${diffInMinutes}m ago`;
-      } else if (diffInMinutes < 1440) { // Less than 24 hours
-        const hours = Math.floor(diffInMinutes / 60);
-        return `${hours}h ago`;
-      } else if (diffInMinutes < 10080) { // Less than 7 days
-        const days = Math.floor(diffInMinutes / 1440);
-        return `${days}d ago`;
-      } else {
-        return date.toLocaleDateString();
-      }
-    } catch {
-      return 'Unknown';
-    }
-  };
 
   return (
     <Card className="p-4 bg-[#1a1a1a] border-[#2a2a2a] hover:border-[#3a3a3a] transition-colors">
@@ -109,9 +88,6 @@ function FilterCard({ filter, onSync, onDelete }: {
                 Private
               </Badge>
             )}
-            <span className="text-xs text-zinc-500">
-              Updated {formatLastUpdated(filter.updated_at)}
-            </span>
           </div>
           {filter.description && (
             <p className="text-zinc-400 text-sm truncate">{filter.description}</p>
