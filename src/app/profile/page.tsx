@@ -204,7 +204,19 @@ export default function ProfilePage() {
   const handleSyncFilter = async (filter: PoEFilter) => {
     // This would load the filter content into the editor
     // Store in localStorage for the editor to pick up
-    localStorage.setItem('importedFilter', filter.filter);
+    console.log('Syncing filter:', filter); // Debug log
+    const filterContent = filter.filter || '';
+    
+    if (!filterContent) {
+      toast({
+        title: "Error",
+        description: "Filter content is empty or undefined",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    localStorage.setItem('importedFilter', filterContent);
     localStorage.setItem('importedFilterName', filter.filter_name);
     
     toast({

@@ -22,7 +22,19 @@ export const FilterEditor: React.FC = () => {
     const checkImportedFilter = async () => {
       const importedFilter = localStorage.getItem("importedFilter");
       const importedFilterName = localStorage.getItem("importedFilterName");
+      console.log('Checking imported filter:', { importedFilter, importedFilterName }); // Debug log
       if (importedFilter) {
+        if (importedFilter === 'undefined' || importedFilter === '') {
+          console.error('Imported filter is undefined or empty');
+          toast({
+            title: "Import Error",
+            description: "Filter content is empty or undefined",
+            variant: "destructive",
+          });
+          localStorage.removeItem("importedFilter");
+          localStorage.removeItem("importedFilterName");
+          return;
+        }
         setFilterContent(importedFilter);
         localStorage.removeItem("importedFilter");
         localStorage.removeItem("importedFilterName");

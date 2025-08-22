@@ -55,6 +55,15 @@ export const FileImport: React.FC<FileImportProps> = ({
       }
 
       const text = await file.text();
+      console.log('Imported file content:', text); // Debug log
+      if (!text) {
+        toast({
+          title: "Import failed", 
+          description: "File appears to be empty",
+          variant: "destructive",
+        });
+        return;
+      }
       onImport(text);
 
       if (fileInputRef.current) {
