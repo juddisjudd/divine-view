@@ -373,21 +373,18 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
           backgroundColor: "rgba(136, 136, 255, 0.2)",
           textColor: "#8888ff",
           borderColor: "#8888ff",
-          beamColor: "#8888ff",
         };
       case "Rare":
         return {
           backgroundColor: "rgba(255, 255, 119, 0.2)",
           textColor: "#ffff77",
           borderColor: "#ffff77",
-          beamColor: "#ffff77",
         };
       case "Unique":
         return {
           backgroundColor: "rgba(175, 96, 37, 0.3)",
           textColor: "#af6025",
           borderColor: "#af6025",
-          beamColor: "#af6025",
         };
       default:
         return {
@@ -744,8 +741,9 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
                   <h3 className="text-sm font-semibold text-white mb-2">Filter Simulation Accuracy</h3>
                   <div className="space-y-2 text-xs text-zinc-400">
                     <p>• <span className="text-green-400">Rule Priority:</span> First matching rule wins (top-down evaluation)</p>
-                    <p>• <span className="text-green-400">Styling Support:</span> Colors, borders, backgrounds, font sizes, beam effects</p>
-                    <p>• <span className="text-green-400">Conditions:</span> Class, BaseType, Rarity, ItemLevel, AreaLevel, Quality, Sockets, StackSize</p>
+                    <p>• <span className="text-green-400">Styling Support:</span> Colors, borders, backgrounds, font sizes</p>
+                    <p>• <span className="text-purple-400">Beam Effects:</span> PlayEffect creates vertical colored beams (not glows)</p>
+                    <p>• <span className="text-green-400">Conditions:</span> Class, BaseType, Rarity, ItemLevel, AreaLevel, DropLevel, Quality, Sockets, StackSize</p>
                     <p>• <span className="text-blue-400">Global Scenario:</span> Area Level applies to all drops (toggleable baseline)</p>
                     <p>• <span className="text-green-400">Hidden Items:</span> Press and hold Alt key to show filtered items</p>
                     <p>• <span className="text-yellow-400">Note:</span> Only enabled modifiers are evaluated by the filter</p>
@@ -766,6 +764,7 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
+                  backgroundColor: "#1a1410", // Fallback dark ground color
                 }}
               >
                 {/* Generated Item */}
@@ -781,26 +780,59 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
                       <p className="text-zinc-400 text-xs mt-1">Hold Alt to show hidden items</p>
                     </div>
                   ) : (
-                    <div className="relative">
+                    <div className="relative flex items-center justify-center">
+                      {/* Vertical Beam Effect */}
+                      {currentItem.displayStyle.beamColor && (
+                        <>
+                          {/* Main beam */}
+                          <div
+                            className="absolute pointer-events-none"
+                            style={{
+                              background: `linear-gradient(to top, transparent 0%, ${currentItem.displayStyle.beamColor}60 20%, ${currentItem.displayStyle.beamColor}80 50%, ${currentItem.displayStyle.beamColor}60 80%, transparent 100%)`,
+                              width: '6px',
+                              height: '300px',
+                              left: '50%',
+                              top: '50%',
+                              transform: 'translate(-50%, -50%)',
+                              borderRadius: '3px',
+                              zIndex: 5
+                            }}
+                          />
+                          {/* Beam glow */}
+                          <div
+                            className="absolute pointer-events-none"
+                            style={{
+                              background: `linear-gradient(to top, transparent 0%, ${currentItem.displayStyle.beamColor}20 30%, ${currentItem.displayStyle.beamColor}30 50%, ${currentItem.displayStyle.beamColor}20 70%, transparent 100%)`,
+                              width: '16px',
+                              height: '300px',
+                              left: '50%',
+                              top: '50%',
+                              transform: 'translate(-50%, -50%)',
+                              borderRadius: '8px',
+                              zIndex: 4
+                            }}
+                          />
+                        </>
+                      )}
+                      
+                      {/* Item Text */}
                       <div
-                        className={`px-4 py-2 rounded border-2 font-medium shadow-lg ${currentItem.isHidden ? 'opacity-60' : ''}`}
+                        className={`relative px-4 py-2 rounded border-2 font-medium ${currentItem.isHidden ? 'opacity-60' : ''}`}
                         style={{
                           backgroundColor: currentItem.displayStyle.backgroundColor,
                           color: currentItem.displayStyle.textColor,
                           borderColor: currentItem.displayStyle.borderColor,
                           fontSize: Math.max(16, Math.min(32, (currentItem.displayStyle.fontSize || 32) / 1.5)),
-                          boxShadow: currentItem.displayStyle.beamColor 
-                            ? `0 0 20px ${currentItem.displayStyle.beamColor}, 0 0 40px ${currentItem.displayStyle.beamColor}30` 
-                            : "0 4px 8px rgba(0,0,0,0.5)",
-                          textShadow: currentItem.displayStyle.beamColor 
-                            ? `0 0 12px ${currentItem.displayStyle.beamColor}` 
-                            : "2px 2px 4px rgba(0,0,0,0.8)",
+                          boxShadow: "0 2px 8px rgba(0,0,0,0.7)", // Stronger shadow for better contrast
+                          textShadow: "1px 1px 3px rgba(0,0,0,0.9)", // Stronger text shadow for readability
+                          zIndex: 10
                         }}
                       >
                         {currentItem.name}
                       </div>
+                      
                       {currentItem.isHidden && showHidden && (
-                        <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-red-900/80 text-red-200 text-xs px-2 py-1 rounded">
+                        <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-red-900/80 text-red-200 text-xs px-2 py-1 rounded z-20">
                           Hidden (Alt pressed)
                         </div>
                       )}
