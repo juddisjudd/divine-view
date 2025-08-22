@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { type PoEFilter } from "@/lib/poe-api";
 import { Download, Eye, EyeOff, Trash2, Upload, RefreshCw } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 function ProfileSkeleton() {
   return (
@@ -157,6 +158,7 @@ function FilterCard({ filter, onSync, onDelete }: {
 export default function ProfilePage() {
   const { data: session, status } = useSession();
   const { toast } = useToast();
+  const router = useRouter();
   const [filters, setFilters] = useState<PoEFilter[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -256,11 +258,15 @@ export default function ProfilePage() {
       
       localStorage.setItem('importedFilter', filterContent);
       localStorage.setItem('importedFilterName', filter.filter_name);
+      localStorage.setItem('importedFilterId', filter.id);
       
       toast({
         title: "Filter Synced",
         description: `${filter.filter_name} has been loaded into the editor`,
       });
+
+      // Redirect to the editor page
+      router.push('/');
     } catch (error) {
       console.error('Failed to sync filter:', error);
       toast({

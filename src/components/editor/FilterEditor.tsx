@@ -11,6 +11,8 @@ import type { ValidationMessage } from "@/types/filter";
 export const FilterEditor: React.FC = () => {
   const { toast } = useToast();
   const [filterContent, setFilterContent] = useState<string>("");
+  const [importedFilterName, setImportedFilterName] = useState<string>("");
+  const [importedFilterId, setImportedFilterId] = useState<string>("");
   const [validationMessages, setValidationMessages] = useState<
     ValidationMessage[]
   >([]);
@@ -22,7 +24,8 @@ export const FilterEditor: React.FC = () => {
     const checkImportedFilter = async () => {
       const importedFilter = localStorage.getItem("importedFilter");
       const importedFilterName = localStorage.getItem("importedFilterName");
-      console.log('Checking imported filter:', { importedFilter, importedFilterName }); // Debug log
+      const importedFilterId = localStorage.getItem("importedFilterId");
+      console.log('Checking imported filter:', { importedFilter, importedFilterName, importedFilterId }); // Debug log
       if (importedFilter) {
         if (importedFilter === 'undefined' || importedFilter === '') {
           console.error('Imported filter is undefined or empty');
@@ -33,11 +36,15 @@ export const FilterEditor: React.FC = () => {
           });
           localStorage.removeItem("importedFilter");
           localStorage.removeItem("importedFilterName");
+          localStorage.removeItem("importedFilterId");
           return;
         }
         setFilterContent(importedFilter);
+        setImportedFilterName(importedFilterName || "");
+        setImportedFilterId(importedFilterId || "");
         localStorage.removeItem("importedFilter");
         localStorage.removeItem("importedFilterName");
+        localStorage.removeItem("importedFilterId");
         toast({
           title: "Filter Imported",
           description: `Successfully imported ${
@@ -61,6 +68,8 @@ export const FilterEditor: React.FC = () => {
             content={filterContent}
             showSyntaxGuide={showSyntaxGuide}
             setShowSyntaxGuide={setShowSyntaxGuide}
+            importedFilterName={importedFilterName}
+            importedFilterId={importedFilterId}
           />
           <div className="flex-1 p-2 md:p-4 overflow-hidden">
             <Card className="h-full bg-[#1a1a1a] border-[#2a2a2a]">

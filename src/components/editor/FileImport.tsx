@@ -18,6 +18,8 @@ interface FileImportProps {
   className?: string;
   showSyntaxGuide: boolean;
   setShowSyntaxGuide: (show: boolean) => void;
+  importedFilterName?: string;
+  importedFilterId?: string;
 }
 
 export const FileImport: React.FC<FileImportProps> = ({
@@ -26,6 +28,8 @@ export const FileImport: React.FC<FileImportProps> = ({
   className,
   showSyntaxGuide,
   setShowSyntaxGuide,
+  importedFilterName,
+  importedFilterId,
 }) => {
   const { toast } = useToast();
   const { data: session } = useSession();
@@ -33,6 +37,17 @@ export const FileImport: React.FC<FileImportProps> = ({
   const [showExportDialog, setShowExportDialog] = useState(false);
   const [exportFilename, setExportFilename] = useState("filter");
   const [exportMode, setExportMode] = useState<'download' | 'sync' | 'update'>('download');
+
+  // Update export filename when imported filter name changes
+  React.useEffect(() => {
+    if (importedFilterName && importedFilterName !== exportFilename) {
+      setExportFilename(importedFilterName);
+      // If we have an imported filter ID, default to update mode
+      if (importedFilterId) {
+        setExportMode('update');
+      }
+    }
+  }, [importedFilterName, importedFilterId, exportFilename]);
 
   const handleFileImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
@@ -141,7 +156,15 @@ export const FileImport: React.FC<FileImportProps> = ({
         return;
       }
 
-      const filterName = exportFilename.trim() || "filter";
+      const filterName = exportFilename.trim();
+      if (!filterName) {
+        toast({
+          title: "Filter name required",
+          description: "Please enter a name for your filter",
+          variant: "destructive",
+        });
+        return;
+      }
       
       const response = await fetch('/api/poe/item-filter', {
         method: 'POST',
@@ -179,16 +202,81 @@ export const FileImport: React.FC<FileImportProps> = ({
     }
   };
 
+  const handleUpdateExisting = async () => {
+    try {
+      if (!content || !session?.user?.accessToken || !importedFilterId) {
+        toast({
+          title: "Error",
+          description: "Cannot update - missing filter ID or authentication",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const filterName = exportFilename.trim();
+      if (!filterName) {
+        toast({
+          title: "Filter name required",
+          description: "Please enter a name for your filter",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      const response = await fetch(`/api/poe/item-filter/${importedFilterId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          filter_name: filterName,
+          realm: 'poe2',
+          description: `Updated from Divine View editor`,
+          type: 'Normal',
+          filter: content,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      setShowExportDialog(false);
+
+      toast({
+        title: "Filter updated in PoE",
+        description: `Successfully updated "${filterName}" in your PoE account`,
+      });
+    } catch (error) {
+      console.error("Error updating PoE filter:", error);
+      toast({
+        title: "Update failed",
+        description: "Failed to update filter in PoE. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleExport = () => {
     if (exportMode === 'download') {
       handleDownload();
     } else if (exportMode === 'sync') {
       handleSyncToPoE();
+    } else if (exportMode === 'update') {
+      handleUpdateExisting();
     }
   };
 
   const handleExportClick = () => {
     if (!content) return;
+    
+    // Set a better default name if empty
+    if (!exportFilename || exportFilename === "filter") {
+      const now = new Date();
+      const timestamp = now.toISOString().slice(0, 19).replace(/[:.]/g, '-');
+      setExportFilename(`filter-${timestamp}`);
+    }
+    
     setShowExportDialog(true);
   };
 
@@ -262,36 +350,57 @@ export const FileImport: React.FC<FileImportProps> = ({
                   Download to Computer
                 </Button>
                 {session?.user?.accessToken && (
-                  <Button
-                    variant="outline"
-                    className={`justify-start ${exportMode === 'sync' ? 'bg-[#3a3a3a] border-blue-500' : 'bg-[#2a2a2a] border-[#3a3a3a]'} text-gray-300 hover:text-white hover:bg-[#3a3a3a]`}
-                    onClick={() => setExportMode('sync')}
-                  >
-                    <Cloud className="w-4 h-4 mr-2" />
-                    Sync to PoE Account
-                  </Button>
+                  <>
+                    {importedFilterId ? (
+                      <Button
+                        variant="outline"
+                        className={`justify-start ${exportMode === 'update' ? 'bg-[#3a3a3a] border-blue-500' : 'bg-[#2a2a2a] border-[#3a3a3a]'} text-gray-300 hover:text-white hover:bg-[#3a3a3a]`}
+                        onClick={() => setExportMode('update')}
+                      >
+                        <Upload className="w-4 h-4 mr-2" />
+                        Update in PoE Account
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="outline"
+                        className={`justify-start ${exportMode === 'sync' ? 'bg-[#3a3a3a] border-blue-500' : 'bg-[#2a2a2a] border-[#3a3a3a]'} text-gray-300 hover:text-white hover:bg-[#3a3a3a]`}
+                        onClick={() => setExportMode('sync')}
+                      >
+                        <Cloud className="w-4 h-4 mr-2" />
+                        Sync to PoE Account
+                      </Button>
+                    )}
+                  </>
                 )}
               </div>
             </div>
 
             {/* Filename Input */}
             <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-300">
+                {exportMode === 'download' ? 'Filename' : 'Filter Name*'}
+              </label>
               <Input
                 type="text"
-                placeholder={exportMode === 'download' ? "Enter filename" : "Enter filter name"}
+                placeholder={exportMode === 'download' ? "Enter filename" : exportMode === 'update' ? "Filter name" : "Enter filter name (required)"}
                 value={exportFilename}
                 onChange={(e) => setExportFilename(e.target.value)}
-                className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
+                className={`bg-[#2a2a2a] border-[#3a3a3a] text-white ${
+                  (exportMode === 'sync' || exportMode === 'update') && !exportFilename.trim() ? 'border-red-500' : ''
+                }`}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     handleExport();
                   }
                 }}
+                required={exportMode === 'sync' || exportMode === 'update'}
               />
               <p className="text-sm text-gray-400">
                 {exportMode === 'download' 
                   ? ".filter will be appended automatically if not included"
-                  : "This will be the filter name in your PoE account"
+                  : exportMode === 'update'
+                  ? "This will update the existing filter in your PoE account"
+                  : "This will be the filter name in your PoE account (must be unique)"
                 }
               </p>
             </div>
@@ -307,12 +416,18 @@ export const FileImport: React.FC<FileImportProps> = ({
               </Button>
               <Button
                 onClick={handleExport}
-                className="bg-[#922729] hover:bg-[#922729]/90 text-white"
+                disabled={(exportMode === 'sync' || exportMode === 'update') && !exportFilename.trim()}
+                className="bg-[#922729] hover:bg-[#922729]/90 text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {exportMode === 'download' ? (
                   <>
                     <Download className="w-4 h-4 mr-2" />
                     Download
+                  </>
+                ) : exportMode === 'update' ? (
+                  <>
+                    <Upload className="w-4 h-4 mr-2" />
+                    Update Filter
                   </>
                 ) : (
                   <>

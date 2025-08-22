@@ -57,3 +57,32 @@ export async function GET(
     );
   }
 }
+
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const session = await auth();
+    const { id } = await params;
+
+    if (!session?.user?.accessToken) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    const body = await request.json();
+    const client = new PoEApiClient(session.user.accessToken);
+    const updatedFilter = await client.updateFilter(id, body);
+    
+    return NextResponse.json(updatedFilter);
+  } catch (error) {
+    console.error('Error updating PoE filter:', error);
+    return NextResponse.json(
+      { error: 'Failed to update filter in Path of Exile API' },
+      { status: 500 }
+    );
+  }
+}
