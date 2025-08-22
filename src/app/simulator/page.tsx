@@ -13,6 +13,8 @@ import { Dice1, Download } from "lucide-react";
 import Link from "next/link";
 import { getItemStyle } from "@/utils/filterParser";
 import { FilterContext } from "@/types/filter";
+import { BaseTypeData, parseBaseTypesCSV, getUniqueClasses, getBaseTypesForClass, findBaseType } from "@/utils/baseTypesData";
+import { ModData, parseModsCSV, getAvailablePrefixes, getAvailableSuffixes, selectRandomMods } from "@/utils/modsData";
 
 interface ItemCriteria {
   class: string;
@@ -65,6 +67,10 @@ export default function SimulatorPage() {
   const [userFilters, setUserFilters] = useState<Array<{id: string; filter_name: string}>>([]);
   const [selectedFilterContent, setSelectedFilterContent] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [baseTypesData, setBaseTypesData] = useState<BaseTypeData[]>([]);
+  const [availableClasses, setAvailableClasses] = useState<string[]>([]);
+  const [availableBaseTypes, setAvailableBaseTypes] = useState<BaseTypeData[]>([]);
+  const [modsData, setModsData] = useState<ModData[]>([]);
 
   // Load user's filters
   useEffect(() => {
@@ -84,6 +90,67 @@ export default function SimulatorPage() {
 
     loadUserFilters();
   }, [session]);
+
+  // Load base types data from CSV
+  useEffect(() => {
+    const loadBaseTypesData = async () => {
+      try {
+        const response = await fetch('/data/BaseTypes.csv');
+        if (!response.ok) {
+          throw new Error('Failed to load base types data');
+        }
+        
+        const csvContent = await response.text();
+        const parsedData = parseBaseTypesCSV(csvContent);
+        
+        setBaseTypesData(parsedData);
+        const classes = getUniqueClasses(parsedData);
+        setAvailableClasses(classes);
+        
+        // Set initial base types for the default class
+        if (parsedData.length > 0) {
+          const initialBaseTypes = getBaseTypesForClass(parsedData, defaultCriteria.class);
+          setAvailableBaseTypes(initialBaseTypes);
+        }
+      } catch (error) {
+        console.error('Failed to load base types data:', error);
+        toast({
+          title: "Warning",
+          description: "Failed to load item database. Using manual input.",
+          variant: "destructive",
+        });
+      }
+    };
+
+    loadBaseTypesData();
+  }, [toast]);
+
+  // Load mods data from CSV
+  useEffect(() => {
+    const loadModsData = async () => {
+      try {
+        const response = await fetch('/data/Mods.csv');
+        if (!response.ok) {
+          throw new Error('Failed to load mods data');
+        }
+        
+        const csvContent = await response.text();
+        const parsedMods = parseModsCSV(csvContent);
+        
+        setModsData(parsedMods);
+        console.log(`Loaded ${parsedMods.length} mods from CSV`);
+      } catch (error) {
+        console.error('Failed to load mods data:', error);
+        toast({
+          title: "Warning",
+          description: "Failed to load mods database. Using simplified names.",
+          variant: "destructive",
+        });
+      }
+    };
+
+    loadModsData();
+  }, [toast]);
 
   // Load selected filter content
   const loadFilterContent = async (filterId: string) => {
@@ -112,6 +179,36 @@ export default function SimulatorPage() {
   const handleFilterSelect = (filterId: string) => {
     setSelectedFilter(filterId);
     loadFilterContent(filterId);
+  };
+
+  // Handle class selection
+  const handleClassSelect = (selectedClass: string) => {
+    setCriteria(prev => ({ ...prev, class: selectedClass }));
+    
+    // Update available base types for the selected class
+    const baseTypesForClass = getBaseTypesForClass(baseTypesData, selectedClass);
+    setAvailableBaseTypes(baseTypesForClass);
+    
+    // Auto-select first base type and its drop level
+    if (baseTypesForClass.length > 0) {
+      const firstBaseType = baseTypesForClass[0];
+      setCriteria(prev => ({
+        ...prev,
+        baseType: firstBaseType.baseType,
+        dropLevel: firstBaseType.dropLevel,
+      }));
+    }
+  };
+
+  // Handle base type selection
+  const handleBaseTypeSelect = (selectedBaseType: string) => {
+    setCriteria(prev => ({ ...prev, baseType: selectedBaseType }));
+    
+    // Auto-update drop level based on selected base type
+    const baseTypeData = findBaseType(baseTypesData, criteria.class, selectedBaseType);
+    if (baseTypeData) {
+      setCriteria(prev => ({ ...prev, dropLevel: baseTypeData.dropLevel }));
+    }
   };
 
   const generateItem = () => {
@@ -179,22 +276,62 @@ export default function SimulatorPage() {
   };
 
   const generateItemName = (criteria: ItemCriteria): string => {
-    const prefixes = ["Glowing", "Ancient", "Masterful", "Divine", "Ethereal", "Corrupted"];
-    const suffixes = ["of Power", "of the Storm", "of Eternity", "of Destruction", "of Wisdom"];
-    
-    switch (criteria.rarity) {
-      case "Normal":
-        return criteria.baseType;
-      case "Magic":
-        return `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${criteria.baseType}`;
-      case "Rare":
-        const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-        const suffix = suffixes[Math.floor(Math.random() * suffixes.length)];
-        return `${prefix} ${criteria.baseType} ${suffix}`;
-      case "Unique":
-        return `The ${criteria.baseType} of Legends`;
-      default:
-        return criteria.baseType;
+    // Use authentic mods if available
+    if (modsData.length > 0) {
+      const availablePrefixes = getAvailablePrefixes(modsData, criteria.class, criteria.itemLevel, criteria.baseType);
+      const availableSuffixes = getAvailableSuffixes(modsData, criteria.class, criteria.itemLevel, criteria.baseType);
+      
+      const selectedMods = selectRandomMods(availablePrefixes, availableSuffixes, criteria.rarity);
+      
+      switch (criteria.rarity) {
+        case "Normal":
+          return criteria.baseType;
+        case "Magic":
+          if (selectedMods.prefix) {
+            return `${selectedMods.prefix} ${criteria.baseType}`;
+          } else if (selectedMods.suffix) {
+            return `${criteria.baseType} ${selectedMods.suffix}`;
+          }
+          return criteria.baseType;
+        case "Rare":
+          let rareName = criteria.baseType;
+          if (selectedMods.prefix && selectedMods.suffix) {
+            rareName = `${selectedMods.prefix} ${criteria.baseType} ${selectedMods.suffix}`;
+          } else if (selectedMods.prefix) {
+            rareName = `${selectedMods.prefix} ${criteria.baseType}`;
+          } else if (selectedMods.suffix) {
+            rareName = `${criteria.baseType} ${selectedMods.suffix}`;
+          }
+          return rareName;
+        case "Unique":
+          // Unique items typically have fixed names, but we'll simulate
+          const uniquePrefixes = ["The", "Soul", "Heart", "Eye", "Bone", "Blood"];
+          const uniqueSuffixes = ["of Legends", "of the Ancients", "of Eternity", "of Power", "of the Void"];
+          const uniquePrefix = uniquePrefixes[Math.floor(Math.random() * uniquePrefixes.length)];
+          const uniqueSuffix = uniqueSuffixes[Math.floor(Math.random() * uniqueSuffixes.length)];
+          return `${uniquePrefix} ${criteria.baseType} ${uniqueSuffix}`;
+        default:
+          return criteria.baseType;
+      }
+    } else {
+      // Fallback to simple generation if mods data not loaded
+      const fallbackPrefixes = ["Glowing", "Ancient", "Masterful", "Divine", "Ethereal", "Corrupted"];
+      const fallbackSuffixes = ["of Power", "of the Storm", "of Eternity", "of Destruction", "of Wisdom"];
+      
+      switch (criteria.rarity) {
+        case "Normal":
+          return criteria.baseType;
+        case "Magic":
+          return `${fallbackPrefixes[Math.floor(Math.random() * fallbackPrefixes.length)]} ${criteria.baseType}`;
+        case "Rare":
+          const prefix = fallbackPrefixes[Math.floor(Math.random() * fallbackPrefixes.length)];
+          const suffix = fallbackSuffixes[Math.floor(Math.random() * fallbackSuffixes.length)];
+          return `${prefix} ${criteria.baseType} ${suffix}`;
+        case "Unique":
+          return `The ${criteria.baseType} of Legends`;
+        default:
+          return criteria.baseType;
+      }
     }
   };
 
@@ -291,6 +428,14 @@ export default function SimulatorPage() {
             <p className="text-zinc-400">
               Generate items and see how they would appear with your loot filter
             </p>
+            {baseTypesData.length > 0 && modsData.length > 0 && (
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-900/20 border border-green-700 rounded-lg">
+                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                <span className="text-green-300 text-sm">
+                  Using authentic PoE2 data ({baseTypesData.length} items, {modsData.length} mods)
+                </span>
+              </div>
+            )}
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -321,31 +466,34 @@ export default function SimulatorPage() {
                   <Label className="text-zinc-300">Class</Label>
                   <select
                     value={criteria.class}
-                    onChange={(e) => setCriteria(prev => ({ ...prev, class: e.target.value }))}
+                    onChange={(e) => handleClassSelect(e.target.value)}
                     className="w-full px-3 py-2 bg-[#2a2a2a] border border-[#3a3a3a] text-white rounded-md"
                   >
-                    <option value="Amulets">Amulets</option>
-                    <option value="Body Armours">Body Armours</option>
-                    <option value="Boots">Boots</option>
-                    <option value="Gloves">Gloves</option>
-                    <option value="Helmets">Helmets</option>
-                    <option value="Rings">Rings</option>
-                    <option value="Shields">Shields</option>
-                    <option value="Weapons">Weapons</option>
-                    <option value="Currency">Currency</option>
-                    <option value="Gems">Gems</option>
+                    {availableClasses.map((itemClass) => (
+                      <option key={itemClass} value={itemClass}>
+                        {itemClass}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
                 {/* Base Type */}
                 <div className="space-y-2">
                   <Label className="text-zinc-300">Base Type</Label>
-                  <Input
+                  <select
                     value={criteria.baseType}
-                    onChange={(e) => setCriteria(prev => ({ ...prev, baseType: e.target.value }))}
-                    className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
-                    placeholder="e.g., Solar Amulet"
-                  />
+                    onChange={(e) => handleBaseTypeSelect(e.target.value)}
+                    className="w-full px-3 py-2 bg-[#2a2a2a] border border-[#3a3a3a] text-white rounded-md"
+                  >
+                    {availableBaseTypes.map((baseType) => (
+                      <option key={baseType.baseType} value={baseType.baseType}>
+                        {baseType.baseType}
+                      </option>
+                    ))}
+                  </select>
+                  {availableBaseTypes.length === 0 && (
+                    <p className="text-zinc-500 text-sm">No base types available for this class</p>
+                  )}
                 </div>
 
                 {/* Rarity */}
@@ -375,6 +523,7 @@ export default function SimulatorPage() {
                       min="1"
                       max="100"
                     />
+                    <p className="text-zinc-500 text-xs">Auto-populated from base type data</p>
                   </div>
 
                   <div className="space-y-2">
