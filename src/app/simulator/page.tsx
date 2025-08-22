@@ -245,6 +245,23 @@ export default function SimulatorPage() {
         console.log('Selected Filter Content (first 1000 chars):');
         console.log(selectedFilterContent.substring(0, 1000));
         
+        // Test with a corrected version of your Divine Orb filter
+        const testFilter = `Show
+Class "Stackable Currency"
+BaseType "Divine Orb" "Mirror of Kalandra" "Perfect Jeweller's Orb"
+SetFontSize 45
+SetTextColor 255 0 0
+SetBorderColor 255 0 0 255
+SetBackgroundColor 255 255 255 255
+PlayEffect Red
+
+Hide
+Class "Stackable Currency"`;
+
+        console.log('=== TESTING WITH CORRECTED DIVINE ORB FILTER ===');
+        const testResult = getItemStyle(testFilter, filterContext);
+        console.log('Test filter result:', JSON.stringify(testResult, null, 2));
+        
         const filterResult = getItemStyle(selectedFilterContent, filterContext);
         console.log('Filter Result:', JSON.stringify(filterResult, null, 2));
         

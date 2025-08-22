@@ -18,15 +18,24 @@ const parseColor = (colorLine: string): string | undefined => {
   const parts = colorLine.trim().split(/\s+/);
   const values = parts.slice(1).map(Number);
 
-  if (values.length < 3) return undefined;
+  if (values.length < 3) {
+    console.log(`Invalid color format: ${colorLine} - need at least 3 values, got ${values.length}`);
+    return undefined;
+  }
 
   const [r, g, b, a = 255] = values;
 
-  if (isNaN(r) || isNaN(g) || isNaN(b)) return undefined;
+  if (isNaN(r) || isNaN(g) || isNaN(b)) {
+    console.log(`Invalid color values: ${colorLine} - NaN detected`);
+    return undefined;
+  }
 
-  return a !== 255
+  const result = a !== 255
     ? `rgba(${r}, ${g}, ${b}, ${a / 255})`
     : `rgb(${r}, ${g}, ${b})`;
+  
+  console.log(`Parsed color: ${colorLine} -> ${result}`);
+  return result;
 };
 
 const parseEffect = (line: string): FilterStyle["beam"] | undefined => {
@@ -109,7 +118,7 @@ const parseCondition = (line: string): FilterCondition | null => {
   const trimmedLine = line.split("#")[0].trim();
 
   if (trimmedLine.startsWith("Class")) {
-    const match = trimmedLine.match(/^Class\s+(.+)$/);
+    const match = trimmedLine.match(/^Class\s*(?:==)?\s*(.+)$/);
     if (match) {
       return {
         type: "Class",
