@@ -765,11 +765,11 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
                           <div
                             className="absolute pointer-events-none"
                             style={{
-                              background: `linear-gradient(to bottom, ${currentItem.displayStyle.beamColor}80 0%, ${currentItem.displayStyle.beamColor}60 30%, ${currentItem.displayStyle.beamColor}40 70%, transparent 100%)`,
+                              background: `linear-gradient(to top, ${currentItem.displayStyle.beamColor}80 0%, ${currentItem.displayStyle.beamColor}60 30%, ${currentItem.displayStyle.beamColor}40 70%, transparent 100%)`,
                               width: '6px',
                               height: '150px',
                               left: '50%',
-                              top: '50%',
+                              bottom: '50%',
                               transform: 'translateX(-50%)',
                               borderRadius: '3px',
                               zIndex: 5
@@ -779,11 +779,11 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
                           <div
                             className="absolute pointer-events-none"
                             style={{
-                              background: `linear-gradient(to bottom, ${currentItem.displayStyle.beamColor}25 0%, ${currentItem.displayStyle.beamColor}15 40%, ${currentItem.displayStyle.beamColor}10 80%, transparent 100%)`,
+                              background: `linear-gradient(to top, ${currentItem.displayStyle.beamColor}25 0%, ${currentItem.displayStyle.beamColor}15 40%, ${currentItem.displayStyle.beamColor}10 80%, transparent 100%)`,
                               width: '16px',
                               height: '150px',
                               left: '50%',
-                              top: '50%',
+                              bottom: '50%',
                               transform: 'translateX(-50%)',
                               borderRadius: '8px',
                               zIndex: 4
