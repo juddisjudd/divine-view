@@ -425,25 +425,27 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
               Generate items and see how they would appear with your loot filter
             </p>
             
-            {/* Testing Disclaimer */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-900/20 border border-yellow-600 rounded-lg mb-4">
-              <div className="text-yellow-400 text-lg">⚠️</div>
-              <div className="text-left">
-                <div className="text-yellow-300 text-sm font-medium">Testing Phase</div>
-                <div className="text-yellow-200 text-xs">
-                  This simulator is under development and may not always be accurate
+            <div className="space-y-3">
+              {/* Testing Disclaimer */}
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-900/20 border border-yellow-600 rounded-lg">
+                <div className="text-yellow-400 text-lg">⚠️</div>
+                <div className="text-left">
+                  <div className="text-yellow-300 text-sm font-medium">Testing Phase</div>
+                  <div className="text-yellow-200 text-xs">
+                    This simulator is under development and may not always be accurate
+                  </div>
                 </div>
               </div>
+              
+              {baseTypesData.length > 0 && (
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-900/20 border border-green-700 rounded-lg">
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                  <span className="text-green-300 text-sm">
+                    Using authentic PoE2 data ({baseTypesData.length} items)
+                  </span>
+                </div>
+              )}
             </div>
-            
-            {baseTypesData.length > 0 && (
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-900/20 border border-green-700 rounded-lg">
-                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                <span className="text-green-300 text-sm">
-                  Using authentic PoE2 data ({baseTypesData.length} items)
-                </span>
-              </div>
-            )}
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
