@@ -240,7 +240,13 @@ export default function SimulatorPage() {
 
     if (selectedFilterContent) {
       try {
+        console.log('=== FILTER DEBUGGING ===');
+        console.log('Filter Context:', JSON.stringify(filterContext, null, 2));
+        console.log('Selected Filter Content (first 1000 chars):');
+        console.log(selectedFilterContent.substring(0, 1000));
+        
         const filterResult = getItemStyle(selectedFilterContent, filterContext);
+        console.log('Filter Result:', JSON.stringify(filterResult, null, 2));
         
         // Check if we got actual styling from the filter
         const defaultStyle = {

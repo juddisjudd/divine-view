@@ -233,25 +233,9 @@ const getItemStyle = (
   }
 
   const blocks = filterContent.split(/\n(?=Show|Hide)/g).filter(Boolean);
+  console.log(`Found ${blocks.length} filter blocks`);
 
-  const evaluateCondition = (
-    condition: FilterCondition,
-    initialSelection: boolean = false
-  ): boolean => {
-    if (initialSelection) {
-      if (condition.type === "BaseType") {
-        return context.baseType
-          ? compareStringValues(context.baseType, condition.value, "BaseType")
-          : false;
-      }
-      if (condition.type === "Class") {
-        return context.itemClass
-          ? compareStringValues(context.itemClass, condition.value, "Class")
-          : false;
-      }
-      return true;
-    }
-
+  const evaluateCondition = (condition: FilterCondition): boolean => {
     switch (condition.type) {
       case "BaseType":
         return context.baseType
@@ -323,14 +307,6 @@ const getItemStyle = (
     style: FilterStyle;
   } | null = null;
 
-  const isInitialSelection =
-    !context.areaLevel &&
-    !context.itemLevel &&
-    !context.quality &&
-    !context.stackSize &&
-    !context.sockets &&
-    !context.rarity;
-
   for (const block of blocks) {
     const lines = block
       .split("\n")
@@ -364,13 +340,20 @@ const getItemStyle = (
     // 1. It has no conditions (catch-all), OR
     // 2. It has conditions and ALL conditions match
     const blockMatches = conditions.length === 0 || 
-      conditions.every((cond) => evaluateCondition(cond, isInitialSelection));
+      conditions.every((cond) => evaluateCondition(cond));
+    
+    console.log(`Block ${blockType} with ${conditions.length} conditions:`, {
+      conditions: conditions.map(c => `${c.type}: ${c.value}`),
+      matches: blockMatches,
+      style: blockStyle
+    });
     
     if (blockMatches) {
       matchedBlock = {
         type: blockType,
         style: blockStyle,
       };
+      console.log(`SELECTED BLOCK: ${blockType} with style:`, blockStyle);
       break;
     }
   }
