@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
-import { PoEApiClient, type PoEFilter } from "@/lib/poe-api";
+import { type PoEFilter } from "@/lib/poe-api";
 import { Download, Eye, EyeOff, Trash2, Upload, RefreshCw } from "lucide-react";
 import Link from "next/link";
 
@@ -138,9 +138,12 @@ export default function ProfilePage() {
     if (!session?.user?.accessToken) return;
     
     try {
-      const client = new PoEApiClient(session.user.accessToken);
-      const response = await client.getFilters();
-      setFilters(response.filters);
+      const response = await fetch('/api/poe/item-filters');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setFilters(data.filters);
     } catch (error) {
       console.error('Failed to load filters:', error);
       toast({
@@ -180,8 +183,12 @@ export default function ProfilePage() {
     if (!session?.user?.accessToken) return;
     
     try {
-      const client = new PoEApiClient(session.user.accessToken);
-      await client.deleteFilter(filterId);
+      const response = await fetch(`/api/poe/item-filters/${filterId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       setFilters(filters.filter(f => f.id !== filterId));
       toast({
         title: "Filter Deleted",
