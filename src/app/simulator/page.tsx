@@ -784,30 +784,30 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
                       {/* Vertical Beam Effect */}
                       {currentItem.displayStyle.beamColor && (
                         <>
-                          {/* Main beam */}
+                          {/* Main beam - extends from item upward */}
                           <div
                             className="absolute pointer-events-none"
                             style={{
-                              background: `linear-gradient(to top, transparent 0%, ${currentItem.displayStyle.beamColor}60 20%, ${currentItem.displayStyle.beamColor}80 50%, ${currentItem.displayStyle.beamColor}60 80%, transparent 100%)`,
+                              background: `linear-gradient(to top, ${currentItem.displayStyle.beamColor}80 0%, ${currentItem.displayStyle.beamColor}60 30%, ${currentItem.displayStyle.beamColor}40 70%, transparent 100%)`,
                               width: '6px',
-                              height: '300px',
+                              height: '150px',
                               left: '50%',
                               top: '50%',
-                              transform: 'translate(-50%, -50%)',
+                              transform: 'translateX(-50%)',
                               borderRadius: '3px',
                               zIndex: 5
                             }}
                           />
-                          {/* Beam glow */}
+                          {/* Beam glow - extends from item upward */}
                           <div
                             className="absolute pointer-events-none"
                             style={{
-                              background: `linear-gradient(to top, transparent 0%, ${currentItem.displayStyle.beamColor}20 30%, ${currentItem.displayStyle.beamColor}30 50%, ${currentItem.displayStyle.beamColor}20 70%, transparent 100%)`,
+                              background: `linear-gradient(to top, ${currentItem.displayStyle.beamColor}25 0%, ${currentItem.displayStyle.beamColor}15 40%, ${currentItem.displayStyle.beamColor}10 80%, transparent 100%)`,
                               width: '16px',
-                              height: '300px',
+                              height: '150px',
                               left: '50%',
                               top: '50%',
-                              transform: 'translate(-50%, -50%)',
+                              transform: 'translateX(-50%)',
                               borderRadius: '8px',
                               zIndex: 4
                             }}
