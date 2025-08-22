@@ -111,16 +111,16 @@ export default function SimulatorPage() {
     loadUserFilters();
   }, [session]);
 
-  // Handle Alt key for showing hidden items
+  // Handle Z key for showing hidden items (like PoE)
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.altKey) {
+      if (event.key === 'z' || event.key === 'Z') {
         setShowHidden(true);
       }
     };
 
     const handleKeyUp = (event: KeyboardEvent) => {
-      if (!event.altKey) {
+      if (event.key === 'z' || event.key === 'Z') {
         setShowHidden(false);
       }
     };
@@ -416,8 +416,8 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
 
   return (
     <DefaultLayout>
-      <div className="container mx-auto py-6 px-4">
-        <div className="space-y-6">
+      <div className="container mx-auto py-6 px-4 max-w-7xl">
+        <div className="space-y-6 overflow-x-hidden">
           {/* Header */}
           <div className="text-center space-y-3">
             <h1 className="text-3xl font-bold text-white">Loot Drop Simulator</h1>
@@ -425,8 +425,8 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
               Generate items and see how they would appear with your loot filter
             </p>
             
-            <div className="space-y-3">
-              {/* Testing Disclaimer */}
+            {/* Testing Disclaimer */}
+            <div className="flex justify-center mb-2">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-900/20 border border-yellow-600 rounded-lg">
                 <div className="text-yellow-400 text-lg">⚠️</div>
                 <div className="text-left">
@@ -436,21 +436,23 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
                   </div>
                 </div>
               </div>
-              
-              {baseTypesData.length > 0 && (
+            </div>
+            
+            {baseTypesData.length > 0 && (
+              <div className="flex justify-center">
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-900/20 border border-green-700 rounded-lg">
                   <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                   <span className="text-green-300 text-sm">
                     Using authentic PoE2 data ({baseTypesData.length} items)
                   </span>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-0">
             {/* Controls Panel */}
-            <Card className="p-6 bg-[#1a1a1a] border-[#2a2a2a]">
+            <Card className="p-6 bg-[#1a1a1a] border-[#2a2a2a] overflow-y-auto max-h-screen">
               <h2 className="text-xl font-semibold text-white mb-4">Item Generation</h2>
               
               <div className="space-y-4">
@@ -728,12 +730,12 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
             </Card>
 
             {/* Preview Panel */}
-            <Card className="p-6 bg-[#1a1a1a] border-[#2a2a2a]">
+            <Card className="p-6 bg-[#1a1a1a] border-[#2a2a2a] overflow-hidden">
               <h2 className="text-xl font-semibold text-white mb-4">Loot Preview</h2>
               
               {/* Game Background */}
               <div
-                className="relative min-h-[400px] rounded-lg overflow-hidden"
+                className="relative w-full h-[400px] rounded-lg overflow-hidden"
                 style={{
                   backgroundImage: "url('/images/preview-bg.png')",
                   backgroundSize: "cover",
@@ -752,7 +754,7 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
                     <div className="text-center bg-black/70 px-4 py-2 rounded border border-red-500">
                       <p className="text-red-400 font-medium mb-1">{currentItem.name}</p>
                       <p className="text-zinc-500 text-sm">Hidden by filter</p>
-                      <p className="text-zinc-400 text-xs mt-1">Hold Alt to show hidden items</p>
+                      <p className="text-zinc-400 text-xs mt-1">Hold Z to show hidden items</p>
                     </div>
                   ) : (
                     <div className="relative flex items-center justify-center">
@@ -805,12 +807,6 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
                       >
                         {currentItem.name}
                       </div>
-                      
-                      {currentItem.isHidden && showHidden && (
-                        <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-red-900/80 text-red-200 text-xs px-2 py-1 rounded z-20">
-                          Hidden (Alt pressed)
-                        </div>
-                      )}
                     </div>
                   )}
                 </div>
@@ -852,7 +848,7 @@ Show # %D4 $type->exoticbases $tier->commonexoticbases
                   {currentItem?.isHidden && (
                     <div className="mt-2 p-2 bg-red-900/20 border border-red-800 rounded text-xs">
                       <div className="text-red-400 font-medium">Item Hidden by Filter</div>
-                      <div className="text-zinc-400">Press and hold Alt key to reveal hidden items</div>
+                      <div className="text-zinc-400">Press and hold Z key to reveal hidden items</div>
                     </div>
                   )}
                 </div>
