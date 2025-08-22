@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { type PoEFilter } from "@/lib/poe-api";
-import { Download, Eye, EyeOff, Trash2, Upload, RefreshCw } from "lucide-react";
+import { Download, Eye, EyeOff, Upload, RefreshCw } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -39,10 +39,9 @@ function ProfileSkeleton() {
   );
 }
 
-function FilterCard({ filter, onSync, onDelete }: {
+function FilterCard({ filter, onSync }: {
   filter: PoEFilter;
   onSync: () => void;
-  onDelete: () => void;
 }) {
   const { toast } = useToast();
 
@@ -141,14 +140,6 @@ function FilterCard({ filter, onSync, onDelete }: {
           >
             <Upload className="w-4 h-4" />
           </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={onDelete}
-            className="bg-red-900 border-red-700 text-red-300 hover:bg-red-800 hover:text-red-200"
-          >
-            <Trash2 className="w-4 h-4" />
-          </Button>
         </div>
       </div>
     </Card>
@@ -208,30 +199,6 @@ export default function ProfilePage() {
     });
   };
 
-  const handleDeleteFilter = async (filterId: string) => {
-    if (!session?.user?.accessToken) return;
-    
-    try {
-      const response = await fetch(`/api/poe/item-filter/${filterId}`, {
-        method: 'DELETE',
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      setFilters(filters.filter(f => f.id !== filterId));
-      toast({
-        title: "Filter Deleted",
-        description: "Filter has been removed from your PoE account",
-      });
-    } catch (error) {
-      console.error('Failed to delete filter:', error);
-      toast({
-        title: "Error",
-        description: "Failed to delete filter",
-        variant: "destructive",
-      });
-    }
-  };
 
   const handleSyncFilter = async (filter: PoEFilter) => {
     try {
@@ -383,7 +350,6 @@ export default function ProfilePage() {
                     key={filter.id}
                     filter={filter}
                     onSync={() => handleSyncFilter(filter)}
-                    onDelete={() => handleDeleteFilter(filter.id)}
                   />
                 ))}
               </div>

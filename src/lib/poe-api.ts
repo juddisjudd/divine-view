@@ -102,14 +102,6 @@ export class PoEApiClient {
     });
   }
 
-  /**
-   * Delete a filter
-   */
-  async deleteFilter(filterId: string): Promise<void> {
-    await this.request(`/item-filter/${filterId}`, {
-      method: 'DELETE',
-    });
-  }
 
   /**
    * Upload filter content directly to PoE
