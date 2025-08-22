@@ -60,16 +60,6 @@ export default function AuthButton() {
               isMobile ? "right-0" : "right-0"
             }`}
           >
-            <div className="py-2 px-4 border-b border-[#2a2a2a]">
-              <p className="text-white font-medium truncate">
-                {session.user.name || "User"}
-              </p>
-              {session.user.email && (
-                <p className="text-zinc-400 text-xs truncate">
-                  {session.user.email}
-                </p>
-              )}
-            </div>
             <Link
               href="/profile"
               onClick={() => setShowDropdown(false)}

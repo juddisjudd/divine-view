@@ -8,9 +8,10 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useToast } from "@/hooks/use-toast";
 import { type PoEFilter } from "@/lib/poe-api";
-import { Download, Eye, EyeOff, Upload, RefreshCw } from "lucide-react";
+import { Download, Eye, EyeOff, Upload, RefreshCw, Edit } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -124,22 +125,36 @@ function FilterCard({ filter, onSync }: {
           )}
         </div>
         <div className="flex gap-1 ml-4">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleDownload}
-            className="bg-zinc-800 border-zinc-700 text-zinc-300 hover:bg-zinc-700 hover:text-white"
-          >
-            <Download className="w-4 h-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={onSync}
-            className="bg-blue-900 border-blue-700 text-blue-300 hover:bg-blue-800 hover:text-blue-200"
-          >
-            <Upload className="w-4 h-4" />
-          </Button>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleDownload}
+                className="bg-zinc-800 border-zinc-700 text-zinc-300 hover:bg-zinc-700 hover:text-white"
+              >
+                <Download className="w-4 h-4" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-2 bg-zinc-900 border-zinc-700 text-white text-sm">
+              Download filter
+            </PopoverContent>
+          </Popover>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onSync}
+                className="bg-blue-900 border-blue-700 text-blue-300 hover:bg-blue-800 hover:text-blue-200"
+              >
+                <Edit className="w-4 h-4 text-black" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-2 bg-zinc-900 border-zinc-700 text-white text-sm">
+              Edit in editor
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
     </Card>
