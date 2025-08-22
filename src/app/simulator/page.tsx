@@ -14,18 +14,25 @@ import Link from "next/link";
 import { getItemStyle } from "@/utils/filterParser";
 import { FilterContext } from "@/types/filter";
 import { BaseTypeData, parseBaseTypesCSV, getUniqueClasses, getBaseTypesForClass, findBaseType } from "@/utils/baseTypesData";
-import { ModData, parseModsCSV, getAvailablePrefixes, getAvailableSuffixes, selectRandomMods } from "@/utils/modsData";
 
 interface ItemCriteria {
   class: string;
   baseType: string;
   rarity: 'Normal' | 'Magic' | 'Rare' | 'Unique';
-  dropLevel: number;
   itemLevel: number;
   areaLevel: number;
   quality: number;
   sockets: number;
   stackSize: number;
+}
+
+interface ModifierToggles {
+  rarity: boolean;
+  itemLevel: boolean;
+  areaLevel: boolean;
+  quality: boolean;
+  sockets: boolean;
+  stackSize: boolean;
 }
 
 interface GeneratedItem {
@@ -45,12 +52,20 @@ const defaultCriteria: ItemCriteria = {
   class: "Amulets",
   baseType: "Solar Amulet",
   rarity: "Rare",
-  dropLevel: 1,
   itemLevel: 70,
   areaLevel: 70,
   quality: 0,
   sockets: 0,
   stackSize: 1,
+};
+
+const defaultToggles: ModifierToggles = {
+  rarity: true,
+  itemLevel: true,
+  areaLevel: true,
+  quality: false,
+  sockets: false,
+  stackSize: false,
 };
 
 export default function SimulatorPage() {
@@ -60,6 +75,7 @@ export default function SimulatorPage() {
   // Restrict access to specific user for testing
   const isAuthorizedUser = session?.user?.name === "ohitsjudd#7248";
   const [criteria, setCriteria] = useState<ItemCriteria>(defaultCriteria);
+  const [modifierToggles, setModifierToggles] = useState<ModifierToggles>(defaultToggles);
   const [generatedItems, setGeneratedItems] = useState<GeneratedItem[]>([]);
   const [selectedFilter, setSelectedFilter] = useState<string>("");
   const [userFilters, setUserFilters] = useState<Array<{id: string; filter_name: string}>>([]);
@@ -68,24 +84,6 @@ export default function SimulatorPage() {
   const [baseTypesData, setBaseTypesData] = useState<BaseTypeData[]>([]);
   const [availableClasses, setAvailableClasses] = useState<string[]>([]);
   const [availableBaseTypes, setAvailableBaseTypes] = useState<BaseTypeData[]>([]);
-  const [modsData, setModsData] = useState<ModData[]>([]);
-  
-  // Determine which fields should be enabled based on item class
-  const getFieldAvailability = (itemClass: string) => {
-    const isGear = ['Amulets', 'Rings', 'Body Armours', 'Helmets', 'Gloves', 'Boots', 'Shields', 'Belts'].includes(itemClass);
-    const isWeapon = ['Bows', 'Crossbows', 'Wands', 'Staves', 'Quarterstaves', 'Foci', 'One Hand Maces', 'Two Hand Maces', 'Sceptres'].includes(itemClass);
-    const isCurrency = itemClass === 'Stackable Currency';
-    const isGem = ['Skill Gems', 'Support Gems'].includes(itemClass);
-    const isFlask = ['Life Flasks', 'Mana Flasks'].includes(itemClass);
-    const isWaystone = itemClass === 'Waystones';
-    
-    return {
-      itemLevel: isGear || isWeapon || isGem,
-      quality: isGear || isWeapon || isGem || isFlask,
-      sockets: isGear || isWeapon,
-      stackSize: isCurrency || isGem || isFlask || isWaystone || itemClass === 'Map Fragments',
-    };
-  };
 
   // Load user's filters
   useEffect(() => {
@@ -140,32 +138,6 @@ export default function SimulatorPage() {
     loadBaseTypesData();
   }, [toast]);
 
-  // Load mods data from CSV
-  useEffect(() => {
-    const loadModsData = async () => {
-      try {
-        const response = await fetch('/data/Mods.csv');
-        if (!response.ok) {
-          throw new Error('Failed to load mods data');
-        }
-        
-        const csvContent = await response.text();
-        const parsedMods = parseModsCSV(csvContent);
-        
-        setModsData(parsedMods);
-        console.log(`Loaded ${parsedMods.length} mods from CSV`);
-      } catch (error) {
-        console.error('Failed to load mods data:', error);
-        toast({
-          title: "Warning",
-          description: "Failed to load mods database. Using simplified names.",
-          variant: "destructive",
-        });
-      }
-    };
-
-    loadModsData();
-  }, [toast]);
 
   // Load selected filter content
   const loadFilterContent = async (filterId: string) => {
@@ -204,13 +176,12 @@ export default function SimulatorPage() {
     const baseTypesForClass = getBaseTypesForClass(baseTypesData, selectedClass);
     setAvailableBaseTypes(baseTypesForClass);
     
-    // Auto-select first base type and its drop level
+    // Auto-select first base type
     if (baseTypesForClass.length > 0) {
       const firstBaseType = baseTypesForClass[0];
       setCriteria(prev => ({
         ...prev,
         baseType: firstBaseType.baseType,
-        dropLevel: firstBaseType.dropLevel,
       }));
     }
   };
@@ -218,28 +189,21 @@ export default function SimulatorPage() {
   // Handle base type selection
   const handleBaseTypeSelect = (selectedBaseType: string) => {
     setCriteria(prev => ({ ...prev, baseType: selectedBaseType }));
-    
-    // Auto-update drop level based on selected base type
-    const baseTypeData = findBaseType(baseTypesData, criteria.class, selectedBaseType);
-    if (baseTypeData) {
-      setCriteria(prev => ({ ...prev, dropLevel: baseTypeData.dropLevel }));
-    }
   };
 
   const generateItem = () => {
     setLoading(true);
     
-    // Create filter context from criteria, only including applicable fields
-    const fieldAvailability = getFieldAvailability(criteria.class);
+    // Create filter context from criteria, only including enabled modifiers
     const filterContext: FilterContext = {
       baseType: criteria.baseType,
       itemClass: criteria.class,
-      rarity: criteria.rarity,
-      areaLevel: criteria.areaLevel,
-      itemLevel: fieldAvailability.itemLevel ? criteria.itemLevel : undefined,
-      quality: fieldAvailability.quality ? criteria.quality : undefined,
-      sockets: fieldAvailability.sockets ? criteria.sockets : undefined,
-      stackSize: fieldAvailability.stackSize ? criteria.stackSize : undefined,
+      rarity: modifierToggles.rarity ? criteria.rarity : undefined,
+      areaLevel: modifierToggles.areaLevel ? criteria.areaLevel : undefined,
+      itemLevel: modifierToggles.itemLevel ? criteria.itemLevel : undefined,
+      quality: modifierToggles.quality ? criteria.quality : undefined,
+      sockets: modifierToggles.sockets ? criteria.sockets : undefined,
+      stackSize: modifierToggles.stackSize ? criteria.stackSize : undefined,
     };
 
     // Get item styling from filter or use default
@@ -248,7 +212,11 @@ export default function SimulatorPage() {
 
     if (selectedFilterContent) {
       try {
+        console.log('Filter Context:', filterContext);
+        console.log('Filter Content (first 200 chars):', selectedFilterContent.substring(0, 200));
         const filterResult = getItemStyle(selectedFilterContent, filterContext);
+        console.log('Filter Result:', filterResult);
+        
         isHidden = filterResult.isHidden;
         displayStyle = {
           backgroundColor: filterResult.style.backgroundColor || "rgba(255, 255, 255, 0.1)",
@@ -257,6 +225,7 @@ export default function SimulatorPage() {
           beamColor: filterResult.style.beam?.color,
           fontSize: filterResult.style.fontSize || 32,
         };
+        console.log('Final Display Style:', displayStyle);
       } catch (error) {
         console.error('Filter parsing error:', error);
         displayStyle = getItemDisplayStyle(criteria);
@@ -292,63 +261,8 @@ export default function SimulatorPage() {
   };
 
   const generateItemName = (criteria: ItemCriteria): string => {
-    // Use authentic mods if available
-    if (modsData.length > 0) {
-      const availablePrefixes = getAvailablePrefixes(modsData, criteria.class, criteria.itemLevel, criteria.baseType);
-      const availableSuffixes = getAvailableSuffixes(modsData, criteria.class, criteria.itemLevel, criteria.baseType);
-      
-      const selectedMods = selectRandomMods(availablePrefixes, availableSuffixes, criteria.rarity);
-      
-      switch (criteria.rarity) {
-        case "Normal":
-          return criteria.baseType;
-        case "Magic":
-          if (selectedMods.prefix) {
-            return `${selectedMods.prefix} ${criteria.baseType}`;
-          } else if (selectedMods.suffix) {
-            return `${criteria.baseType} ${selectedMods.suffix}`;
-          }
-          return criteria.baseType;
-        case "Rare":
-          let rareName = criteria.baseType;
-          if (selectedMods.prefix && selectedMods.suffix) {
-            rareName = `${selectedMods.prefix} ${criteria.baseType} ${selectedMods.suffix}`;
-          } else if (selectedMods.prefix) {
-            rareName = `${selectedMods.prefix} ${criteria.baseType}`;
-          } else if (selectedMods.suffix) {
-            rareName = `${criteria.baseType} ${selectedMods.suffix}`;
-          }
-          return rareName;
-        case "Unique":
-          // Unique items typically have fixed names, but we'll simulate
-          const uniquePrefixes = ["The", "Soul", "Heart", "Eye", "Bone", "Blood"];
-          const uniqueSuffixes = ["of Legends", "of the Ancients", "of Eternity", "of Power", "of the Void"];
-          const uniquePrefix = uniquePrefixes[Math.floor(Math.random() * uniquePrefixes.length)];
-          const uniqueSuffix = uniqueSuffixes[Math.floor(Math.random() * uniqueSuffixes.length)];
-          return `${uniquePrefix} ${criteria.baseType} ${uniqueSuffix}`;
-        default:
-          return criteria.baseType;
-      }
-    } else {
-      // Fallback to simple generation if mods data not loaded
-      const fallbackPrefixes = ["Glowing", "Ancient", "Masterful", "Divine", "Ethereal", "Corrupted"];
-      const fallbackSuffixes = ["of Power", "of the Storm", "of Eternity", "of Destruction", "of Wisdom"];
-      
-      switch (criteria.rarity) {
-        case "Normal":
-          return criteria.baseType;
-        case "Magic":
-          return `${fallbackPrefixes[Math.floor(Math.random() * fallbackPrefixes.length)]} ${criteria.baseType}`;
-        case "Rare":
-          const prefix = fallbackPrefixes[Math.floor(Math.random() * fallbackPrefixes.length)];
-          const suffix = fallbackSuffixes[Math.floor(Math.random() * fallbackSuffixes.length)];
-          return `${prefix} ${criteria.baseType} ${suffix}`;
-        case "Unique":
-          return `The ${criteria.baseType} of Legends`;
-        default:
-          return criteria.baseType;
-      }
-    }
+    // Simply return the base type name
+    return criteria.baseType;
   };
 
   const getItemDisplayStyle = (criteria: ItemCriteria) => {
@@ -444,11 +358,11 @@ export default function SimulatorPage() {
             <p className="text-zinc-400">
               Generate items and see how they would appear with your loot filter
             </p>
-            {baseTypesData.length > 0 && modsData.length > 0 && (
+            {baseTypesData.length > 0 && (
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-900/20 border border-green-700 rounded-lg">
                 <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                 <span className="text-green-300 text-sm">
-                  Using authentic PoE2 data ({baseTypesData.length} items, {modsData.length} mods)
+                  Using authentic PoE2 data ({baseTypesData.length} items)
                 </span>
               </div>
             )}
@@ -512,38 +426,96 @@ export default function SimulatorPage() {
                   )}
                 </div>
 
+                {/* Modifier Toggles */}
+                <div className="space-y-3">
+                  <Label className="text-zinc-300 font-semibold">Filter Modifiers</Label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="toggle-rarity"
+                        checked={modifierToggles.rarity}
+                        onChange={(e) => setModifierToggles(prev => ({ ...prev, rarity: e.target.checked }))}
+                        className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
+                      />
+                      <label htmlFor="toggle-rarity" className="text-sm text-zinc-300">Rarity</label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="toggle-itemlevel"
+                        checked={modifierToggles.itemLevel}
+                        onChange={(e) => setModifierToggles(prev => ({ ...prev, itemLevel: e.target.checked }))}
+                        className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
+                      />
+                      <label htmlFor="toggle-itemlevel" className="text-sm text-zinc-300">Item Level</label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="toggle-arealevel"
+                        checked={modifierToggles.areaLevel}
+                        onChange={(e) => setModifierToggles(prev => ({ ...prev, areaLevel: e.target.checked }))}
+                        className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
+                      />
+                      <label htmlFor="toggle-arealevel" className="text-sm text-zinc-300">Area Level</label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="toggle-quality"
+                        checked={modifierToggles.quality}
+                        onChange={(e) => setModifierToggles(prev => ({ ...prev, quality: e.target.checked }))}
+                        className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
+                      />
+                      <label htmlFor="toggle-quality" className="text-sm text-zinc-300">Quality</label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="toggle-sockets"
+                        checked={modifierToggles.sockets}
+                        onChange={(e) => setModifierToggles(prev => ({ ...prev, sockets: e.target.checked }))}
+                        className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
+                      />
+                      <label htmlFor="toggle-sockets" className="text-sm text-zinc-300">Sockets</label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="toggle-stacksize"
+                        checked={modifierToggles.stackSize}
+                        onChange={(e) => setModifierToggles(prev => ({ ...prev, stackSize: e.target.checked }))}
+                        className="w-4 h-4 text-[#922729] bg-[#2a2a2a] border-[#3a3a3a] rounded focus:ring-[#922729]"
+                      />
+                      <label htmlFor="toggle-stacksize" className="text-sm text-zinc-300">Stack Size</label>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Rarity */}
                 <div className="space-y-2">
-                  <Label className="text-zinc-300">Rarity</Label>
+                  <Label className={`text-zinc-300 ${!modifierToggles.rarity ? 'opacity-50' : ''}`}>Rarity</Label>
                   <select
                     value={criteria.rarity}
                     onChange={(e) => setCriteria(prev => ({ ...prev, rarity: e.target.value as 'Normal' | 'Magic' | 'Rare' | 'Unique' }))}
                     className="w-full px-3 py-2 bg-[#2a2a2a] border border-[#3a3a3a] text-white rounded-md"
+                    disabled={!modifierToggles.rarity}
                   >
                     <option value="Normal">Normal</option>
                     <option value="Magic">Magic</option>
                     <option value="Rare">Rare</option>
                     <option value="Unique">Unique</option>
                   </select>
+                  {!modifierToggles.rarity && (
+                    <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
+                  )}
                 </div>
 
                 {/* Levels and Properties Grid */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label className="text-zinc-300">Drop Level</Label>
-                    <Input
-                      type="number"
-                      value={criteria.dropLevel}
-                      onChange={(e) => setCriteria(prev => ({ ...prev, dropLevel: parseInt(e.target.value) || 0 }))}
-                      className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
-                      min="1"
-                      max="100"
-                    />
-                    <p className="text-zinc-500 text-xs">Auto-populated from base type data</p>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label className={`text-zinc-300 ${!getFieldAvailability(criteria.class).itemLevel ? 'opacity-50' : ''}`}>
+                    <Label className={`text-zinc-300 ${!modifierToggles.itemLevel ? 'opacity-50' : ''}`}>
                       Item Level
                     </Label>
                     <Input
@@ -553,15 +525,17 @@ export default function SimulatorPage() {
                       className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
                       min="1"
                       max="100"
-                      disabled={!getFieldAvailability(criteria.class).itemLevel}
+                      disabled={!modifierToggles.itemLevel}
                     />
-                    {!getFieldAvailability(criteria.class).itemLevel && (
-                      <p className="text-zinc-500 text-xs">Not applicable for this item type</p>
+                    {!modifierToggles.itemLevel && (
+                      <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
                     )}
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="text-zinc-300">Area Level</Label>
+                    <Label className={`text-zinc-300 ${!modifierToggles.areaLevel ? 'opacity-50' : ''}`}>
+                      Area Level
+                    </Label>
                     <Input
                       type="number"
                       value={criteria.areaLevel}
@@ -569,11 +543,15 @@ export default function SimulatorPage() {
                       className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
                       min="1"
                       max="100"
+                      disabled={!modifierToggles.areaLevel}
                     />
+                    {!modifierToggles.areaLevel && (
+                      <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
-                    <Label className={`text-zinc-300 ${!getFieldAvailability(criteria.class).quality ? 'opacity-50' : ''}`}>
+                    <Label className={`text-zinc-300 ${!modifierToggles.quality ? 'opacity-50' : ''}`}>
                       Quality
                     </Label>
                     <Input
@@ -583,15 +561,15 @@ export default function SimulatorPage() {
                       className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
                       min="0"
                       max="20"
-                      disabled={!getFieldAvailability(criteria.class).quality}
+                      disabled={!modifierToggles.quality}
                     />
-                    {!getFieldAvailability(criteria.class).quality && (
-                      <p className="text-zinc-500 text-xs">Not applicable for this item type</p>
+                    {!modifierToggles.quality && (
+                      <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
                     )}
                   </div>
 
                   <div className="space-y-2">
-                    <Label className={`text-zinc-300 ${!getFieldAvailability(criteria.class).sockets ? 'opacity-50' : ''}`}>
+                    <Label className={`text-zinc-300 ${!modifierToggles.sockets ? 'opacity-50' : ''}`}>
                       Sockets
                     </Label>
                     <Input
@@ -601,15 +579,15 @@ export default function SimulatorPage() {
                       className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
                       min="0"
                       max="6"
-                      disabled={!getFieldAvailability(criteria.class).sockets}
+                      disabled={!modifierToggles.sockets}
                     />
-                    {!getFieldAvailability(criteria.class).sockets && (
-                      <p className="text-zinc-500 text-xs">Not applicable for this item type</p>
+                    {!modifierToggles.sockets && (
+                      <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
                     )}
                   </div>
 
                   <div className="space-y-2">
-                    <Label className={`text-zinc-300 ${!getFieldAvailability(criteria.class).stackSize ? 'opacity-50' : ''}`}>
+                    <Label className={`text-zinc-300 ${!modifierToggles.stackSize ? 'opacity-50' : ''}`}>
                       Stack Size
                     </Label>
                     <Input
@@ -618,10 +596,10 @@ export default function SimulatorPage() {
                       onChange={(e) => setCriteria(prev => ({ ...prev, stackSize: parseInt(e.target.value) || 1 }))}
                       className="bg-[#2a2a2a] border-[#3a3a3a] text-white"
                       min="1"
-                      disabled={!getFieldAvailability(criteria.class).stackSize}
+                      disabled={!modifierToggles.stackSize}
                     />
-                    {!getFieldAvailability(criteria.class).stackSize && (
-                      <p className="text-zinc-500 text-xs">Not applicable for this item type</p>
+                    {!modifierToggles.stackSize && (
+                      <p className="text-zinc-500 text-xs">Disabled - won&apos;t be used in filter matching</p>
                     )}
                   </div>
                 </div>
@@ -729,20 +707,27 @@ export default function SimulatorPage() {
                   <div className="grid grid-cols-2 gap-2 text-xs">
                     <div className="text-zinc-400">Class: <span className="text-white">{criteria.class}</span></div>
                     <div className="text-zinc-400">BaseType: <span className="text-white">{criteria.baseType}</span></div>
-                    <div className="text-zinc-400">Rarity: <span className="text-white">{criteria.rarity}</span></div>
-                    <div className="text-zinc-400">AreaLevel: <span className="text-white">{criteria.areaLevel}</span></div>
-                    {getFieldAvailability(criteria.class).itemLevel && (
+                    {modifierToggles.rarity && (
+                      <div className="text-zinc-400">Rarity: <span className="text-white">{criteria.rarity}</span></div>
+                    )}
+                    {modifierToggles.areaLevel && (
+                      <div className="text-zinc-400">AreaLevel: <span className="text-white">{criteria.areaLevel}</span></div>
+                    )}
+                    {modifierToggles.itemLevel && (
                       <div className="text-zinc-400">ItemLevel: <span className="text-white">{criteria.itemLevel}</span></div>
                     )}
-                    {getFieldAvailability(criteria.class).quality && (
+                    {modifierToggles.quality && (
                       <div className="text-zinc-400">Quality: <span className="text-white">{criteria.quality}</span></div>
                     )}
-                    {getFieldAvailability(criteria.class).sockets && (
+                    {modifierToggles.sockets && (
                       <div className="text-zinc-400">Sockets: <span className="text-white">{criteria.sockets}</span></div>
                     )}
-                    {getFieldAvailability(criteria.class).stackSize && (
+                    {modifierToggles.stackSize && (
                       <div className="text-zinc-400">StackSize: <span className="text-white">{criteria.stackSize}</span></div>
                     )}
+                  </div>
+                  <div className="mt-2 text-xs text-zinc-500">
+                    Only enabled properties are sent to the filter parser
                   </div>
                 </div>
               )}
