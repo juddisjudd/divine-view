@@ -37,23 +37,17 @@ const FILTER_RESOURCES = [
   },
 ];
 
-const TRADE_TOOLS = [
+const MISC_TOOLS = [
   {
-    title: "Poe-Lurker",
-    description:
-      "Poe Lurker is a simple yet very powerful trade manager meant to ease the trading experience for Path of Exile.",
-    url: "https://poe-lurker.com",
-  },
-  {
-    title: "Exiled-Exchange-2",
-    description: "Moving from POE1/Awakened PoE Trade",
-    url: "https://exchange2.com",
+    title: "POE2 Quest Tracker",
+    description: "A desktop overlay application for tracking quests and rewards in Path of Exile 2.",
+    url: "https://github.com/juddisjudd/poe2-quest-tracker",
   },
   {
     title: "Sidekick",
     description:
       "A Path of Exile and Path of Exile 2 companion tool. Price check items, check for dangerous map modifiers, and more!",
-    url: "https://sidekick.com",
+    url: "https://github.com/Sidekick-Poe/Sidekick",
   },
 ];
 
@@ -85,8 +79,8 @@ export default function ResourcesPage() {
           ))}
         </ResourceSection>
 
-        <ResourceSection title="Trade Tools">
-          {TRADE_TOOLS.map((resource) => (
+        <ResourceSection title="Misc Tools">
+          {MISC_TOOLS.map((resource) => (
             <ResourceCard
               key={resource.title}
               title={resource.title}
