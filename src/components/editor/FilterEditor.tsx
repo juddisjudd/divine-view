@@ -1,10 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
-import { FileImport } from "@/components/filter/FileImport";
-import { FilterEditorSyntax } from "@/components/filter/FilterEditorSyntax";
-import { ValidationPanel } from "@/components/filter/ValidationPanel";
-import SyntaxGuide from "@/components/filter/SyntaxGuide";
+import { FileImport } from "@/components/editor/FileImport";
+import { FilterEditorSyntax } from "@/components/editor/FilterEditorSyntax";
+import { ValidationPanel } from "@/components/editor/ValidationPanel";
+import SyntaxGuide from "@/components/editor/SyntaxGuide";
 import { useToast } from "@/hooks/use-toast";
 import type { ValidationMessage } from "@/types/filter";
 

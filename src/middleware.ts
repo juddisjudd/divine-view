@@ -16,6 +16,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Redirect to home if trying to access profile without authentication
+  if (request.nextUrl.pathname.startsWith("/profile") && !session) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
   if (request.nextUrl.pathname.startsWith("/admin") && !session) {
     return NextResponse.redirect(new URL("/auth/signin", request.url));
   }

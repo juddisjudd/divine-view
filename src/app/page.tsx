@@ -1,5 +1,5 @@
 import { DefaultLayout } from "@/components/layout/DefaultLayout";
-import FilterEditor from "@/components/filter/FilterEditor";
+import FilterEditor from "@/components/editor/FilterEditor";
 
 export default function Home() {
   return (

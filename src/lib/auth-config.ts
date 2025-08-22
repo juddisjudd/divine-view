@@ -1,26 +1,13 @@
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "@/lib/db";
 import PoE from "@/lib/providers/poe-provider";
-import type { DefaultSession, NextAuthConfig } from "next-auth";
-
-interface Session extends DefaultSession {
-  user?: {
-    id: string;
-    name?: string | null;
-    email?: string | null;
-    image?: string | null;
-  };
-}
-
-interface User {
-  id: string;
-  name?: string | null;
-  email?: string | null;
-  image?: string | null;
-}
+import type { NextAuthConfig } from "next-auth";
+import "@/types/auth"; // Import type declarations
 
 export const authConfig: NextAuthConfig = {
-  adapter: PrismaAdapter(prisma),
+  // Use JWT strategy instead of database
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
   providers: [
     PoE({
       clientId: process.env.POE_CLIENT_ID!,
@@ -28,9 +15,31 @@ export const authConfig: NextAuthConfig = {
     }),
   ],
   callbacks: {
-    session({ session, user }: { session: Session; user: User }) {
-      if (session.user) {
-        session.user.id = user.id;
+    async jwt({ token, account, profile }) {
+      // Store PoE access token in JWT for API calls
+      if (account?.access_token) {
+        token.accessToken = account.access_token;
+        token.refreshToken = account.refresh_token;
+        token.expiresAt = account.expires_at;
+      }
+      if (profile) {
+        token.id = profile.id;
+        token.name = profile.name;
+        token.image = profile.avatar;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      // Pass data from JWT to session
+      if (token) {
+        session.user = {
+          ...session.user,
+          id: token.id as string,
+          name: token.name as string,
+          email: token.email as string, 
+          image: token.image as string,
+          accessToken: token.accessToken as string,
+        };
       }
       return session;
     },

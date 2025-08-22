@@ -3,8 +3,9 @@ import { useSession, signOut, signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
-import { LogOut } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 import PoEIcon from "@/components/icons/PoEIcon";
+import Link from "next/link";
 
 export default function AuthButton() {
   const { data: session } = useSession();
@@ -90,6 +91,14 @@ export default function AuthButton() {
                 </p>
               )}
             </div>
+            <Link
+              href="/profile"
+              onClick={() => setShowDropdown(false)}
+              className="flex items-center w-full text-left px-4 py-3 text-zinc-400 hover:text-white hover:bg-[#202020]"
+            >
+              <User className="w-4 h-4 mr-2" />
+              Profile
+            </Link>
             <button
               onClick={() => signOut()}
               className="flex items-center w-full text-left px-4 py-3 text-zinc-400 hover:text-white hover:bg-[#202020]"
