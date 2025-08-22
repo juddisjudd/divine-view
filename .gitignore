@@ -45,3 +45,5 @@ certificates
 
 CLAUDE.md
 .claude
+
+src/data/*.filter

@@ -152,9 +152,21 @@ const parseCondition = (line: string): FilterCondition | null => {
   }
 
   if (trimmedLine.startsWith("Rarity")) {
+    // Handle both "Rarity == Rare" and "Rarity Normal Magic Rare" formats
     const matches = trimmedLine.match(/^Rarity\s+([<>]=?|==?|=)?\s*(.+)$/);
     if (matches) {
       const [_, operator, value] = matches;
+      
+      // If no operator, treat as multiple values (e.g., "Rarity Normal Magic")
+      if (!operator && value.includes(' ') && !value.includes('"')) {
+        const rarities = value.trim().split(/\s+/);
+        return {
+          type: "Rarity",
+          operator: "==" as FilterOperator,
+          value: rarities,
+        };
+      }
+      
       return {
         type: "Rarity",
         operator: (operator || "==") as FilterOperator,
@@ -194,6 +206,8 @@ const compareStringValues = (
   operator: FilterOperator = "==",
   type: "BaseType" | "Class" | "Rarity" = "BaseType"
 ): boolean => {
+  console.log(`    Comparing "${actual}" with ${JSON.stringify(expected)} (operator: ${operator}, type: ${type})`);
+  
   if (type === "Class") {
     if (actual === "Stackable Currency") {
       if (Array.isArray(expected)) {
@@ -217,11 +231,15 @@ const compareStringValues = (
 
     // For exact equality operators, do exact matching
     if (operator === "==" || operator === "=") {
-      return actualStr === expectedStr;
+      const result = actualStr === expectedStr;
+      console.log(`      "${actualStr}" == "${expectedStr}" = ${result}`);
+      return result;
     }
 
     // For other operators or default behavior, do exact matching for BaseType/Class/Rarity
-    return actualStr === expectedStr;
+    const result = actualStr === expectedStr;
+    console.log(`      "${actualStr}" matches "${expectedStr}" = ${result}`);
+    return result;
   };
 
   if (Array.isArray(expected)) {
@@ -351,12 +369,15 @@ const getItemStyle = (
   for (const block of blocks) {
     const lines = block
       .split("\n")
-      .map((line) => line.trim())
+      .map((line) => line.replace(/^\t+/, '').trim()) // Remove leading tabs and trim
       .filter(Boolean);
     if (lines.length === 0) continue;
 
-    const blockType = lines[0] as FilterBlockType;
-    if (blockType !== "Show" && blockType !== "Hide") continue;
+    // Extract block type from first line, ignoring comments
+    const firstLine = lines[0];
+    const blockTypeMatch = firstLine.match(/^(Show|Hide)/);
+    if (!blockTypeMatch) continue;
+    const blockType = blockTypeMatch[1] as FilterBlockType;
 
     const conditions: FilterCondition[] = [];
     const blockStyle: FilterStyle = { ...DEFAULT_STYLE };

@@ -274,36 +274,27 @@ export default function SimulatorPage() {
         console.log('=== FILTER EVALUATION ===');
         console.log('Filter Context:', JSON.stringify(filterContext, null, 2));
         
-        // Test with a complex hierarchy example to demonstrate proper evaluation
-        const complexTestFilter = `Show
-Class == "Gloves"
-Rarity == "Unique"
-SetTextColor 255 215 0
-SetBackgroundColor 139 69 19 200
+        // Test with the actual filter format from the example file
+        const realFormatTest = `Show # %D6 $type->gold $tier->stack3
+	StackSize >= 5000
+	BaseType == "Gold"
+	SetFontSize 28
+	SetTextColor 255 255 255 255
 
-Show
-Class == "Gloves"
-Rarity == "Magic"
-SetTextColor 136 136 255
-SetBorderColor 136 136 255
+Show # $type->questlikeexception $tier->questitems
+	Class == "Quest Items"
+	SetFontSize 30
+	SetTextColor 74 230 58 255
 
-Show
-Class == "Stackable Currency"
-BaseType == "Divine Orb"
-SetTextColor 255 0 0
-SetFontSize 45
-
-Show
-Class == "Stackable Currency"
-BaseType == "Scroll of Wisdom"
-SetTextColor 100 100 100
-
-Hide
-Class == "Stackable Currency"`;
+Show # %D4 $type->exoticbases $tier->commonexoticbases
+	Rarity Normal Magic
+	BaseType == "Breach Ring"
+	SetFontSize 28
+	SetTextColor 0 70 255 255`;
         
-        console.log('\n=== TESTING COMPLEX HIERARCHY ===');
-        const testResult = getItemStyle(complexTestFilter, filterContext);
-        console.log('Complex filter test result:', JSON.stringify(testResult, null, 2));
+        console.log('\n=== TESTING REAL FILTER FORMAT ===');
+        const testResult = getItemStyle(realFormatTest, filterContext);
+        console.log('Real format test result:', JSON.stringify(testResult, null, 2));
         
         const filterResult = getItemStyle(selectedFilterContent, filterContext);
         console.log('\nUser Filter Result:', JSON.stringify(filterResult, null, 2));
