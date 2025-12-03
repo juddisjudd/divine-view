@@ -102,14 +102,25 @@ export default function SimulatorPage() {
         if (response.ok) {
           const data = await response.json();
           setUserFilters(data.filters || []);
+        } else {
+          toast({
+            title: "Failed to Load Filters",
+            description: "Could not retrieve your PoE filters. Some features may be limited.",
+            variant: "destructive",
+          });
         }
       } catch (error) {
         console.error('Failed to load filters:', error);
+        toast({
+          title: "Network Error",
+          description: "Unable to connect to the server. Please check your connection.",
+          variant: "destructive",
+        });
       }
     };
 
     loadUserFilters();
-  }, [session?.user?.accessToken]);
+  }, [session?.user?.accessToken, toast]);
 
   // Handle Z key for showing hidden items (like PoE)
   useEffect(() => {

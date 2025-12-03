@@ -10,7 +10,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
+import { parseApiError, requiresReAuth } from "@/utils/api-error-handler";
 
 interface FileImportProps {
   onImport: (content: string) => void;
@@ -182,7 +183,28 @@ export const FileImport: React.FC<FileImportProps> = ({
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const apiError = await parseApiError(response);
+
+        if (requiresReAuth(apiError)) {
+          toast({
+            title: "Session Expired",
+            description: "Your session has expired. Please sign in again.",
+            variant: "destructive",
+            action: (
+              <Button onClick={() => signIn("poe")} size="sm" variant="outline">
+                Sign In
+              </Button>
+            ),
+          });
+          return;
+        }
+
+        toast({
+          title: "Sync Failed",
+          description: apiError.userMessage,
+          variant: "destructive",
+        });
+        return;
       }
 
       setShowExportDialog(false);
@@ -194,9 +216,11 @@ export const FileImport: React.FC<FileImportProps> = ({
       });
     } catch (error) {
       console.error("Error syncing to PoE:", error);
+      const apiError = await parseApiError(undefined, error);
+
       toast({
         title: "Sync failed",
-        description: "Failed to sync filter to PoE. Please try again.",
+        description: apiError.userMessage,
         variant: "destructive",
       });
     }
@@ -238,7 +262,28 @@ export const FileImport: React.FC<FileImportProps> = ({
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const apiError = await parseApiError(response);
+
+        if (requiresReAuth(apiError)) {
+          toast({
+            title: "Session Expired",
+            description: "Your session has expired. Please sign in again.",
+            variant: "destructive",
+            action: (
+              <Button onClick={() => signIn("poe")} size="sm" variant="outline">
+                Sign In
+              </Button>
+            ),
+          });
+          return;
+        }
+
+        toast({
+          title: "Update Failed",
+          description: apiError.userMessage,
+          variant: "destructive",
+        });
+        return;
       }
 
       setShowExportDialog(false);
@@ -249,9 +294,11 @@ export const FileImport: React.FC<FileImportProps> = ({
       });
     } catch (error) {
       console.error("Error updating PoE filter:", error);
+      const apiError = await parseApiError(undefined, error);
+
       toast({
         title: "Update failed",
-        description: "Failed to update filter in PoE. Please try again.",
+        description: apiError.userMessage,
         variant: "destructive",
       });
     }

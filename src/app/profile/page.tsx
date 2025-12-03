@@ -14,6 +14,8 @@ import { type PoEFilter } from "@/lib/poe-api";
 import { Download, Eye, EyeOff, Upload, RefreshCw, Edit } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { ReAuthDialog } from "@/components/auth/ReAuthDialog";
+import { parseApiError, requiresReAuth } from "@/utils/api-error-handler";
 
 function ProfileSkeleton() {
   return (
@@ -168,6 +170,7 @@ export default function ProfilePage() {
   const [filters, setFilters] = useState<PoEFilter[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [showReAuthDialog, setShowReAuthDialog] = useState(false);
 
   // Memoize filter stats to avoid recalculating on every render
   const filterStats = useMemo(() => ({
@@ -178,19 +181,37 @@ export default function ProfilePage() {
 
   const loadFilters = useCallback(async () => {
     if (!session?.user?.accessToken) return;
-    
+
     try {
       const response = await fetch('/api/poe/item-filter');
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const apiError = await parseApiError(response);
+
+        // Show re-auth dialog for authentication errors
+        if (requiresReAuth(apiError)) {
+          setShowReAuthDialog(true);
+          return;
+        }
+
+        // Show appropriate error message
+        toast({
+          title: "Error",
+          description: apiError.userMessage,
+          variant: "destructive",
+        });
+        return;
       }
+
       const data = await response.json();
       setFilters(data.filters);
     } catch (error) {
       console.error('Failed to load filters:', error);
+      const apiError = await parseApiError(undefined, error);
+
       toast({
         title: "Error",
-        description: "Failed to load your Path of Exile filters",
+        description: apiError.userMessage,
         variant: "destructive",
       });
     } finally {
@@ -297,6 +318,10 @@ export default function ProfilePage() {
 
   return (
     <DefaultLayout>
+      <ReAuthDialog
+        open={showReAuthDialog}
+        onOpenChange={setShowReAuthDialog}
+      />
       <div className="container mx-auto py-6 px-4">
         <div className="space-y-6">
           {/* Profile Header */}
