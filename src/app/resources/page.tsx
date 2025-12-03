@@ -39,9 +39,9 @@ const FILTER_RESOURCES = [
 
 const MISC_TOOLS = [
   {
-    title: "POE2 Quest Tracker",
+    title: "Exile Compass",
     description: "A desktop overlay application for tracking quests and rewards in Path of Exile 2.",
-    url: "https://github.com/juddisjudd/poe2-quest-tracker",
+    url: "https://exilecompass.com",
   },
   {
     title: "Sidekick",
