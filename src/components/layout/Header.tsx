@@ -158,7 +158,7 @@ export default function Header() {
         {isMobile && (
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="text-zinc-400 hover:text-white p-2 focus:outline-none z-50"
+            className="text-zinc-400 hover:text-white p-2 focus:outline-hidden z-50"
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           >
             {isMobileMenuOpen ? (

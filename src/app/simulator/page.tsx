@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSession } from "next-auth/react";
 import { DefaultLayout } from "@/components/layout/DefaultLayout";
 import { Card } from "@/components/ui/card";
@@ -96,7 +96,7 @@ export default function SimulatorPage() {
   useEffect(() => {
     const loadUserFilters = async () => {
       if (!session?.user?.accessToken) return;
-      
+
       try {
         const response = await fetch('/api/poe/item-filter');
         if (response.ok) {
@@ -109,7 +109,7 @@ export default function SimulatorPage() {
     };
 
     loadUserFilters();
-  }, [session]);
+  }, [session?.user?.accessToken]);
 
   // Handle Z key for showing hidden items (like PoE)
   useEffect(() => {

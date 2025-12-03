@@ -40,14 +40,14 @@ export const FileImport: React.FC<FileImportProps> = ({
 
   // Update export filename when imported filter name changes
   React.useEffect(() => {
-    if (importedFilterName && importedFilterName !== exportFilename) {
+    if (importedFilterName) {
       setExportFilename(importedFilterName);
       // If we have an imported filter ID, default to update mode
       if (importedFilterId) {
         setExportMode('update');
       }
     }
-  }, [importedFilterName, importedFilterId, exportFilename]);
+  }, [importedFilterName, importedFilterId]);
 
   const handleFileImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {

@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import "@/types/auth"; // Import extended session types
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { DefaultLayout } from "@/components/layout/DefaultLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -169,6 +169,13 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
+  // Memoize filter stats to avoid recalculating on every render
+  const filterStats = useMemo(() => ({
+    total: filters.length,
+    public: filters.filter(f => f.public).length,
+    ruthless: filters.filter(f => f.type === 'Ruthless').length,
+  }), [filters]);
+
   const loadFilters = useCallback(async () => {
     if (!session?.user?.accessToken) return;
     
@@ -198,7 +205,8 @@ export default function ProfilePage() {
     } else if (status !== "loading") {
       setLoading(false);
     }
-  }, [session, status, loadFilters]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session?.user?.accessToken, status]);
 
   const handleRefresh = async () => {
     setRefreshing(true);
@@ -324,14 +332,14 @@ export default function ProfilePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Card className="p-4 bg-[#1a1a1a] border-[#2a2a2a]">
               <div className="text-center">
-                <div className="text-2xl font-bold text-white">{filters.length}</div>
+                <div className="text-2xl font-bold text-white">{filterStats.total}</div>
                 <div className="text-sm text-zinc-400">Total Filters</div>
               </div>
             </Card>
             <Card className="p-4 bg-[#1a1a1a] border-[#2a2a2a]">
               <div className="text-center">
                 <div className="text-2xl font-bold text-white">
-                  {filters.filter(f => f.public).length}
+                  {filterStats.public}
                 </div>
                 <div className="text-sm text-zinc-400">Public Filters</div>
               </div>
@@ -339,7 +347,7 @@ export default function ProfilePage() {
             <Card className="p-4 bg-[#1a1a1a] border-[#2a2a2a]">
               <div className="text-center">
                 <div className="text-2xl font-bold text-white">
-                  {filters.filter(f => f.type === 'Ruthless').length}
+                  {filterStats.ruthless}
                 </div>
                 <div className="text-sm text-zinc-400">Ruthless Filters</div>
               </div>

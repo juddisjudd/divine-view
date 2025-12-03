@@ -22,7 +22,7 @@ export const ValidationPanel: React.FC<ValidationPanelProps> = ({
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-[#1a1a1a] border-t border-[#2a2a2a] shadow-lg z-50">
-      <div className="max-w-screen-2xl mx-auto">
+      <div className="max-w-(--breakpoint-2xl) mx-auto">
         <div className="p-4">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">

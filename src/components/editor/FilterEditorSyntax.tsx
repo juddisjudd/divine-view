@@ -37,6 +37,7 @@ export const FilterEditorSyntax: React.FC<FilterEditorSyntaxProps> = ({
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const decorationsRef = useRef<string[]>([]);
   const monacoRef = useRef<Monaco | null>(null);
+  const colorStylesRef = useRef<HTMLStyleElement | null>(null);
 
   const handleEditorChange = (value: string | undefined) => {
     if (value !== undefined) {
@@ -52,6 +53,7 @@ export const FilterEditorSyntax: React.FC<FilterEditorSyntaxProps> = ({
 
     const text = model.getValue();
     const decorations: editor.IModelDeltaDecoration[] = [];
+    const colorStyles: string[] = [];
 
     // Match RGB/RGBA color values
     const colorRegex =
@@ -70,14 +72,12 @@ export const FilterEditorSyntax: React.FC<FilterEditorSyntaxProps> = ({
       // Create a unique class name for this color
       const className = `color-preview-${match.index}`;
 
-      // Add a style tag for this specific color
-      const styleTag = document.createElement("style");
-      styleTag.textContent = `
+      // Collect styles instead of creating individual style tags
+      colorStyles.push(`
         .${className}::after {
           background-color: ${rgb};
         }
-      `;
-      document.head.appendChild(styleTag);
+      `);
 
       decorations.push({
         range: new monacoRef.current.Range(
@@ -95,6 +95,14 @@ export const FilterEditorSyntax: React.FC<FilterEditorSyntaxProps> = ({
       });
     }
 
+    // Update or create a single style tag for all color previews
+    if (!colorStylesRef.current) {
+      colorStylesRef.current = document.createElement("style");
+      colorStylesRef.current.id = "poe-filter-color-styles";
+      document.head.appendChild(colorStylesRef.current);
+    }
+    colorStylesRef.current.textContent = colorStyles.join("\n");
+
     // Update decorations
     decorationsRef.current = editorRef.current.deltaDecorations(
       decorationsRef.current,
@@ -109,21 +117,24 @@ export const FilterEditorSyntax: React.FC<FilterEditorSyntaxProps> = ({
     editorRef.current = editor;
     monacoRef.current = monaco;
 
-    // Add base CSS for color previews
-    const style = document.createElement("style");
-    style.textContent = `
-      .color-preview::after {
-        content: '';
-        display: inline-block;
-        width: 12px;
-        height: 12px;
-        margin-left: 4px;
-        vertical-align: middle;
-        border: 1px solid #ffffff40;
-        border-radius: 2px;
-      }
-    `;
-    document.head.appendChild(style);
+    // Add base CSS for color previews (only once)
+    if (!document.getElementById("poe-filter-base-styles")) {
+      const style = document.createElement("style");
+      style.id = "poe-filter-base-styles";
+      style.textContent = `
+        .color-preview::after {
+          content: '';
+          display: inline-block;
+          width: 12px;
+          height: 12px;
+          margin-left: 4px;
+          vertical-align: middle;
+          border: 1px solid #ffffff40;
+          border-radius: 2px;
+        }
+      `;
+      document.head.appendChild(style);
+    }
 
     editor.onDidChangeModelContent(() => {
       updateDecorations();
