@@ -9,14 +9,9 @@ const nextConfig: NextConfig = {
   },
   env: {
     POE_CLIENT_ID: process.env.POE_CLIENT_ID,
+    POE_CLIENT_SECRET: process.env.POE_CLIENT_SECRET,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL || process.env.AUTH_URL,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET,
-  },
-  serverRuntimeConfig: {
-    POE_CLIENT_ID: process.env.POE_CLIENT_ID,
-    POE_CLIENT_SECRET: process.env.POE_CLIENT_SECRET,
-  },
-  publicRuntimeConfig: {
   },
   images: {
     deviceSizes: [320, 640, 750, 828, 1080, 1200, 1920, 2048],

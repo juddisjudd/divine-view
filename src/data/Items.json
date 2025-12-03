@@ -1,0 +1,4646 @@
+{
+  "Bows": [
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Crude Bow"
+      ],
+      "Sockets": "",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Warden Bow"
+      ],
+      "Sockets": "",
+      "DropLevel": 11
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Recurve Bow"
+      ],
+      "Sockets": "",
+      "DropLevel": 16
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Composite Bow"
+      ],
+      "Sockets": "",
+      "DropLevel": 22
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Dualstring Bow"
+      ],
+      "Sockets": "",
+      "DropLevel": 28
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Cultist Bow"
+      ],
+      "Sockets": "",
+      "DropLevel": 33
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Zealot Bow"
+      ],
+      "Sockets": "",
+      "DropLevel": 39
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Artillery Bow",
+        "Shortbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 45
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Warden Bow"
+      ],
+      "Sockets": "",
+      "DropLevel": 48
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Shortbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 5
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Tribal Bow"
+      ],
+      "Sockets": "",
+      "DropLevel": 50
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Composite Bow"
+      ],
+      "Sockets": "",
+      "DropLevel": 51
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Greatbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 52
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Dualstring Bow"
+      ],
+      "Sockets": "",
+      "DropLevel": 55
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Double Limb Bow"
+      ],
+      "Sockets": "",
+      "DropLevel": 56
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Cultist Bow"
+      ],
+      "Sockets": "",
+      "DropLevel": 59
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Zealot Bow"
+      ],
+      "Sockets": "",
+      "DropLevel": 62
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Heavy Bow"
+      ],
+      "Sockets": "",
+      "DropLevel": 65
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Shortbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 67
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Composite Bow"
+      ],
+      "Sockets": "",
+      "DropLevel": 72
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Warden Bow",
+        "Zealot Bow"
+      ],
+      "Sockets": "",
+      "DropLevel": 77
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Dualstring Bow"
+      ],
+      "Sockets": "",
+      "DropLevel": 78
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Cultist Bow"
+      ],
+      "Sockets": "",
+      "DropLevel": 79
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Obliterator Bow"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    }
+  ],
+  "Map Fragments": [
+    {
+      "Rarity": "FALSE",
+      "BaseTypes": [
+        "Simulacrum",
+        "Breachstone",
+        "An Audience with the King",
+        "Cowardly Fate",
+        "Deadly Fate",
+        "Victorious Fate",
+        "Idol of Estazunti",
+        "Kulemak's Invitation"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 1
+    }
+  ],
+  "Rings": [
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Iron Ring",
+        "Lazuli Ring"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "U",
+      "BaseTypes": [
+        "Ring"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Sapphire Ring"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 12
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Topaz Ring"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 16
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Amethyst Ring"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 20
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Emerald Ring"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 26
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Pearl Ring"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 32
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Prismatic Ring"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 35
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Breach Ring"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 40
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Gold Ring"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 40
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Unset Ring"
+      ],
+      "Sockets": "",
+      "DropLevel": 44
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Ruby Ring"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 8
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Abyssal Signet"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    }
+  ],
+  "Tablet": [
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Breach Precursor Tablet",
+        "Expedition Precursor Tablet",
+        "Delirium Precursor Tablet",
+        "Overseer Precursor Tablet",
+        "Ritual Precursor Tablet",
+        "Precursor Tablet"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 1
+    }
+  ],
+  "Vault Keys": [
+    {
+      "Rarity": "FALSE",
+      "BaseTypes": [
+        "Voidborn Reliquary Key"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 1
+    }
+  ],
+  "Gloves": [
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Stocky Mitts"
+      ],
+      "Sockets": "",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Suede Bracers",
+        "Torn Gloves"
+      ],
+      "Sockets": "",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Riveted Mitts",
+        "Firm Bracers"
+      ],
+      "Sockets": "",
+      "DropLevel": 11
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Sombre Gloves"
+      ],
+      "Sockets": "",
+      "DropLevel": 12
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Bound Bracers"
+      ],
+      "Sockets": "",
+      "DropLevel": 16
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Tempered Mitts",
+        "Stitched Gloves",
+        "Layered Gauntlets",
+        "Aged Cuffs",
+        "Linen Wraps"
+      ],
+      "Sockets": "",
+      "DropLevel": 16
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Jewelled Gloves"
+      ],
+      "Sockets": "",
+      "DropLevel": 26
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Bolstered Mitts"
+      ],
+      "Sockets": "",
+      "DropLevel": 27
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Sectioned Bracers"
+      ],
+      "Sockets": "",
+      "DropLevel": 28
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Spiral Wraps"
+      ],
+      "Sockets": "",
+      "DropLevel": 33
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Moulded Mitts",
+        "Spined Bracers",
+        "Intricate Gloves",
+        "Doubled Gauntlets",
+        "Goldcast Cuffs"
+      ],
+      "Sockets": "",
+      "DropLevel": 33
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Gauze Wraps"
+      ],
+      "Sockets": "",
+      "DropLevel": 4
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Detailed Mitts",
+        "Pauascale Gloves",
+        "Plate Gauntlets",
+        "Diviner Cuffs",
+        "Buckled Wraps",
+        "Riveted Mitts",
+        "Firm Bracers",
+        "Sombre Gloves",
+        "Ringmail Gauntlets",
+        "Rope Cuffs",
+        "Gauze Wraps"
+      ],
+      "Sockets": "",
+      "DropLevel": 45
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Fine Bracers"
+      ],
+      "Sockets": "",
+      "DropLevel": 45
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Rope Cuffs"
+      ],
+      "Sockets": "",
+      "DropLevel": 5
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Tempered Mitts",
+        "Bound Bracers",
+        "Stitched Gloves",
+        "Layered Gauntlets",
+        "Aged Cuffs",
+        "Linen Wraps"
+      ],
+      "Sockets": "",
+      "DropLevel": 51
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Titan Mitts",
+        "Hardened Bracers",
+        "Embroidered Gloves",
+        "Righteous Cuffs"
+      ],
+      "Sockets": "",
+      "DropLevel": 52
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Burnished Gauntlets",
+        "Furtive Wraps"
+      ],
+      "Sockets": "",
+      "DropLevel": 52
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Bolstered Mitts",
+        "Sectioned Bracers",
+        "Jewelled Gloves"
+      ],
+      "Sockets": "",
+      "DropLevel": 55
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Moulded Mitts",
+        "Spined Bracers",
+        "Intricate Gloves",
+        "Doubled Gauntlets",
+        "Goldcast Cuffs",
+        "Spiral Wraps"
+      ],
+      "Sockets": "",
+      "DropLevel": 59
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Ringmail Gauntlets"
+      ],
+      "Sockets": "",
+      "DropLevel": 6
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Grand Mitts",
+        "Engraved Bracers",
+        "Adorned Gloves",
+        "Ornate Gauntlets",
+        "Signet Cuffs",
+        "Utility Wraps",
+        "Riveted Mitts",
+        "Firm Bracers",
+        "Sombre Gloves",
+        "Ringmail Gauntlets",
+        "Rope Cuffs",
+        "Gauze Wraps"
+      ],
+      "Sockets": "",
+      "DropLevel": 65
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Grand Manchettes"
+      ],
+      "Sockets": "",
+      "DropLevel": 65
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Bolstered Mitts",
+        "Sectioned Bracers",
+        "Jewelled Gloves",
+        "Layered Gauntlets",
+        "Aged Cuffs",
+        "Linen Wraps"
+      ],
+      "Sockets": "",
+      "DropLevel": 70
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Moulded Mitts",
+        "Spined Bracers",
+        "Intricate Gloves",
+        "Doubled Gauntlets",
+        "Goldcast Cuffs",
+        "Spiral Wraps"
+      ],
+      "Sockets": "",
+      "DropLevel": 75
+    }
+  ],
+  "Fishing Rods": [
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Fishing Rod"
+      ],
+      "Sockets": "",
+      "DropLevel": 99
+    }
+  ],
+  "Two Hand Maces": [
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Felled Greatclub"
+      ],
+      "Sockets": "",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Forge Maul"
+      ],
+      "Sockets": "",
+      "DropLevel": 11
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Studded Greatclub"
+      ],
+      "Sockets": "",
+      "DropLevel": 16
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Cultist Greathammer"
+      ],
+      "Sockets": "",
+      "DropLevel": 22
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Temple Maul"
+      ],
+      "Sockets": "",
+      "DropLevel": 28
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Leaden Greathammer"
+      ],
+      "Sockets": "",
+      "DropLevel": 33
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Crumbling Maul"
+      ],
+      "Sockets": "",
+      "DropLevel": 38
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Oak Greathammer"
+      ],
+      "Sockets": "",
+      "DropLevel": 4
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Pointed Maul",
+        "Oak Greathammer"
+      ],
+      "Sockets": "",
+      "DropLevel": 45
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Forge Maul"
+      ],
+      "Sockets": "",
+      "DropLevel": 48
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Totemic Greatclub"
+      ],
+      "Sockets": "",
+      "DropLevel": 50
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Cultist Greathammer"
+      ],
+      "Sockets": "",
+      "DropLevel": 51
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Greatmace"
+      ],
+      "Sockets": "",
+      "DropLevel": 52
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Precise Greathammer"
+      ],
+      "Sockets": "",
+      "DropLevel": 54
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Temple Maul"
+      ],
+      "Sockets": "",
+      "DropLevel": 55
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Leaden Greathammer"
+      ],
+      "Sockets": "",
+      "DropLevel": 59
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Crumbling Maul"
+      ],
+      "Sockets": "",
+      "DropLevel": 62
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Giant Maul"
+      ],
+      "Sockets": "",
+      "DropLevel": 65
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Forge Maul"
+      ],
+      "Sockets": "",
+      "DropLevel": 67
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Temple Maul"
+      ],
+      "Sockets": "",
+      "DropLevel": 72
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Oak Greathammer",
+        "Leaden Greathammer"
+      ],
+      "Sockets": "",
+      "DropLevel": 77
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Cultist Greathammer"
+      ],
+      "Sockets": "",
+      "DropLevel": 78
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Crumbling Maul"
+      ],
+      "Sockets": "",
+      "DropLevel": 79
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Tawhoan Greatclub"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    }
+  ],
+  "Jewels": [
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Time-Lost Ruby",
+        "Time-Lost Emerald",
+        "Time-Lost Sapphire"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 20
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Ruby",
+        "Emerald",
+        "Sapphire",
+        "Diamond",
+        "Time-Lost Diamond"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 20
+    },
+    {
+      "Rarity": "U",
+      "BaseTypes": [
+        "Timeless Jewel"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 99
+    }
+  ],
+  "Amulets": [
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Crimson Amulet",
+        "Azure Amulet"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Lunar Amulet"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 14
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Bloodstone Amulet"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 18
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Stellar Amulet"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 25
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Solar Amulet"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 30
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Gold Amulet"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 35
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Amber Amulet",
+        "Jade Amulet",
+        "Lapis Amulet"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 8
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Pearlescent Amulet"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    }
+  ],
+  "Body Armours": [
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Rusted Cuirass",
+        "Leather Vest",
+        "Tattered Robe",
+        "Chain Mail",
+        "Pilgrim Vestments",
+        "Hermit Garb",
+        "Garment"
+      ],
+      "Sockets": "",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Pelt Mantle"
+      ],
+      "Sockets": "",
+      "DropLevel": 10
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Iron Cuirass",
+        "Pathfinder Coat",
+        "Hexer's Robe",
+        "Rogue Armour",
+        "Waxed Jacket"
+      ],
+      "Sockets": "",
+      "DropLevel": 11
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Shrouded Vest"
+      ],
+      "Sockets": "",
+      "DropLevel": 16
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Raider Plate",
+        "Bone Raiment",
+        "Vagabond Armour",
+        "Mail Vestments",
+        "Marabout Garb"
+      ],
+      "Sockets": "",
+      "DropLevel": 16
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Maraketh Cuirass"
+      ],
+      "Sockets": "",
+      "DropLevel": 20
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Rhoahide Coat",
+        "Silk Robe"
+      ],
+      "Sockets": "",
+      "DropLevel": 22
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Studded Vest",
+        "Cloaked Mail"
+      ],
+      "Sockets": "",
+      "DropLevel": 26
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Steel Plate"
+      ],
+      "Sockets": "",
+      "DropLevel": 27
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Keth Raiment",
+        "Shaman Mantle",
+        "Wayfarer Jacket"
+      ],
+      "Sockets": "",
+      "DropLevel": 28
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Full Plate",
+        "Scout's Vest",
+        "Votive Raiment",
+        "Explorer Armour",
+        "Ironclad Vestments",
+        "Anchorite Garb"
+      ],
+      "Sockets": "",
+      "DropLevel": 33
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Sacrificial Mantle"
+      ],
+      "Sockets": "",
+      "DropLevel": 36
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Serpentscale Coat"
+      ],
+      "Sockets": "",
+      "DropLevel": 36
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Vaal Cuirass",
+        "Scale Mail"
+      ],
+      "Sockets": "",
+      "DropLevel": 37
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Scalper's Jacket"
+      ],
+      "Sockets": "",
+      "DropLevel": 39
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Fur Plate",
+        "Quilted Vest"
+      ],
+      "Sockets": "",
+      "DropLevel": 4
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Altar Robe"
+      ],
+      "Sockets": "",
+      "DropLevel": 40
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Juggernaut Plate",
+        "Corsair Vest",
+        "Elementalist Robe",
+        "Cleric Vestments",
+        "Scoundrel Jacket",
+        "Fur Plate",
+        "Quilted Vest",
+        "Feathered Robe",
+        "Chain Mail",
+        "Pilgrim Vestments",
+        "Hermit Garb"
+      ],
+      "Sockets": "",
+      "DropLevel": 45
+    },
+    {
+      "Rarity": "U",
+      "BaseTypes": [
+        "Knight Armour"
+      ],
+      "Sockets": "",
+      "DropLevel": 45
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Mystic Raiment"
+      ],
+      "Sockets": "",
+      "DropLevel": 47
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Iron Cuirass",
+        "Pathfinder Coat",
+        "Hexer's Robe",
+        "Rogue Armour",
+        "Pelt Mantle",
+        "Waxed Jacket"
+      ],
+      "Sockets": "",
+      "DropLevel": 48
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Smuggler Coat"
+      ],
+      "Sockets": "",
+      "DropLevel": 48
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Feathered Robe"
+      ],
+      "Sockets": "",
+      "DropLevel": 5
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Chieftain Cuirass",
+        "Ancestral Mail"
+      ],
+      "Sockets": "",
+      "DropLevel": 50
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Tideseer Mantle",
+        "Ascetic Garb",
+        "Maraketh Cuirass",
+        "Rhoahide Coat",
+        "Silk Robe",
+        "Vagabond Armour",
+        "Mail Vestments",
+        "Marabout Garb"
+      ],
+      "Sockets": "",
+      "DropLevel": 51
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Colosseum Plate",
+        "Strider Vest",
+        "Imperial Robe",
+        "Lamellar Mail",
+        "Clandestine Jacket"
+      ],
+      "Sockets": "",
+      "DropLevel": 52
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Gilded Vestments"
+      ],
+      "Sockets": "",
+      "DropLevel": 52
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Venerated Mantle"
+      ],
+      "Sockets": "",
+      "DropLevel": 54
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Steel Plate",
+        "Studded Vest",
+        "Keth Raiment",
+        "Cloaked Mail",
+        "Shaman Mantle",
+        "Wayfarer Jacket"
+      ],
+      "Sockets": "",
+      "DropLevel": 55
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Hardleather Coat",
+        "Monastic Garb"
+      ],
+      "Sockets": "",
+      "DropLevel": 56
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Plated Raiment",
+        "Gladiator Armour"
+      ],
+      "Sockets": "",
+      "DropLevel": 58
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Champion Cuirass"
+      ],
+      "Sockets": "",
+      "DropLevel": 58
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Full Plate",
+        "Scout's Vest",
+        "Votive Raiment",
+        "Explorer Armour",
+        "Ironclad Vestments",
+        "Anchorite Garb"
+      ],
+      "Sockets": "",
+      "DropLevel": 59
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Vaal Cuirass",
+        "Serpentscale Coat",
+        "Altar Robe",
+        "Scale Mail",
+        "Sacrificial Mantle",
+        "Scalper's Jacket"
+      ],
+      "Sockets": "",
+      "DropLevel": 62
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Glorious Plate",
+        "Exquisite Vest",
+        "Havoc Raiment",
+        "Heroic Armour",
+        "Revered Vestments",
+        "Torment Jacket",
+        "Iron Cuirass",
+        "Pathfinder Coat",
+        "Hexer's Robe",
+        "Rogue Armour",
+        "Pelt Mantle",
+        "Waxed Jacket"
+      ],
+      "Sockets": "",
+      "DropLevel": 65
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Grand Regalia"
+      ],
+      "Sockets": "",
+      "DropLevel": 65
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Mail Coat",
+        "Enlightened Robe",
+        "Tournament Mail",
+        "Corvus Mantle",
+        "Devout Garb"
+      ],
+      "Sockets": "",
+      "DropLevel": 68
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Conqueror Plate"
+      ],
+      "Sockets": "",
+      "DropLevel": 68
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Steel Plate",
+        "Studded Vest",
+        "Keth Raiment",
+        "Cloaked Mail",
+        "Shaman Mantle",
+        "Wayfarer Jacket"
+      ],
+      "Sockets": "",
+      "DropLevel": 70
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Abyssal Cuirass",
+        "Armoured Vest",
+        "Arcane Raiment",
+        "Slayer Armour",
+        "Zenith Vestments",
+        "Assassin Garb"
+      ],
+      "Sockets": "",
+      "DropLevel": 73
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Vaal Cuirass",
+        "Serpentscale Coat",
+        "Altar Robe",
+        "Scale Mail",
+        "Sacrificial Mantle",
+        "Scalper's Jacket"
+      ],
+      "Sockets": "",
+      "DropLevel": 75
+    }
+  ],
+  "Boots": [
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Rawhide Boots"
+      ],
+      "Sockets": "",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Rough Greaves",
+        "Straw Sandals"
+      ],
+      "Sockets": "",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Iron Greaves",
+        "Laced Boots",
+        "Wrapped Sandals"
+      ],
+      "Sockets": "",
+      "DropLevel": 11
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Bronze Greaves",
+        "Embossed Boots",
+        "Lattice Sandals",
+        "Braced Sabatons",
+        "Secured Leggings",
+        "Threaded Shoes"
+      ],
+      "Sockets": "",
+      "DropLevel": 16
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Trimmed Greaves",
+        "Silk Slippers"
+      ],
+      "Sockets": "",
+      "DropLevel": 27
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Steeltoe Boots"
+      ],
+      "Sockets": "",
+      "DropLevel": 28
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Pelt Leggings"
+      ],
+      "Sockets": "",
+      "DropLevel": 33
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Stone Greaves",
+        "Lizardscale Boots",
+        "Feathered Sandals",
+        "Stacked Sabatons",
+        "Hunting Shoes"
+      ],
+      "Sockets": "",
+      "DropLevel": 33
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Reefsteel Greaves",
+        "Flared Boots",
+        "Flax Sandals",
+        "Covered Sabatons",
+        "Weaver Leggings",
+        "Steelpoint Shoes",
+        "Iron Greaves",
+        "Laced Boots",
+        "Wrapped Sandals",
+        "Mail Sabatons",
+        "Padded Leggings",
+        "Frayed Shoes"
+      ],
+      "Sockets": "",
+      "DropLevel": 45
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Padded Leggings",
+        "Frayed Shoes"
+      ],
+      "Sockets": "",
+      "DropLevel": 5
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Bronze Greaves",
+        "Embossed Boots",
+        "Lattice Sandals",
+        "Braced Sabatons",
+        "Secured Leggings",
+        "Threaded Shoes"
+      ],
+      "Sockets": "",
+      "DropLevel": 51
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Monument Greaves",
+        "Leatherplate Boots",
+        "Studded Sandals",
+        "Flexile Sabatons",
+        "Gilt Leggings"
+      ],
+      "Sockets": "",
+      "DropLevel": 52
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Velour Shoes"
+      ],
+      "Sockets": "",
+      "DropLevel": 52
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Trimmed Greaves",
+        "Steeltoe Boots",
+        "Silk Slippers"
+      ],
+      "Sockets": "",
+      "DropLevel": 55
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Stone Greaves",
+        "Lizardscale Boots",
+        "Feathered Sandals",
+        "Stacked Sabatons",
+        "Pelt Leggings",
+        "Hunting Shoes"
+      ],
+      "Sockets": "",
+      "DropLevel": 59
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Mail Sabatons"
+      ],
+      "Sockets": "",
+      "DropLevel": 6
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Totemic Greaves",
+        "Embroidered Boots",
+        "Elaborate Sandals",
+        "Bold Sabatons",
+        "Pious Leggings",
+        "Bladed Shoes",
+        "Iron Greaves",
+        "Laced Boots",
+        "Wrapped Sandals",
+        "Mail Sabatons",
+        "Padded Leggings",
+        "Frayed Shoes"
+      ],
+      "Sockets": "",
+      "DropLevel": 65
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Grand Cuisses"
+      ],
+      "Sockets": "",
+      "DropLevel": 65
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Trimmed Greaves",
+        "Steeltoe Boots",
+        "Silk Slippers",
+        "Braced Sabatons",
+        "Secured Leggings",
+        "Threaded Shoes"
+      ],
+      "Sockets": "",
+      "DropLevel": 70
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Stone Greaves",
+        "Lizardscale Boots",
+        "Feathered Sandals",
+        "Stacked Sabatons",
+        "Pelt Leggings",
+        "Hunting Shoes"
+      ],
+      "Sockets": "",
+      "DropLevel": 75
+    }
+  ],
+  "Support Gems": [
+    {
+      "Rarity": "FALSE",
+      "BaseTypes": [
+        "Chain I",
+        "Defy II",
+        "Close Combat II",
+        "Ignite II",
+        "Ignite III",
+        "Bleed II",
+        "Bleed III",
+        "Bleed IV",
+        "Stun II",
+        "Stun III",
+        "Prolonged Duration II",
+        "Compressed Duration II",
+        "Rage II",
+        "Rage III",
+        "Execute II",
+        "Execute III",
+        "Searing Flame II",
+        "Behead II",
+        "Jagged Ground II",
+        "Fire Penetration II",
+        "Enraged Warcry II",
+        "Fist of War II",
+        "Fist of War III",
+        "Life Leech II",
+        "Life Leech III",
+        "Brutality II",
+        "Brutality III",
+        "Meat Shield II",
+        "Eternal Flame II",
+        "Eternal Flame III",
+        "Infernal Legion II",
+        "Infernal Legion III",
+        "Efficiency II",
+        "Armour Demolisher II",
+        "Rageforged II",
+        "Corrupting Cry II",
+        "Deep Cuts II",
+        "Armour Break II",
+        "Armour Break III",
+        "Elemental Armament II",
+        "Elemental Armament III",
+        "Vitality II",
+        "Herbalism II",
+        "Cannibalism II",
+        "Aftershock II",
+        "Pierce II",
+        "Pierce III",
+        "Multishot II",
+        "Nova Projectiles",
+        "Poison II",
+        "Poison III",
+        "Blind II",
+        "Projectile Acceleration II",
+        "Projectile Acceleration III",
+        "Projectile Deceleration II",
+        "Overabundance II",
+        "Overabundance III",
+        "Pin II",
+        "Pin III",
+        "Chain II",
+        "Chain III",
+        "Second Wind II",
+        "Second Wind III",
+        "Bounty I",
+        "Bounty II",
+        "Rapid Attacks II",
+        "Rapid Attacks III",
+        "Heightened Accuracy II",
+        "Charge Profusion II",
+        "Crescendo II",
+        "Crescendo III",
+        "Deadly Poison II",
+        "Window of Opportunity II",
+        "Swift Affliction II",
+        "Swift Affliction III",
+        "Combo Finisher II",
+        "Longshot II",
+        "Culling Strike II",
+        "Cooldown Recovery II",
+        "Precision II",
+        "Magnified Area II",
+        "Fortress II",
+        "Feeding Frenzy II",
+        "Rapid Casting II",
+        "Rapid Casting III",
+        "Minion Pact II",
+        "Clarity II",
+        "Double Barrel II",
+        "Double Barrel III",
+        "Ammo Conservation II",
+        "Ammo Conservation III",
+        "Fresh Clip II",
+        "Sacrificial Lamb II",
+        "Branching Fissures I",
+        "Branching Fissures II",
+        "Upheaval II",
+        "Ricochet II",
+        "Ricochet III",
+        "Urgent Totems II",
+        "Urgent Totems III",
+        "Long Fuse II",
+        "Reinforced Totems II",
+        "Wildshards II",
+        "Culmination II",
+        "Boundless Energy II",
+        "Harmonic Remnants II",
+        "Zenith II",
+        "Bidding II",
+        "Bidding III",
+        "Adhesive Grenades II",
+        "Retaliate II",
+        "Alignment II",
+        "Alignment III",
+        "Charged Shots II",
+        "Profanity II",
+        "Burgeon II",
+        "Steadfast II",
+        "Concoct II",
+        "Persistent Ground II",
+        "Persistent Ground III",
+        "Remnant Potency II",
+        "Remnant Potency III",
+        "Retreat II",
+        "Retreat III",
+        "Pursuit II",
+        "Pursuit III",
+        "Ancestral Call II",
+        "Barbs II",
+        "Barbs III",
+        "Thornskin II",
+        "Mysticism II",
+        "Direstrike II",
+        "Upwelling II",
+        "Refraction II",
+        "Refraction III",
+        "Greatwood II",
+        "Brink II",
+        "Short Fuse II",
+        "Admixture",
+        "Stoicism I",
+        "Stoicism II",
+        "Hardy Totems I",
+        "Hardy Totems II",
+        "Living Lightning",
+        "Living Lightning II",
+        "Frozen Spite",
+        "Streamlined Rounds",
+        "Perfected Endurance",
+        "Enduring Impact I",
+        "Enduring Impact II",
+        "Crater",
+        "Vanguard I",
+        "Vanguard II",
+        "Crystalline Shards",
+        "Skittering Stone I",
+        "Skittering Stone II",
+        "Durability",
+        "Atalui's Bloodletting",
+        "Einhar's Beastrite",
+        "Vilenta's Propulsion",
+        "Ahn's Citadel",
+        "Brutus' Brain",
+        "Tecrod's Revenge",
+        "Uruk's Smelting",
+        "Paquate's Pact",
+        "Ailith's Chimes",
+        "Doedre's Undoing",
+        "Ratha's Assault",
+        "Arjun's Medal",
+        "Kaom's Madness",
+        "Sione's Temper",
+        "Ixchel's Torment",
+        "Romira's Requital",
+        "Tawhoa's Tending",
+        "Piety's Mercy",
+        "Dialla's Desire",
+        "Kalisa's Crescendo",
+        "Xoph's Pyre",
+        "Esh's Radiance",
+        "Tul's Stillness",
+        "Uul-Netol's Embrace",
+        "Rakiata's Flow",
+        "Rigwald's Ferocity",
+        "Uhtred's Exodus",
+        "Uhtred's Omen",
+        "Uhtred's Augury",
+        "Daresso's Passion",
+        "Atziri's Allure",
+        "Tacati's Ire",
+        "Zarokh's Refrain",
+        "Garukhan's Resolve",
+        "Kurgal's Leash",
+        "Kulemak's Dominion",
+        "Amanamu's Tithe",
+        "Varashta's Blessing",
+        "Arbiter's Ignition",
+        "Arakaali's Lust"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 1
+    }
+  ],
+  "Socketable": [
+    {
+      "Rarity": "FALSE",
+      "BaseTypes": [
+        "Body Rune",
+        "Desert Rune",
+        "Glacial Rune",
+        "Inspiration Rune",
+        "Iron Rune",
+        "Mind Rune",
+        "Rebirth Rune",
+        "Stone Rune",
+        "Storm Rune",
+        "Vision Rune",
+        "Soul Core of Atmohua",
+        "Soul Core of Azcapa",
+        "Soul Core of Cholotl",
+        "Soul Core of Citaqualotl",
+        "Soul Core of Jiquani",
+        "Soul Core of Opiloti",
+        "Soul Core of Puhuarte",
+        "Soul Core of Quipolatl",
+        "Soul Core of Tacati",
+        "Soul Core of Ticaba",
+        "Soul Core of Topotante",
+        "Soul Core of Tzamoto",
+        "Soul Core of Xopec",
+        "Soul Core of Zalatl",
+        "Soul Core of Zantipi",
+        "Amanamu's Gaze",
+        "Tecrod's Gaze",
+        "Kurgal's Gaze",
+        "Ulaman's Gaze"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 1
+    }
+  ],
+  "Stackable Currency": [
+    {
+      "Rarity": "FALSE",
+      "BaseTypes": [
+        "Gold",
+        "Albino Rhoa Feather",
+        "Arcanist's Etcher",
+        "Armourer's Scrap",
+        "Artificer's Orb",
+        "Blacksmith's Whetstone",
+        "Chaos Orb",
+        "Divine Orb",
+        "Exalted Orb",
+        "Gemcutter's Prism",
+        "Glassblower's Bauble",
+        "Lesser Jeweller's Orb",
+        "Greater Jeweller's Orb",
+        "Perfect Jeweller's Orb",
+        "Mirror of Kalandra",
+        "Orb of Alchemy",
+        "Orb of Annulment",
+        "Orb of Augmentation",
+        "Orb of Chance",
+        "Orb of Transmutation",
+        "Regal Orb",
+        "Scroll of Wisdom",
+        "Vaal Orb",
+        "Artificer's Shard",
+        "Chance Shard",
+        "Regal Shard",
+        "Transmutation Shard",
+        "Orb of Alteration",
+        "Alchemy Shard",
+        "Essence of Battle",
+        "Essence of Electricity",
+        "Essence of Enhancement",
+        "Essence of Flames",
+        "Essence of Haste",
+        "Essence of Ice",
+        "Essence of Ruin",
+        "Essence of Sorcery",
+        "Essence of the Body",
+        "Essence of the Infinite",
+        "Essence of the Mind",
+        "Essence of Abrasion",
+        "Greater Essence of Battle",
+        "Greater Essence of Electricity",
+        "Greater Essence of Enhancement",
+        "Greater Essence of Flames",
+        "Greater Essence of Haste",
+        "Greater Essence of Ice",
+        "Greater Essence of Ruin",
+        "Greater Essence of Sorcery",
+        "Greater Essence of the Body",
+        "Greater Essence of the Infinite",
+        "Greater Essence of the Mind",
+        "Greater Essence of Abrasion",
+        "Adaptive Catalyst",
+        "Carapace Catalyst",
+        "Chayula's Catalyst",
+        "Esh's Catalyst",
+        "Flesh Catalyst",
+        "Neural Catalyst",
+        "Reaver Catalyst",
+        "Sibilant Catalyst",
+        "Skittering Catalyst",
+        "Tul's Catalyst",
+        "Uul-Netol's Catalyst",
+        "Xoph's Catalyst",
+        "Liquid Despair",
+        "Liquid Disgust",
+        "Liquid Envy",
+        "Concentrated Liquid Fear",
+        "Diluted Liquid Greed",
+        "Diluted Liquid Guilt",
+        "Diluted Liquid Ire",
+        "Concentrated Liquid Isolation",
+        "Liquid Paranoia",
+        "Concentrated Liquid Suffering",
+        "Uncut Skill Gem",
+        "Uncut Spirit Gem",
+        "Uncut Support Gem",
+        "Bronze Key",
+        "Silver Key",
+        "Gold Key",
+        "Simulacrum Splinter",
+        "Breach Splinter",
+        "Exotic Coinage",
+        "Broken Circle Artifact",
+        "Black Scythe Artifact",
+        "Order Artifact",
+        "Sun Artifact",
+        "Greater Chaos Orb",
+        "Perfect Chaos Orb",
+        "Hinekora's Lock",
+        "Greater Orb of Transmutation",
+        "Perfect Orb of Transmutation",
+        "Greater Exalted Orb",
+        "Perfect Exalted Orb",
+        "Greater Regal Orb",
+        "Perfect Regal Orb",
+        "Greater Orb of Augmentation",
+        "Perfect Orb of Augmentation",
+        "Lesser Essence of the Body",
+        "Lesser Essence of the Mind",
+        "Lesser Essence of Enhancement",
+        "Lesser Essence of Abrasion",
+        "Lesser Essence of Flames",
+        "Lesser Essence of Ice",
+        "Lesser Essence of Electricity",
+        "Lesser Essence of Ruin",
+        "Lesser Essence of Battle",
+        "Lesser Essence of Sorcery",
+        "Lesser Essence of Haste",
+        "Lesser Essence of the Infinite",
+        "Perfect Essence of the Body",
+        "Perfect Essence of the Mind",
+        "Perfect Essence of Enhancement",
+        "Perfect Essence of Abrasion",
+        "Perfect Essence of Flames",
+        "Perfect Essence of Ice",
+        "Perfect Essence of Electricity",
+        "Perfect Essence of Ruin",
+        "Perfect Essence of Battle",
+        "Perfect Essence of Sorcery",
+        "Perfect Essence of Haste",
+        "Perfect Essence of the Infinite",
+        "Lesser Essence of Seeking",
+        "Essence of Seeking",
+        "Greater Essence of Seeking",
+        "Perfect Essence of Seeking",
+        "Essence of the Abyss",
+        "Lesser Essence of Insulation",
+        "Essence of Insulation",
+        "Greater Essence of Insulation",
+        "Perfect Essence of Insulation",
+        "Lesser Essence of Thawing",
+        "Essence of Thawing",
+        "Greater Essence of Thawing",
+        "Perfect Essence of Thawing",
+        "Lesser Essence of Grounding",
+        "Essence of Grounding",
+        "Greater Essence of Grounding",
+        "Perfect Essence of Grounding",
+        "Lesser Essence of Alacrity",
+        "Essence of Alacrity",
+        "Greater Essence of Alacrity",
+        "Perfect Essence of Alacrity",
+        "Lesser Essence of Opulence",
+        "Essence of Opulence",
+        "Greater Essence of Opulence",
+        "Perfect Essence of Opulence",
+        "Lesser Essence of Command",
+        "Essence of Command",
+        "Greater Essence of Command",
+        "Perfect Essence of Command",
+        "Petition Splinter",
+        "Runic Splinter",
+        "Gnawed Jawbone",
+        "Preserved Jawbone",
+        "Ancient Jawbone",
+        "Gnawed Rib",
+        "Preserved Rib",
+        "Ancient Rib",
+        "Gnawed Collarbone",
+        "Preserved Collarbone",
+        "Ancient Collarbone",
+        "Preserved Cranium",
+        "Preserved Vertebrae",
+        "Greater Essence of the Infinite"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 1
+    }
+  ],
+  "Skill Gems": [
+    {
+      "Rarity": "FALSE",
+      "BaseTypes": [
+        "Spark",
+        "Fortifying Cry",
+        "Cast on Elemental Ailment",
+        "Ravenous Swarm",
+        "Mirage Archer",
+        "Iron Ward",
+        "Forge Hammer",
+        "Mortar Cannon",
+        "Ancestral Cry",
+        "Toxic Domain",
+        "Ice-Tipped Arrows",
+        "Siphon Elements",
+        "Frost Darts",
+        "Elemental Weakness"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 1
+    }
+  ],
+  "Belts": [
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Rawhide Belt",
+        "Linen Belt"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Wide Belt"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 14
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Long Belt"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 20
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Plate Belt"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 25
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Ornate Belt"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 31
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Mail Belt"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 40
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Double Belt"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 44
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Heavy Belt"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 50
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Utility Belt"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 55
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Fine Belt"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 62
+    }
+  ],
+  "Shields": [
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Leather Buckler"
+      ],
+      "Sockets": "",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Splintered Tower Shield",
+        "Hardwood Targe",
+        "Blazon Crest Shield"
+      ],
+      "Sockets": "",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Plated Buckler"
+      ],
+      "Sockets": "",
+      "DropLevel": 11
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Braced Tower Shield"
+      ],
+      "Sockets": "",
+      "DropLevel": 12
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Barricade Tower Shield",
+        "Studded Targe",
+        "Iron Buckler"
+      ],
+      "Sockets": "",
+      "DropLevel": 16
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Emblem Crest Shield"
+      ],
+      "Sockets": "",
+      "DropLevel": 16
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Effigial Tower Shield"
+      ],
+      "Sockets": "",
+      "DropLevel": 21
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Ridged Buckler"
+      ],
+      "Sockets": "",
+      "DropLevel": 22
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Spiked Buckler"
+      ],
+      "Sockets": "",
+      "DropLevel": 26
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Crescent Targe"
+      ],
+      "Sockets": "",
+      "DropLevel": 26
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Rampart Tower Shield",
+        "Jingling Crest Shield"
+      ],
+      "Sockets": "",
+      "DropLevel": 28
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Heraldric Tower Shield",
+        "Chiseled Targe",
+        "Sectarian Crest Shield",
+        "Ringed Buckler"
+      ],
+      "Sockets": "",
+      "DropLevel": 33
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Stone Tower Shield",
+        "Omen Crest Shield"
+      ],
+      "Sockets": "",
+      "DropLevel": 36
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Feathered Targe"
+      ],
+      "Sockets": "",
+      "DropLevel": 37
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Edged Buckler"
+      ],
+      "Sockets": "",
+      "DropLevel": 39
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Stratified Targe",
+        "Wayward Crest Shield",
+        "Laminate Buckler",
+        "Painted Tower Shield",
+        "Hardwood Targe",
+        "Blazon Crest Shield",
+        "Wooden Buckler"
+      ],
+      "Sockets": "",
+      "DropLevel": 45
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Crucible Tower Shield"
+      ],
+      "Sockets": "",
+      "DropLevel": 45
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Carved Targe"
+      ],
+      "Sockets": "",
+      "DropLevel": 47
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Pearl Buckler",
+        "Braced Tower Shield",
+        "Pelage Targe",
+        "Sigil Crest Shield",
+        "Plated Buckler"
+      ],
+      "Sockets": "",
+      "DropLevel": 48
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Seer Crest Shield"
+      ],
+      "Sockets": "",
+      "DropLevel": 49
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Wooden Buckler"
+      ],
+      "Sockets": "",
+      "DropLevel": 5
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Ancestor Tower Shield"
+      ],
+      "Sockets": "",
+      "DropLevel": 50
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Effigial Tower Shield",
+        "Studded Targe",
+        "Emblem Crest Shield",
+        "Ridged Buckler"
+      ],
+      "Sockets": "",
+      "DropLevel": 51
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Phalanx Tower Shield",
+        "Mosaic Targe",
+        "Stoic Crest Shield",
+        "Ornate Buckler"
+      ],
+      "Sockets": "",
+      "DropLevel": 52
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Array Buckler",
+        "Rampart Tower Shield",
+        "Crescent Targe",
+        "Jingling Crest Shield",
+        "Spiked Buckler"
+      ],
+      "Sockets": "",
+      "DropLevel": 55
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Aureate Targe",
+        "Empyreal Crest Shield"
+      ],
+      "Sockets": "",
+      "DropLevel": 57
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Defiant Tower Shield"
+      ],
+      "Sockets": "",
+      "DropLevel": 58
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Heraldric Tower Shield",
+        "Chiseled Targe",
+        "Sectarian Crest Shield",
+        "Ringed Buckler"
+      ],
+      "Sockets": "",
+      "DropLevel": 59
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Painted Tower Shield"
+      ],
+      "Sockets": "",
+      "DropLevel": 6
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Stone Tower Shield",
+        "Edged Buckler"
+      ],
+      "Sockets": "",
+      "DropLevel": 61
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Feathered Targe",
+        "Omen Crest Shield"
+      ],
+      "Sockets": "",
+      "DropLevel": 62
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Blacksteel Tower Shield",
+        "Grand Targe",
+        "Deified Crest Shield",
+        "Aegis Buckler",
+        "Braced Tower Shield",
+        "Pelage Targe",
+        "Sigil Crest Shield",
+        "Plated Buckler"
+      ],
+      "Sockets": "",
+      "DropLevel": 65
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Sigil Crest Shield"
+      ],
+      "Sockets": "",
+      "DropLevel": 7
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Rampart Tower Shield",
+        "Crescent Targe",
+        "Jingling Crest Shield",
+        "Spiked Buckler"
+      ],
+      "Sockets": "",
+      "DropLevel": 70
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Stone Tower Shield",
+        "Feathered Targe",
+        "Omen Crest Shield",
+        "Edged Buckler"
+      ],
+      "Sockets": "",
+      "DropLevel": 75
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Pelage Targe"
+      ],
+      "Sockets": "",
+      "DropLevel": 8
+    }
+  ],
+  "Relics": [
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Urn Relic"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMU",
+      "BaseTypes": [
+        "Amphora Relic",
+        "Vase Relic",
+        "Seal Relic",
+        "Coffer Relic",
+        "Tapestry Relic",
+        "Incense Relic"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 1
+    }
+  ],
+  "Pinnacle Keys": [
+    {
+      "Rarity": "FALSE",
+      "BaseTypes": [
+        "Ancient Crisis Fragment",
+        "Faded Crisis Fragment",
+        "Weathered Crisis Fragment",
+        "Primary Calamity Fragment",
+        "Secondary Calamity Fragment",
+        "Tertiary Calamity Fragment"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 1
+    }
+  ],
+  "Helmets": [
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Rusted Greathelm",
+        "Shabby Hood",
+        "Twig Circlet"
+      ],
+      "Sockets": "",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Felt Cap",
+        "Wicker Tiara",
+        "Horned Crown",
+        "Face Mask"
+      ],
+      "Sockets": "",
+      "DropLevel": 10
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Guarded Helm"
+      ],
+      "Sockets": "",
+      "DropLevel": 11
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Soldier Greathelm"
+      ],
+      "Sockets": "",
+      "DropLevel": 12
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Wrapped Greathelm",
+        "Lace Hood",
+        "Beaded Circlet",
+        "Visored Helm",
+        "Cultist Crown",
+        "Hooded Mask"
+      ],
+      "Sockets": "",
+      "DropLevel": 16
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Swathed Cap"
+      ],
+      "Sockets": "",
+      "DropLevel": 26
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Chain Tiara",
+        "Cowled Helm"
+      ],
+      "Sockets": "",
+      "DropLevel": 26
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Spired Greathelm"
+      ],
+      "Sockets": "",
+      "DropLevel": 27
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Martyr Crown",
+        "Veiled Mask"
+      ],
+      "Sockets": "",
+      "DropLevel": 28
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Elite Greathelm",
+        "Hunter Hood",
+        "Feathered Tiara",
+        "Shielded Helm",
+        "Heavy Crown",
+        "Tribal Mask"
+      ],
+      "Sockets": "",
+      "DropLevel": 33
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Warrior Greathelm"
+      ],
+      "Sockets": "",
+      "DropLevel": 36
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Viper Cap"
+      ],
+      "Sockets": "",
+      "DropLevel": 38
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Gold Circlet"
+      ],
+      "Sockets": "",
+      "DropLevel": 40
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Commander Greathelm",
+        "Corsair Cap",
+        "Coral Circlet",
+        "Rusted Greathelm",
+        "Shabby Hood",
+        "Twig Circlet",
+        "Brimmed Helm",
+        "Iron Crown",
+        "Hewn Mask"
+      ],
+      "Sockets": "",
+      "DropLevel": 45
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Closed Helm",
+        "Spiritbone Crown",
+        "Solid Mask"
+      ],
+      "Sockets": "",
+      "DropLevel": 45
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Soldier Greathelm",
+        "Felt Cap",
+        "Wicker Tiara",
+        "Guarded Helm",
+        "Horned Crown",
+        "Face Mask"
+      ],
+      "Sockets": "",
+      "DropLevel": 48
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Brimmed Helm",
+        "Iron Crown",
+        "Hewn Mask"
+      ],
+      "Sockets": "",
+      "DropLevel": 5
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Jade Tiara"
+      ],
+      "Sockets": "",
+      "DropLevel": 50
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Fierce Greathelm",
+        "Leatherbound Hood",
+        "Wrapped Greathelm",
+        "Lace Hood",
+        "Beaded Circlet",
+        "Visored Helm",
+        "Cultist Crown",
+        "Hooded Mask"
+      ],
+      "Sockets": "",
+      "DropLevel": 51
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Dueling Greathelm",
+        "Velvet Cap",
+        "Noble Circlet",
+        "Decorated Helm",
+        "Lavish Crown",
+        "Shaded Mask"
+      ],
+      "Sockets": "",
+      "DropLevel": 52
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Spired Greathelm",
+        "Swathed Cap",
+        "Chain Tiara",
+        "Cowled Helm",
+        "Martyr Crown",
+        "Veiled Mask"
+      ],
+      "Sockets": "",
+      "DropLevel": 55
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Covert Hood"
+      ],
+      "Sockets": "",
+      "DropLevel": 56
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Goliath Greathelm"
+      ],
+      "Sockets": "",
+      "DropLevel": 57
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Twilight Tiara"
+      ],
+      "Sockets": "",
+      "DropLevel": 58
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Elite Greathelm",
+        "Hunter Hood",
+        "Feathered Tiara",
+        "Shielded Helm",
+        "Heavy Crown",
+        "Tribal Mask"
+      ],
+      "Sockets": "",
+      "DropLevel": 59
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Guardian Greathelm",
+        "Magus Tiara",
+        "Gallant Helm",
+        "Templar Crown",
+        "Death Mask",
+        "Soldier Greathelm",
+        "Felt Cap",
+        "Wicker Tiara",
+        "Guarded Helm",
+        "Horned Crown",
+        "Face Mask"
+      ],
+      "Sockets": "",
+      "DropLevel": 65
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Armoured Cap",
+        "Grand Visage"
+      ],
+      "Sockets": "",
+      "DropLevel": 65
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Spired Greathelm",
+        "Swathed Cap",
+        "Chain Tiara",
+        "Cowled Helm",
+        "Martyr Crown",
+        "Veiled Mask"
+      ],
+      "Sockets": "",
+      "DropLevel": 70
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Elite Greathelm",
+        "Hunter Hood",
+        "Feathered Tiara",
+        "Shielded Helm",
+        "Heavy Crown",
+        "Tribal Mask"
+      ],
+      "Sockets": "",
+      "DropLevel": 75
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Commander Greathelm"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Fierce Greathelm"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Corsair Cap"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Leatherbound Hood"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Vermeil Circlet"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Jade Tiara"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Closed Helm"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Spiritbone Crown"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Solid Mask"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Imperial Greathelm"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Freebooter Cap"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Ancestral Tiara"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Gladiatorial Helm"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Cryptic Crown"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Grinning Mask"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    }
+  ],
+  "Quest Items": [
+    {
+      "Rarity": "FALSE",
+      "BaseTypes": [
+        "Head of the Winter Wolf"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 2
+    }
+  ],
+  "Sceptres": [
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Rattling Sceptre"
+      ],
+      "Sockets": "",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Lupine Sceptre"
+      ],
+      "Sockets": "",
+      "DropLevel": 12
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Omen Sceptre"
+      ],
+      "Sockets": "",
+      "DropLevel": 16
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Ochre Sceptre"
+      ],
+      "Sockets": "",
+      "DropLevel": 21
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Shrine Sceptre"
+      ],
+      "Sockets": "",
+      "DropLevel": 26
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Stoic Sceptre"
+      ],
+      "Sockets": "",
+      "DropLevel": 6
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Devouring Sceptre",
+        "Clasped Sceptre",
+        "Devotional Sceptre",
+        "Wrath Sceptre",
+        "Aromatic Sceptre",
+        "Pious Sceptre",
+        "Hallowed Sceptre"
+      ],
+      "Sockets": "",
+      "DropLevel": 99
+    }
+  ],
+  "Inscribed Ultimatum": [
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Inscribed Ultimatum"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 39
+    }
+  ],
+  "Quivers": [
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Broadhead Quiver"
+      ],
+      "Sockets": "",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Sacral Quiver"
+      ],
+      "Sockets": "",
+      "DropLevel": 16
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Two-Point Quiver"
+      ],
+      "Sockets": "",
+      "DropLevel": 24
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Blunt Quiver"
+      ],
+      "Sockets": "",
+      "DropLevel": 33
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Toxic Quiver"
+      ],
+      "Sockets": "",
+      "DropLevel": 39
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Serrated Quiver"
+      ],
+      "Sockets": "",
+      "DropLevel": 44
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Primed Quiver"
+      ],
+      "Sockets": "",
+      "DropLevel": 51
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Penetrating Quiver"
+      ],
+      "Sockets": "",
+      "DropLevel": 55
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Volant Quiver"
+      ],
+      "Sockets": "",
+      "DropLevel": 61
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Visceral Quiver"
+      ],
+      "Sockets": "",
+      "DropLevel": 65
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Fire Quiver"
+      ],
+      "Sockets": "",
+      "DropLevel": 8
+    }
+  ],
+  "Crossbows": [
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Makeshift Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Sturdy Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 10
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Varnished Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 16
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Dyad Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 20
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Alloy Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 26
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Bombard Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 33
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Construct Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 38
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Tense Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 4
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Blackfire Crossbow",
+        "Tense Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 45
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Piercing Crossbow",
+        "Sturdy Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 48
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Varnished Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 51
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Cumbrous Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 52
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Dyad Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 55
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Dedalian Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 56
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Bombard Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 59
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Forlorn Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 62
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Esoteric Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 65
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Sturdy Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 67
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Varnished Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 72
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Tense Crossbow",
+        "Forlorn Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 77
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Dyad Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 78
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Bombard Crossbow"
+      ],
+      "Sockets": "",
+      "DropLevel": 79
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Elegant Crossbow"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    }
+  ],
+  "Waystones": [
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Waystone (Tier 1)",
+        "Waystone (Tier 2)",
+        "Waystone (Tier 3)",
+        "Waystone (Tier 4)",
+        "Waystone (Tier 5)",
+        "Waystone (Tier 6)",
+        "Waystone (Tier 7)",
+        "Waystone (Tier 8)",
+        "Waystone (Tier 9)",
+        "Waystone (Tier 10)",
+        "Waystone (Tier 11)",
+        "Waystone (Tier 12)",
+        "Waystone (Tier 13)",
+        "Waystone (Tier 14)",
+        "Waystone (Tier 15)",
+        "Waystone (Tier 16)"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 1
+    }
+  ],
+  "Life Flasks": [
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Lesser Life Flask"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Greater Life Flask"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 10
+    },
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Grand Life Flask"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 16
+    },
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Giant Life Flask"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 23
+    },
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Colossal Life Flask"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 30
+    },
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Medium Life Flask"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 4
+    },
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Gargantuan Life Flask"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 40
+    },
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Transcendent Life Flask"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 50
+    },
+    {
+      "Rarity": "NMU",
+      "BaseTypes": [
+        "Ultimate Life Flask"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 60
+    }
+  ],
+  "Omen": [
+    {
+      "Rarity": "FALSE",
+      "BaseTypes": [
+        "Omen of Amelioration",
+        "Omen of Corruption",
+        "Omen of Dextral Annulment",
+        "Omen of Dextral Erasure",
+        "Omen of Dextral Exaltation",
+        "Omen of Greater Exaltation",
+        "Omen of Refreshment",
+        "Omen of Resurgence",
+        "Omen of Sinistral Annulment",
+        "Omen of Sinistral Erasure",
+        "Omen of Sinistral Exaltation",
+        "Omen of Whittling",
+        "Omen of Homogenising Exaltation",
+        "Omen of Homogenising Coronation",
+        "Omen of Gambling",
+        "Omen of Bartering",
+        "Omen of Recombination",
+        "Omen of the Blessed",
+        "Omen of Chaotic Rarity",
+        "Omen of Chaotic Monsters",
+        "Omen of Chaotic Quantity",
+        "Omen of Chance",
+        "Omen of the Ancients",
+        "Omen of Sanctification",
+        "Omen of Dextral Crystallisation",
+        "Omen of Sinistral Crystallisation",
+        "Omen of Catalysing Exaltation",
+        "Omen of Abyssal Echoes",
+        "Omen of Putrefaction",
+        "Omen of Light",
+        "Omen of Sinistral Necromancy",
+        "Omen of Dextral Necromancy",
+        "Omen of the Sovereign",
+        "Omen of the Liege",
+        "Omen of the Blackblooded"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 1
+    }
+  ],
+  "Mana Flasks": [
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Lesser Mana Flask"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Greater Mana Flask"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 10
+    },
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Grand Mana Flask"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 16
+    },
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Giant Mana Flask"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 23
+    },
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Colossal Mana Flask"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 30
+    },
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Medium Mana Flask"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 4
+    },
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Gargantuan Mana Flask"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 40
+    },
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Transcendent Mana Flask"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 50
+    },
+    {
+      "Rarity": "NMU",
+      "BaseTypes": [
+        "Ultimate Mana Flask"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 60
+    }
+  ],
+  "Wands": [
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Withered Wand"
+      ],
+      "Sockets": "",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Siphoning Wand"
+      ],
+      "Sockets": "",
+      "DropLevel": 11
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Volatile Wand"
+      ],
+      "Sockets": "",
+      "DropLevel": 16
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Bone Wand",
+        "Attuned Wand"
+      ],
+      "Sockets": "",
+      "DropLevel": 2
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Galvanic Wand"
+      ],
+      "Sockets": "",
+      "DropLevel": 25
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Acrid Wand",
+        "Offering Wand",
+        "Frigid Wand",
+        "Torture Wand",
+        "Critical Wand",
+        "Primordial Wand",
+        "Dueling Wand"
+      ],
+      "Sockets": "",
+      "DropLevel": 99
+    }
+  ],
+  "Foci": [
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Twig Focus"
+      ],
+      "Sockets": "",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Antler Focus"
+      ],
+      "Sockets": "",
+      "DropLevel": 10
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Engraved Focus"
+      ],
+      "Sockets": "",
+      "DropLevel": 16
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Tonal Focus"
+      ],
+      "Sockets": "",
+      "DropLevel": 22
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Crystal Focus"
+      ],
+      "Sockets": "",
+      "DropLevel": 26
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Voodoo Focus"
+      ],
+      "Sockets": "",
+      "DropLevel": 33
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Plumed Focus"
+      ],
+      "Sockets": "",
+      "DropLevel": 36
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Jade Focus",
+        "Woven Focus"
+      ],
+      "Sockets": "",
+      "DropLevel": 45
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Antler Focus"
+      ],
+      "Sockets": "",
+      "DropLevel": 48
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Paua Focus",
+        "Tonal Focus"
+      ],
+      "Sockets": "",
+      "DropLevel": 51
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Elegant Focus"
+      ],
+      "Sockets": "",
+      "DropLevel": 52
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Crystal Focus"
+      ],
+      "Sockets": "",
+      "DropLevel": 55
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Attuned Focus"
+      ],
+      "Sockets": "",
+      "DropLevel": 57
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Voodoo Focus"
+      ],
+      "Sockets": "",
+      "DropLevel": 59
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Woven Focus"
+      ],
+      "Sockets": "",
+      "DropLevel": 6
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Plumed Focus"
+      ],
+      "Sockets": "",
+      "DropLevel": 61
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Magus Focus",
+        "Antler Focus"
+      ],
+      "Sockets": "",
+      "DropLevel": 65
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Crystal Focus"
+      ],
+      "Sockets": "",
+      "DropLevel": 70
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Plumed Focus"
+      ],
+      "Sockets": "",
+      "DropLevel": 75
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Runed Focus"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Whorl Focus"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Tasalian Focus"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    }
+  ],
+  "Expedition Logbooks": [
+    {
+      "Rarity": "N",
+      "BaseTypes": [
+        "Expedition Logbook"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 65
+    }
+  ],
+  "Charms": [
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Silver Charm"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 10
+    },
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Thawing Charm"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 12
+    },
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Staunching Charm"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 18
+    },
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Antidote Charm"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 24
+    },
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Dousing Charm",
+        "Grounding Charm"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 32
+    },
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Ruby Charm",
+        "Sapphire Charm",
+        "Topaz Charm"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 5
+    },
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Amethyst Charm",
+        "Golden Charm"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 50
+    },
+    {
+      "Rarity": "NM",
+      "BaseTypes": [
+        "Stone Charm"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 8
+    }
+  ],
+  "Quarterstaves": [
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Wrapped Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Gothic Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 11
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Crackling Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 16
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Crescent Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 20
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Steelpoint Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 28
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Slicing Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 33
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Barrier Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 37
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Long Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 4
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Hefty Quarterstaff",
+        "Long Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 45
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Smooth Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 47
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Gothic Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 48
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Crackling Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 51
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Anima Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 52
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Crescent Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 55
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Graceful Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 56
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Slicing Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 59
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Barrier Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 62
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Wyrm Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 65
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Gothic Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 67
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Crescent Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 72
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Long Quarterstaff",
+        "Slicing Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 77
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Crackling Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 78
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Barrier Quarterstaff"
+      ],
+      "Sockets": "",
+      "DropLevel": 79
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Dreaming Quarterstaff"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    }
+  ],
+  "Trial Coins": [
+    {
+      "Rarity": "FALSE",
+      "BaseTypes": [
+        "Djinn Barya"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 24
+    },
+    {
+      "Rarity": "FALSE",
+      "BaseTypes": [
+        "Test of Strength Barya",
+        "Test of Will Barya",
+        "Test of Cunning Barya",
+        "Test of Time Barya"
+      ],
+      "Sockets": "FALSE",
+      "DropLevel": 65
+    }
+  ],
+  "One Hand Maces": [
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Wooden Club"
+      ],
+      "Sockets": "",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Slim Mace"
+      ],
+      "Sockets": "",
+      "DropLevel": 10
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Spiked Club"
+      ],
+      "Sockets": "",
+      "DropLevel": 16
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Warpick"
+      ],
+      "Sockets": "",
+      "DropLevel": 22
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Plated Mace"
+      ],
+      "Sockets": "",
+      "DropLevel": 26
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Brigand Mace"
+      ],
+      "Sockets": "",
+      "DropLevel": 33
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Construct Hammer"
+      ],
+      "Sockets": "",
+      "DropLevel": 36
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Smithing Hammer"
+      ],
+      "Sockets": "",
+      "DropLevel": 4
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Morning Star",
+        "Smithing Hammer"
+      ],
+      "Sockets": "",
+      "DropLevel": 45
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Jade Club",
+        "Slim Mace"
+      ],
+      "Sockets": "",
+      "DropLevel": 48
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Warpick"
+      ],
+      "Sockets": "",
+      "DropLevel": 51
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Lumen Mace"
+      ],
+      "Sockets": "",
+      "DropLevel": 52
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Execratus Hammer",
+        "Plated Mace"
+      ],
+      "Sockets": "",
+      "DropLevel": 55
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Brigand Mace"
+      ],
+      "Sockets": "",
+      "DropLevel": 59
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Construct Hammer"
+      ],
+      "Sockets": "",
+      "DropLevel": 62
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Torment Club"
+      ],
+      "Sockets": "",
+      "DropLevel": 65
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Slim Mace"
+      ],
+      "Sockets": "",
+      "DropLevel": 67
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Plated Mace"
+      ],
+      "Sockets": "",
+      "DropLevel": 72
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Smithing Hammer",
+        "Brigand Mace"
+      ],
+      "Sockets": "",
+      "DropLevel": 77
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Warpick"
+      ],
+      "Sockets": "",
+      "DropLevel": 78
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Construct Hammer"
+      ],
+      "Sockets": "",
+      "DropLevel": 79
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Kalguuran Forgehammer"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Akoyan Club"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    }
+  ],
+  "Staves": [
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Ashen Staff"
+      ],
+      "Sockets": "",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Spriggan Staff"
+      ],
+      "Sockets": "",
+      "DropLevel": 11
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Pyrophyte Staff"
+      ],
+      "Sockets": "",
+      "DropLevel": 16
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Gelid Staff",
+        "Voltaic Staff"
+      ],
+      "Sockets": "",
+      "DropLevel": 2
+    },
+    {
+      "Rarity": "NMRU",
+      "BaseTypes": [
+        "Chiming Staff"
+      ],
+      "Sockets": "",
+      "DropLevel": 25
+    },
+    {
+      "Rarity": "NMR",
+      "BaseTypes": [
+        "Rending Staff",
+        "Reaping Staff",
+        "Icicle Staff",
+        "Roaring Staff",
+        "Paralysing Staff",
+        "Cleric Staff",
+        "Dark Staff"
+      ],
+      "Sockets": "",
+      "DropLevel": 99
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Sanctified Staff"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    }
+  ],
+  "Spears": [
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Akoyan Spear"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    }
+  ],
+  "Bucklers": [
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Laminate Buckler"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Pearl Buckler"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Desert Buckler"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    }
+  ],
+  "Uncut Skill Gems": [
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Skill Gem (Level 1)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Skill Gem (Level 2)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Skill Gem (Level 3)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Skill Gem (Level 4)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Skill Gem (Level 5)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Skill Gem (Level 6)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Skill Gem (Level 7)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Skill Gem (Level 8)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Skill Gem (Level 9)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Skill Gem (Level 10)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Skill Gem (Level 11)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Skill Gem (Level 12)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Skill Gem (Level 13)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Skill Gem (Level 14)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Skill Gem (Level 15)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Skill Gem (Level 16)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Skill Gem (Level 17)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Skill Gem (Level 18)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Skill Gem (Level 19)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Skill Gem (Level 20)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    }
+  ],
+  "Uncut Support Gems": [
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Support Gem (Level 1)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Support Gem (Level 2)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Support Gem (Level 3)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Support Gem (Level 4)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Support Gem (Level 5)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    }
+  ],
+  "Uncut Spirit Gems": [
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Spirit Gem (Level 4)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Spirit Gem (Level 5)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Spirit Gem (Level 6)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Spirit Gem (Level 7)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Spirit Gem (Level 8)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Spirit Gem (Level 9)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Spirit Gem (Level 10)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Spirit Gem (Level 11)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Spirit Gem (Level 12)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Spirit Gem (Level 13)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Spirit Gem (Level 14)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Spirit Gem (Level 15)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Spirit Gem (Level 16)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Spirit Gem (Level 17)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Spirit Gem (Level 18)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Spirit Gem (Level 19)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    },
+    {
+      "Rarity": "NEW ITEM",
+      "BaseTypes": [
+        "Uncut Spirit Gem (Level 20)"
+      ],
+      "Sockets": "NEW ITEM",
+      "DropLevel": 1
+    }
+  ]
+}

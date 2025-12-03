@@ -61,5 +61,5 @@ export const authConfig: NextAuthConfig = {
     error: "/auth/error",
   },
   secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET,
-  debug: true,
+  debug: process.env.NODE_ENV !== "production",
 };

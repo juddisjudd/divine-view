@@ -47,3 +47,5 @@ CLAUDE.md
 .claude
 
 src/data/*.filter
+
+update-items.ps1

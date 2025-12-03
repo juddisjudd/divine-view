@@ -1,4 +1,4 @@
-export const SITE_VERSION = "1.8.7";
+export const SITE_VERSION = "1.8.8";
 
 export const MIT_LICENSE_URL = "https://opensource.org/licenses/MIT";
 export const GITHUB_URL = "https://github.com/juddisjudd/poe2-filter-editor";
