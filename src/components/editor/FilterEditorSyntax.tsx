@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { Editor, Monaco } from "@monaco-editor/react";
-import { editor } from "monaco-editor";
+import { editor, languages, IRange } from "monaco-editor";
 
 interface FilterEditorSyntaxProps {
   value: string;
@@ -170,6 +170,73 @@ export const FilterEditorSyntax: React.FC<FilterEditorSyntaxProps> = ({
     });
 
     monaco.editor.defineTheme("poe-filter-dark", customThemeData);
+
+    // Register color provider for PoE filter syntax
+    monaco.languages.registerColorProvider("poe-filter", {
+      provideDocumentColors(model: editor.ITextModel): languages.IColorInformation[] {
+        const text = model.getValue();
+        const colors: languages.IColorInformation[] = [];
+
+        // Match RGB/RGBA color values in SetTextColor, SetBorderColor, SetBackgroundColor
+        const colorRegex = /Set(?:Text|Border|Background)Color\s+(\d+)\s+(\d+)\s+(\d+)(?:\s+(\d+))?/g;
+        let match;
+
+        while ((match = colorRegex.exec(text))) {
+          const [fullMatch, r, g, b, a] = match;
+          const red = parseInt(r) / 255;
+          const green = parseInt(g) / 255;
+          const blue = parseInt(b) / 255;
+          const alpha = a ? parseInt(a) / 255 : 1;
+
+          const startPos = model.getPositionAt(match.index);
+          const endPos = model.getPositionAt(match.index + fullMatch.length);
+
+          colors.push({
+            color: { red, green, blue, alpha },
+            range: {
+              startLineNumber: startPos.lineNumber,
+              startColumn: startPos.column,
+              endLineNumber: endPos.lineNumber,
+              endColumn: endPos.column,
+            },
+          });
+        }
+
+        return colors;
+      },
+
+      provideColorPresentations(
+        model: editor.ITextModel,
+        colorInfo: languages.IColorInformation
+      ): languages.IColorPresentation[] {
+        const red = Math.round(colorInfo.color.red * 255);
+        const green = Math.round(colorInfo.color.green * 255);
+        const blue = Math.round(colorInfo.color.blue * 255);
+        const alpha = Math.round(colorInfo.color.alpha * 255);
+
+        // Get the original command name (SetTextColor, SetBorderColor, etc.)
+        const range = colorInfo.range;
+        const text = model.getValueInRange(range);
+        const commandMatch = text.match(/^(Set(?:Text|Border|Background)Color)/);
+        const command = commandMatch ? commandMatch[1] : "SetTextColor";
+
+        const presentations: languages.IColorPresentation[] = [];
+
+        // With alpha
+        if (colorInfo.color.alpha < 1) {
+          presentations.push({
+            label: `${command} ${red} ${green} ${blue} ${alpha}`,
+          });
+        }
+
+        // Without alpha (default to 255)
+        presentations.push({
+          label: `${command} ${red} ${green} ${blue}`,
+        });
+
+        return presentations;
+      },
+    });
   };
 
   return (
@@ -190,6 +257,7 @@ export const FilterEditorSyntax: React.FC<FilterEditorSyntaxProps> = ({
         wordWrap: "on",
         automaticLayout: true,
         fontFamily: "'Geist Mono', monospace",
+        colorDecorators: true,
       }}
     />
   );
