@@ -10,16 +10,6 @@ export default function AuthButton() {
   const { data: session } = useSession();
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -45,7 +35,7 @@ export default function AuthButton() {
       <div className="relative" ref={dropdownRef}>
         <button
           onClick={() => setShowDropdown(!showDropdown)}
-          className="flex items-center px-3 py-2 text-zinc-300 hover:text-white hover:bg-[#1a1a1a] rounded transition-colors"
+          className="flex items-center px-3 py-2 text-zinc-300 hover:text-white hover:bg-[#1a1a1a] rounded transition-colors cursor-pointer"
           aria-label="User menu"
         >
           <User className="w-4 h-4 mr-2" />
@@ -55,11 +45,7 @@ export default function AuthButton() {
         </button>
 
         {showDropdown && (
-          <div
-            className={`absolute right-0 mt-2 w-48 bg-[#0e0e0e] border border-[#2a2a2a] shadow-lg rounded-md z-50 ${
-              isMobile ? "right-0" : "right-0"
-            }`}
-          >
+          <div className="absolute right-0 mt-2 w-48 bg-[#0e0e0e] border border-[#2a2a2a] shadow-lg rounded-md z-50">
             <Link
               href="/profile"
               onClick={() => setShowDropdown(false)}
@@ -70,7 +56,7 @@ export default function AuthButton() {
             </Link>
             <button
               onClick={() => signOut()}
-              className="flex items-center w-full text-left px-4 py-3 text-zinc-400 hover:text-white hover:bg-[#202020]"
+              className="flex items-center w-full text-left px-4 py-3 text-zinc-400 hover:text-white hover:bg-[#202020] cursor-pointer"
             >
               <LogOut className="w-4 h-4 mr-2" />
               Sign out

@@ -34,17 +34,6 @@ export const parseBaseTypesCSV = (csvContent: string): BaseTypeData[] => {
   return data;
 };
 
-// Group base types by class
-export const groupBaseTypesByClass = (baseTypes: BaseTypeData[]): Record<string, BaseTypeData[]> => {
-  return baseTypes.reduce((groups, item) => {
-    if (!groups[item.class]) {
-      groups[item.class] = [];
-    }
-    groups[item.class].push(item);
-    return groups;
-  }, {} as Record<string, BaseTypeData[]>);
-};
-
 // Get unique classes
 export const getUniqueClasses = (baseTypes: BaseTypeData[]): string[] => {
   const classes = new Set(baseTypes.map(item => item.class));

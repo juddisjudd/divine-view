@@ -18,24 +18,15 @@ const parseColor = (colorLine: string): string | undefined => {
   const parts = colorLine.trim().split(/\s+/);
   const values = parts.slice(1).map(Number);
 
-  if (values.length < 3) {
-    console.log(`Invalid color format: ${colorLine} - need at least 3 values, got ${values.length}`);
-    return undefined;
-  }
+  if (values.length < 3) return undefined;
 
   const [r, g, b, a = 255] = values;
 
-  if (isNaN(r) || isNaN(g) || isNaN(b)) {
-    console.log(`Invalid color values: ${colorLine} - NaN detected`);
-    return undefined;
-  }
+  if (isNaN(r) || isNaN(g) || isNaN(b)) return undefined;
 
-  const result = a !== 255
+  return a !== 255
     ? `rgba(${r}, ${g}, ${b}, ${a / 255})`
     : `rgb(${r}, ${g}, ${b})`;
-  
-  console.log(`Parsed color: ${colorLine} -> ${result}`);
-  return result;
 };
 
 const parseEffect = (line: string): FilterStyle["beam"] | undefined => {
@@ -206,8 +197,6 @@ const compareStringValues = (
   operator: FilterOperator = "==",
   type: "BaseType" | "Class" | "Rarity" = "BaseType"
 ): boolean => {
-  console.log(`    Comparing "${actual}" with ${JSON.stringify(expected)} (operator: ${operator}, type: ${type})`);
-  
   if (type === "Class") {
     if (actual === "Stackable Currency") {
       if (Array.isArray(expected)) {
@@ -229,17 +218,7 @@ const compareStringValues = (
     const expectedStr = String(expectedVal).toLowerCase().trim();
     actualStr = actualStr.toLowerCase().trim();
 
-    // For exact equality operators, do exact matching
-    if (operator === "==" || operator === "=") {
-      const result = actualStr === expectedStr;
-      console.log(`      "${actualStr}" == "${expectedStr}" = ${result}`);
-      return result;
-    }
-
-    // For other operators or default behavior, do exact matching for BaseType/Class/Rarity
-    const result = actualStr === expectedStr;
-    console.log(`      "${actualStr}" matches "${expectedStr}" = ${result}`);
-    return result;
+    return actualStr === expectedStr;
   };
 
   if (Array.isArray(expected)) {
@@ -258,7 +237,6 @@ const getItemStyle = (
   }
 
   const blocks = filterContent.split(/\n(?=Show|Hide)/g).filter(Boolean);
-  console.log(`Found ${blocks.length} filter blocks`);
 
   const evaluateCondition = (condition: FilterCondition): boolean => {
     let result = false;
@@ -269,21 +247,18 @@ const getItemStyle = (
         result = context.baseType
           ? compareStringValues(context.baseType, condition.value, operator, "BaseType")
           : false;
-        console.log(`  BaseType condition: "${context.baseType}" ${operator} "${condition.value}" = ${result}`);
         break;
 
       case "Class":
         result = context.itemClass
           ? compareStringValues(context.itemClass, condition.value, operator, "Class")
           : false;
-        console.log(`  Class condition: "${context.itemClass}" ${operator} "${condition.value}" = ${result}`);
         break;
 
       case "Rarity":
         result = context.rarity
           ? compareStringValues(context.rarity, condition.value, operator, "Rarity")
           : false;
-        console.log(`  Rarity condition: "${context.rarity}" ${operator} "${condition.value}" = ${result}`);
         break;
 
       case "AreaLevel":
@@ -294,7 +269,6 @@ const getItemStyle = (
               Number(condition.value)
             )
           : false;
-        console.log(`  AreaLevel condition: ${context.areaLevel} ${operator} ${condition.value} = ${result}`);
         break;
 
       case "ItemLevel":
@@ -305,7 +279,6 @@ const getItemStyle = (
               Number(condition.value)
             )
           : false;
-        console.log(`  ItemLevel condition: ${context.itemLevel} ${operator} ${condition.value} = ${result}`);
         break;
 
       case "DropLevel":
@@ -316,7 +289,6 @@ const getItemStyle = (
               Number(condition.value)
             )
           : false;
-        console.log(`  DropLevel condition: ${context.dropLevel} ${operator} ${condition.value} = ${result}`);
         break;
 
       case "Quality":
@@ -327,7 +299,6 @@ const getItemStyle = (
               Number(condition.value)
             )
           : false;
-        console.log(`  Quality condition: ${context.quality} ${operator} ${condition.value} = ${result}`);
         break;
 
       case "StackSize":
@@ -338,7 +309,6 @@ const getItemStyle = (
               Number(condition.value)
             )
           : false;
-        console.log(`  StackSize condition: ${context.stackSize} ${operator} ${condition.value} = ${result}`);
         break;
 
       case "Sockets":
@@ -349,12 +319,10 @@ const getItemStyle = (
               Number(condition.value)
             )
           : false;
-        console.log(`  Sockets condition: ${context.sockets} ${operator} ${condition.value} = ${result}`);
         break;
 
       default:
         result = false;
-        console.log(`  Unknown condition type: ${condition.type}`);
         break;
     }
     
@@ -404,19 +372,11 @@ const getItemStyle = (
     const blockMatches = conditions.length === 0 || 
       conditions.every((cond) => evaluateCondition(cond));
     
-    console.log(`\n=== EVALUATING ${blockType.toUpperCase()} BLOCK ===`);
-    console.log(`Conditions (${conditions.length}):`, conditions.map(c => `${c.type} ${c.operator || '=='} ${c.value}`));
-    console.log(`Block matches: ${blockMatches}`);
-    if (blockMatches) {
-      console.log('Style:', blockStyle);
-    }
-    
     if (blockMatches) {
       matchedBlock = {
         type: blockType,
         style: blockStyle,
       };
-      console.log(`SELECTED BLOCK: ${blockType} with style:`, blockStyle);
       break;
     }
   }

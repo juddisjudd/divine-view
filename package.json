@@ -1,6 +1,6 @@
 {
   "name": "divine-view",
-  "version": "1.9.2",
+  "version": "1.9.3",
   "private": true,
   "description": "Path of Exile 2 loot filter editor",
   "scripts": {
@@ -24,28 +24,28 @@
     "@radix-ui/react-toast": "^1.2.15",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "lucide-react": "^0.556.0",
+    "lucide-react": "^1.7.0",
     "monaco-editor": "^0.55.1",
-    "next": "16.0.8",
+    "next": "16.2.2",
     "next-auth": "5.0.0-beta.30",
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1",
-    "react-resizable-panels": "^3.0.6",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-resizable-panels": "^4.8.0",
     "sonner": "^2.0.7",
-    "tailwind-merge": "^3.4.0",
+    "tailwind-merge": "^3.5.0",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.3",
-    "@tailwindcss/postcss": "^4.1.17",
-    "@types/node": "^24.10.2",
-    "@types/react": "^19.2.7",
+    "@eslint/eslintrc": "^3.3.5",
+    "@tailwindcss/postcss": "^4.2.2",
+    "@types/node": "^25.5.0",
+    "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "eslint": "^9.39.1",
-    "eslint-config-next": "16.0.8",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.17",
-    "typescript": "^5.9.3"
+    "eslint": "^10.1.0",
+    "eslint-config-next": "16.2.2",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^6.0.2"
   },
   "engines": {
     "node": ">=20.9.0"

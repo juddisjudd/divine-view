@@ -16,8 +16,6 @@ interface TokenSet {
 export default function PoE<P extends PoEProfile>(
   options: OAuthUserConfig<P>
 ): OAuthConfig<P> {
-  console.log("PoE Provider initialized with client ID:", options.clientId);
-
   return {
     id: "poe",
     name: "Path of Exile",
@@ -59,8 +57,6 @@ export default function PoE<P extends PoEProfile>(
         }
         
         const profile = await response.json();
-        console.log("PoE Profile response:", profile);
-        
         return {
           id: profile.sub || profile.uuid,
           name: profile.username || profile.name,

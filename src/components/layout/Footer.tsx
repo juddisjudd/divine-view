@@ -4,7 +4,7 @@ import {
   GITHUB_URL,
   KO_FI_URL,
 } from "@/lib/constants";
-import { Github, Coffee } from "lucide-react";
+import { GitBranch, Coffee } from "lucide-react";
 
 export const Footer: React.FC = () => {
   return (
@@ -15,7 +15,7 @@ export const Footer: React.FC = () => {
           &copy; {new Date().getFullYear()} Divine View. Licensed under the{" "}
           <a
             href={MIT_LICENSE_URL}
-            className="text-zinc-400 hover:text-zinc-300 transition-colors"
+            className="text-zinc-400 hover:text-zinc-300 transition-colors cursor-pointer"
           >
             MIT License
           </a>
@@ -30,9 +30,9 @@ export const Footer: React.FC = () => {
             href={GITHUB_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center text-blue-500 hover:text-blue-400 transition-colors"
+            className="flex items-center text-blue-500 hover:text-blue-400 transition-colors cursor-pointer"
           >
-            <Github className="w-4 h-4 mr-1" />
+            <GitBranch className="w-4 h-4 mr-1" />
             <span>GitHub</span>
           </a>
 
@@ -40,7 +40,7 @@ export const Footer: React.FC = () => {
             href={KO_FI_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center text-pink-500 hover:text-pink-400 transition-colors"
+            className="flex items-center text-pink-500 hover:text-pink-400 transition-colors cursor-pointer"
           >
             <Coffee className="w-4 h-4 mr-1" />
             <span>Support</span>
@@ -56,9 +56,9 @@ export const Footer: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="View source on GitHub"
-            className="flex items-center justify-center h-10 w-10 rounded-full bg-[#1a1a1a] text-blue-500"
+            className="flex items-center justify-center h-10 w-10 rounded-full bg-[#1a1a1a] text-blue-500 cursor-pointer"
           >
-            <Github className="w-5 h-5" />
+            <GitBranch className="w-5 h-5" />
           </a>
 
           <a
@@ -66,7 +66,7 @@ export const Footer: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Support me on Ko-fi"
-            className="flex items-center justify-center h-10 w-10 rounded-full bg-[#1a1a1a] text-pink-500"
+            className="flex items-center justify-center h-10 w-10 rounded-full bg-[#1a1a1a] text-pink-500 cursor-pointer"
           >
             <Coffee className="w-5 h-5" />
           </a>
@@ -76,7 +76,7 @@ export const Footer: React.FC = () => {
 
         <div className="text-center text-xs">
           &copy; {new Date().getFullYear()} Divine View.{" "}
-          <a href={MIT_LICENSE_URL} className="text-zinc-400">
+          <a href={MIT_LICENSE_URL} className="text-zinc-400 cursor-pointer">
             MIT License
           </a>
         </div>

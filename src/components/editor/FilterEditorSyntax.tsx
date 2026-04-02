@@ -1,6 +1,10 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useImperativeHandle, forwardRef } from "react";
 import { Editor, Monaco } from "@monaco-editor/react";
-import { editor, languages, IRange } from "monaco-editor";
+import { editor, languages } from "monaco-editor";
+
+export interface FilterEditorSyntaxHandle {
+  jumpToLine: (line: number) => void;
+}
 
 interface FilterEditorSyntaxProps {
   value: string;
@@ -30,14 +34,25 @@ const customThemeData: editor.IStandaloneThemeData = {
   },
 };
 
-export const FilterEditorSyntax: React.FC<FilterEditorSyntaxProps> = ({
+export const FilterEditorSyntax = forwardRef<FilterEditorSyntaxHandle, FilterEditorSyntaxProps>(({
   value,
   onChange,
-}) => {
+}, ref) => {
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const decorationsRef = useRef<string[]>([]);
   const monacoRef = useRef<Monaco | null>(null);
   const colorStylesRef = useRef<HTMLStyleElement | null>(null);
+  const decorationTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useImperativeHandle(ref, () => ({
+    jumpToLine(line: number) {
+      const ed = editorRef.current;
+      if (!ed) return;
+      ed.revealLineInCenter(line);
+      ed.setPosition({ lineNumber: line, column: 1 });
+      ed.focus();
+    },
+  }));
 
   const handleEditorChange = (value: string | undefined) => {
     if (value !== undefined) {
@@ -137,7 +152,8 @@ export const FilterEditorSyntax: React.FC<FilterEditorSyntaxProps> = ({
     }
 
     editor.onDidChangeModelContent(() => {
-      updateDecorations();
+      if (decorationTimerRef.current) clearTimeout(decorationTimerRef.current);
+      decorationTimerRef.current = setTimeout(updateDecorations, 300);
     });
 
     // Initial decoration update
@@ -159,7 +175,7 @@ export const FilterEditorSyntax: React.FC<FilterEditorSyntaxProps> = ({
             "condition",
           ],
           [
-            /\b(SetTextColor|SetBorderColor|SetBackgroundColor|SetFontSize|PlayEffect|PlayAlertSound|MinimapIcon|CustomAlertSound)\b/,
+            /\b(SetTextColor|SetBorderColor|SetBackgroundColor|SetFontSize|PlayEffect|PlayAlertSound|MinimapIcon|CustomAlertSound|DisableDropSound)\b/,
             "command",
           ],
           [/[0-9]+/, "number"],
@@ -261,4 +277,4 @@ export const FilterEditorSyntax: React.FC<FilterEditorSyntaxProps> = ({
       }}
     />
   );
-};
+});

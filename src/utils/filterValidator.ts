@@ -29,6 +29,30 @@ const NUMERIC_CONDITIONS = [
   "BaseEnergyShield",
 ] as const;
 
+// All known condition keywords — used to detect that a block has conditions
+const ALL_CONDITIONS = [
+  ...NUMERIC_CONDITIONS,
+  "Class",
+  "BaseType",
+  "Rarity",
+  "SocketGroup",
+  "HasExplicitMod",
+  "HasImplicitMod",
+  "HasEnchantment",
+  "AnyEnchantment",
+  "Identified",
+  "Corrupted",
+  "Mirrored",
+  "ElderItem",
+  "ShaperItem",
+  "HasInfluence",
+  "FracturedItem",
+  "SynthesisedItem",
+  "TwiceCorrupted",
+  "HasCruciblePassiveTree",
+  "AlternateQuality",
+];
+
 const OPERATORS = ["=", "==", ">", "<", ">=", "<="] as const;
 
 const COLOR_COMMANDS = [
@@ -51,34 +75,52 @@ const VALID_EFFECT_COLORS = [
   "Purple",
 ] as const;
 
-const validateOperator = (operator: string): boolean => {
-  return OPERATORS.includes(operator as (typeof OPERATORS)[number]);
-};
+// All known action keywords — lines starting with these are valid inside blocks
+const KNOWN_ACTIONS = [
+  ...COLOR_COMMANDS,
+  "SetFontSize",
+  "PlayEffect",
+  "PlayAlertSound",
+  "PlayAlertSoundPositional",
+  "CustomAlertSound",
+  "CustomAlertSoundOptional",
+  "MinimapIcon",
+  "DisableDropSound",
+  "EnableDropSound",
+];
+
+const validateOperator = (operator: string): boolean =>
+  OPERATORS.includes(operator as (typeof OPERATORS)[number]);
 
 const validateFilterLine = (
   line: string,
   lineNumber: number
 ): ValidationError[] => {
   const errors: ValidationError[] = [];
+  // Strip inline comments before validating
   const trimmedLine = line.split("#")[0].trim();
 
-  if (!trimmedLine || line.trim().startsWith("#")) {
-    return errors;
-  }
+  if (!trimmedLine) return errors;
 
   for (const condition of NUMERIC_CONDITIONS) {
-    if (trimmedLine.startsWith(condition)) {
+    if (trimmedLine.startsWith(condition + " ") || trimmedLine === condition) {
       const parts = trimmedLine.split(/\s+/);
-      if (parts.length < 3) {
+
+      // Operator is optional — "GemLevel 19" is valid shorthand for "GemLevel >= 19"
+      const hasOperator = parts.length >= 2 && validateOperator(parts[1]);
+      const valueStr = hasOperator ? parts[2] : parts[1];
+      const valueIndex = hasOperator ? 2 : 1;
+
+      if (!valueStr) {
         errors.push({
           line: lineNumber,
-          message: `${condition} requires an operator and value`,
+          message: `${condition} requires a value`,
           severity: "error",
         });
         return errors;
       }
 
-      if (!validateOperator(parts[1])) {
+      if (hasOperator && !validateOperator(parts[1])) {
         errors.push({
           line: lineNumber,
           message: `Invalid operator "${parts[1]}" for ${condition}`,
@@ -86,7 +128,7 @@ const validateFilterLine = (
         });
       }
 
-      const value = parseInt(parts[2]);
+      const value = parseInt(valueStr);
       if (isNaN(value) || value < 0) {
         errors.push({
           line: lineNumber,
@@ -99,16 +141,16 @@ const validateFilterLine = (
     }
   }
 
-  if (COLOR_COMMANDS.some((cmd) => trimmedLine.startsWith(cmd))) {
-    const colorValues = trimmedLine.split(" ").slice(1);
+  if (COLOR_COMMANDS.some((cmd) => trimmedLine.startsWith(cmd + " ") || trimmedLine === cmd)) {
+    const parts = trimmedLine.split(/\s+/);
+    const colorValues = parts.slice(1);
+
     colorValues.forEach((value, index) => {
       const num = parseInt(value);
       if (isNaN(num) || num < 0 || num > 255) {
         errors.push({
           line: lineNumber,
-          message: `Invalid color value ${value} at position ${
-            index + 1
-          }. Must be between 0 and 255`,
+          message: `Invalid color value "${value}" at position ${index + 1}. Must be 0–255`,
           severity: "error",
         });
       }
@@ -117,109 +159,115 @@ const validateFilterLine = (
     if (colorValues.length < 3 || colorValues.length > 4) {
       errors.push({
         line: lineNumber,
-        message: "Color commands must have 3 or 4 values (RGB[A])",
+        message: "Color commands require 3 or 4 values (R G B [A])",
         severity: "error",
       });
     }
+
+    return errors;
   }
 
   if (trimmedLine.startsWith("SetFontSize")) {
-    const size = parseInt(trimmedLine.split(" ")[1]);
+    const parts = trimmedLine.split(/\s+/);
+    const size = parseInt(parts[1]);
     if (isNaN(size) || size < 18 || size > 45) {
       errors.push({
         line: lineNumber,
-        message: "Font size must be between 18 and 45",
+        message: "SetFontSize must be between 18 and 45",
         severity: "error",
       });
     }
-  }
-
-  if (trimmedLine.startsWith("BaseType") || trimmedLine.startsWith("Class")) {
-    const valuesPart = trimmedLine.split(/\s+/).slice(1).join(" ");
-    const hasMultipleValues = valuesPart.split(/\s+/).length > 1;
-    if (hasMultipleValues && !trimmedLine.includes('"')) {
-      errors.push({
-        line: lineNumber,
-        message: "Multiple values should be in quotes",
-        severity: "warning",
-      });
-    }
+    return errors;
   }
 
   if (trimmedLine.startsWith("PlayEffect")) {
-    const parts = trimmedLine.split(" ");
-    if (
-      !VALID_EFFECT_COLORS.includes(
-        parts[1] as (typeof VALID_EFFECT_COLORS)[number]
-      )
-    ) {
+    const parts = trimmedLine.split(/\s+/);
+    const color = parts[1];
+    // "Temp" suffix is valid: PlayEffect Orange Temp
+    if (color && !VALID_EFFECT_COLORS.includes(color as (typeof VALID_EFFECT_COLORS)[number])) {
       errors.push({
         line: lineNumber,
-        message: `Invalid effect color: ${
-          parts[1]
-        }. Must be one of: ${VALID_EFFECT_COLORS.join(", ")}`,
+        message: `Invalid PlayEffect color "${color}". Must be one of: ${VALID_EFFECT_COLORS.join(", ")}`,
         severity: "error",
       });
     }
+    return errors;
   }
 
   return errors;
 };
 
+// Determines whether a trimmed line (comment-stripped) is a block header
+const isBlockHeader = (trimmedLine: string): boolean =>
+  /^(Show|Hide)(\s|$)/.test(trimmedLine);
+
+// Determines whether a line counts as a condition for the "block has conditions" check
+const isConditionLine = (trimmedLine: string): boolean =>
+  ALL_CONDITIONS.some(
+    (cond) => trimmedLine.startsWith(cond + " ") || trimmedLine === cond
+  );
+
+// Determines whether a line is a known action (valid but not a condition)
+const isKnownAction = (trimmedLine: string): boolean =>
+  KNOWN_ACTIONS.some(
+    (action) => trimmedLine.startsWith(action + " ") || trimmedLine === action
+  );
+
 export const validateFilter = (content: string): ValidationResult => {
   const lines = content.split("\n");
   let inBlock = false;
   let hasConditions = false;
+  let blockStartLine = 0;
+  let isLastBlock = false;
   const errors: ValidationError[] = [];
+
+  // Pre-determine the line of the last Show/Hide block so we can exempt
+  // intentional trailing catch-alls (a common valid pattern)
+  let lastBlockLine = 0;
+  lines.forEach((line, index) => {
+    if (isBlockHeader(line.split("#")[0].trim())) lastBlockLine = index + 1;
+  });
 
   lines.forEach((line, index) => {
     const lineNumber = index + 1;
-    const trimmedLine = line.trim();
+    const trimmedLine = line.split("#")[0].trim();
 
-    if (!trimmedLine || trimmedLine.startsWith("#")) {
-      return;
-    }
+    if (!trimmedLine) return;
 
-    if (trimmedLine === "Show" || trimmedLine === "Hide") {
-      if (inBlock && !hasConditions) {
+    if (isBlockHeader(trimmedLine)) {
+      if (inBlock && !hasConditions && !isLastBlock) {
         errors.push({
-          line: lineNumber - 1,
-          message: "Previous block has no conditions",
-          severity: "error",
+          line: blockStartLine,
+          message: "Block has no conditions — it will match every item",
+          severity: "warning",
         });
       }
       inBlock = true;
       hasConditions = false;
+      blockStartLine = lineNumber;
+      isLastBlock = lineNumber === lastBlockLine;
       return;
     }
 
-    if (!inBlock && trimmedLine) {
+    if (!inBlock) {
       errors.push({
         line: lineNumber,
-        message: "Line must be inside Show/Hide block",
+        message: `"${trimmedLine.split(/\s+/)[0]}" must be inside a Show or Hide block`,
         severity: "error",
       });
       return;
     }
 
-    if (
-      trimmedLine.match(
-        /^(Class|BaseType|Rarity|DropLevel|ItemLevel|AreaLevel|SocketGroup|Sockets|LinkedSockets|Height|Width|WaystoneTier|HasExplicitMod)/
-      )
-    ) {
+    if (isConditionLine(trimmedLine)) {
       hasConditions = true;
+    }
+
+    if (!isKnownAction(trimmedLine) && !isConditionLine(trimmedLine)) {
+      return;
     }
 
     errors.push(...validateFilterLine(line, lineNumber));
   });
-
-  if (inBlock && !hasConditions) {
-    errors.push({
-      line: lines.length,
-      message: "Final block has no conditions",
-      severity: "error",
-    });
-  }
 
   return {
     isValid: errors.length === 0,

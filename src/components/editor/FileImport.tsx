@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Download, Upload, Code, BookOpen, Cloud, Save } from "lucide-react";
+import { Download, Upload, Code, BookOpen, Cloud, Save, AlertTriangle, AlertCircle, CheckCircle2, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import {
   Dialog,
@@ -12,25 +12,28 @@ import { Input } from "@/components/ui/input";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useSession, signIn } from "next-auth/react";
 import { parseApiError, requiresReAuth } from "@/utils/api-error-handler";
+import type { ValidationMessage } from "@/types/filter";
 
 interface FileImportProps {
   onImport: (content: string) => void;
   content?: string;
-  className?: string;
   showSyntaxGuide: boolean;
   setShowSyntaxGuide: (show: boolean) => void;
   importedFilterName?: string;
   importedFilterId?: string;
+  validationMessages?: ValidationMessage[];
+  onJumpToLine?: (line: number) => void;
 }
 
 export const FileImport: React.FC<FileImportProps> = ({
   onImport,
   content,
-  className,
   showSyntaxGuide,
   setShowSyntaxGuide,
   importedFilterName,
   importedFilterId,
+  validationMessages = [],
+  onJumpToLine,
 }) => {
   const { toast } = useToast();
   const { data: session } = useSession();
@@ -38,6 +41,10 @@ export const FileImport: React.FC<FileImportProps> = ({
   const [showExportDialog, setShowExportDialog] = useState(false);
   const [exportFilename, setExportFilename] = useState("filter");
   const [exportMode, setExportMode] = useState<'download' | 'sync' | 'update'>('download');
+  const [showValidationPanel, setShowValidationPanel] = useState(false);
+
+  const errorCount = validationMessages.filter(m => m.severity === "error").length;
+  const warningCount = validationMessages.filter(m => m.severity === "warning").length;
 
   // Update export filename when imported filter name changes
   React.useEffect(() => {
@@ -74,7 +81,6 @@ export const FileImport: React.FC<FileImportProps> = ({
       }
 
       const text = await file.text();
-      console.log('Imported file content:', text); // Debug log
       if (!text) {
         toast({
           title: "Import failed", 
@@ -329,53 +335,134 @@ export const FileImport: React.FC<FileImportProps> = ({
 
   return (
     <>
-      <div
-        className={`flex items-center gap-2 p-4 border-b border-[#2a2a2a] ${className}`}
-      >
-        <Button
-          variant="outline"
-          className={`text-gray-300 hover:text-white bg-[#2a2a2a] border-[#3a3a3a] hover:bg-[#3a3a3a] ${
-            !showSyntaxGuide ? "bg-[#3a3a3a]" : ""
-          }`}
-          onClick={() => setShowSyntaxGuide(false)}
-        >
-          <Code className="w-4 h-4 mr-2" />
-          Editor
-        </Button>
-        <Button
-          variant="outline"
-          className={`text-gray-300 hover:text-white bg-[#2a2a2a] border-[#3a3a3a] hover:bg-[#3a3a3a] ${
-            showSyntaxGuide ? "bg-[#3a3a3a]" : ""
-          }`}
-          onClick={() => setShowSyntaxGuide(true)}
-        >
-          <BookOpen className="w-4 h-4 mr-2" />
-          Syntax Guide
-        </Button>
-        <Button
-          variant="outline"
-          className="text-gray-300 hover:text-white bg-[#2a2a2a] border-[#3a3a3a] hover:bg-[#3a3a3a]"
-          onClick={() => fileInputRef.current?.click()}
-        >
-          <Upload className="w-4 h-4 mr-2" />
-          Import Filter
-        </Button>
-        <Button
-          variant="outline"
-          className="text-gray-300 hover:text-white bg-[#2a2a2a] border-[#3a3a3a] hover:bg-[#3a3a3a]"
-          onClick={handleExportClick}
-          disabled={!content}
-        >
-          <Save className="w-4 h-4 mr-2" />
-          Save/Export
-        </Button>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".filter"
-          className="hidden"
-          onChange={handleFileImport}
-        />
+      <div className="flex flex-col border-b border-[#2a2a2a]">
+        <div className="flex items-center gap-2 p-4">
+          <Button
+            variant="outline"
+            className={`text-gray-300 hover:text-white bg-[#2a2a2a] border-[#3a3a3a] hover:bg-[#3a3a3a] ${
+              !showSyntaxGuide ? "bg-[#3a3a3a]" : ""
+            }`}
+            onClick={() => setShowSyntaxGuide(false)}
+          >
+            <Code className="w-4 h-4 mr-2" />
+            Editor
+          </Button>
+          <Button
+            variant="outline"
+            className={`text-gray-300 hover:text-white bg-[#2a2a2a] border-[#3a3a3a] hover:bg-[#3a3a3a] ${
+              showSyntaxGuide ? "bg-[#3a3a3a]" : ""
+            }`}
+            onClick={() => setShowSyntaxGuide(true)}
+          >
+            <BookOpen className="w-4 h-4 mr-2" />
+            Syntax Guide
+          </Button>
+          <Button
+            variant="outline"
+            className="text-gray-300 hover:text-white bg-[#2a2a2a] border-[#3a3a3a] hover:bg-[#3a3a3a]"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <Upload className="w-4 h-4 mr-2" />
+            Import Filter
+          </Button>
+          <Button
+            variant="outline"
+            className="text-gray-300 hover:text-white bg-[#2a2a2a] border-[#3a3a3a] hover:bg-[#3a3a3a]"
+            onClick={handleExportClick}
+            disabled={!content}
+          >
+            <Save className="w-4 h-4 mr-2" />
+            Save/Export
+          </Button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".filter"
+            className="hidden"
+            onChange={handleFileImport}
+          />
+
+          {/* Validation badge — only shown when filter has content */}
+          {content && (
+            <Button
+              variant="outline"
+              className={`ml-auto flex items-center gap-2 bg-[#2a2a2a] border-[#3a3a3a] hover:bg-[#3a3a3a] ${
+                errorCount > 0
+                  ? "text-red-400 hover:text-red-400"
+                  : warningCount > 0
+                  ? "text-yellow-400 hover:text-yellow-400"
+                  : "text-green-400 hover:text-green-400"
+              }`}
+              onClick={() => setShowValidationPanel(v => !v)}
+            >
+              {errorCount > 0 ? (
+                <AlertCircle className="w-4 h-4" />
+              ) : warningCount > 0 ? (
+                <AlertTriangle className="w-4 h-4" />
+              ) : (
+                <CheckCircle2 className="w-4 h-4" />
+              )}
+              {errorCount > 0
+                ? `${errorCount} error${errorCount !== 1 ? "s" : ""}`
+                : warningCount > 0
+                ? `${warningCount} warning${warningCount !== 1 ? "s" : ""}`
+                : "Valid"}
+            </Button>
+          )}
+        </div>
+
+        {/* Inline validation panel */}
+        {showValidationPanel && content && (
+          <div className="border-t border-[#2a2a2a] bg-[#111111]">
+            <div className="flex items-center justify-between px-4 py-2">
+              <span className="text-xs font-medium text-gray-400 uppercase tracking-wide">
+                {validationMessages.length === 0
+                  ? "No issues"
+                  : `${validationMessages.length} issue${validationMessages.length !== 1 ? "s" : ""}`}
+              </span>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-6 w-6 p-0 text-gray-500 hover:text-white"
+                onClick={() => setShowValidationPanel(false)}
+              >
+                <X className="w-3 h-3" />
+              </Button>
+            </div>
+            {validationMessages.length === 0 ? (
+              <div className="px-4 pb-3 flex items-center gap-2 text-green-400 text-sm">
+                <CheckCircle2 className="w-4 h-4" />
+                Filter is valid
+              </div>
+            ) : (
+              <div className="max-h-48 overflow-y-auto pb-2">
+                {validationMessages.map((msg, i) => (
+                  <button
+                    key={i}
+                    className="w-full flex items-start gap-3 px-4 py-1.5 hover:bg-[#1a1a1a] text-left transition-colors group cursor-pointer"
+                    onClick={() => {
+                      onJumpToLine?.(msg.line);
+                      setShowValidationPanel(false);
+                      setShowSyntaxGuide(false);
+                    }}
+                  >
+                    {msg.severity === "error" ? (
+                      <AlertCircle className="w-3.5 h-3.5 text-red-400 mt-0.5 shrink-0" />
+                    ) : (
+                      <AlertTriangle className="w-3.5 h-3.5 text-yellow-400 mt-0.5 shrink-0" />
+                    )}
+                    <span className="text-xs text-gray-400 shrink-0 w-16">
+                      Line {msg.line}
+                    </span>
+                    <span className="text-xs text-gray-200 group-hover:text-white">
+                      {msg.message}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       <Dialog open={showExportDialog} onOpenChange={setShowExportDialog}>

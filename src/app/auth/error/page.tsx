@@ -20,13 +20,13 @@ function ErrorContent() {
       <div className="mt-6">
         <Link
           href="/"
-          className="px-4 py-2 bg-[#2a2a2a] hover:bg-[#3a3a3a] text-white rounded mr-4"
+          className="px-4 py-2 bg-[#2a2a2a] hover:bg-[#3a3a3a] text-white rounded mr-4 cursor-pointer"
         >
           Return Home
         </Link>
         <button
           onClick={() => (window.location.href = "/auth/signin")}
-          className="px-4 py-2 bg-[#922729] hover:bg-[#922729]/90 text-white rounded"
+          className="px-4 py-2 bg-[#922729] hover:bg-[#922729]/90 text-white rounded cursor-pointer"
         >
           Try Again
         </button>

@@ -158,7 +158,7 @@ export default function Header() {
         {isMobile && (
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="text-zinc-400 hover:text-white p-2 focus:outline-hidden z-50"
+            className="text-zinc-400 hover:text-white p-2 focus:outline-hidden z-50 cursor-pointer"
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           >
             {isMobileMenuOpen ? (
@@ -180,7 +180,7 @@ export default function Header() {
                     key={item.name}
                     href={item.href}
                     className={cn(
-                      "px-3 py-1 text-sm font-medium transition-colors rounded-md flex items-center",
+                      "px-3 py-1 text-sm font-medium transition-colors rounded-md flex items-center cursor-pointer",
                       isActive
                         ? "text-white bg-[#2a2a2a]"
                         : "text-zinc-400 hover:text-white hover:bg-[#2a2a2a]"
@@ -212,7 +212,7 @@ export default function Header() {
                     href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={cn(
-                      "px-4 py-3 text-lg font-medium transition-colors rounded-md flex items-center",
+                      "px-4 py-3 text-lg font-medium transition-colors rounded-md flex items-center cursor-pointer",
                       isActive
                         ? "text-white bg-[#2a2a2a]"
                         : "text-zinc-400 hover:text-white hover:bg-[#2a2a2a]"

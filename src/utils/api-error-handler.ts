@@ -112,27 +112,6 @@ export async function parseApiError(
 }
 
 /**
- * Get a user-friendly error message for display
- * @param error - ApiError object
- * @param context - Optional context string (e.g., "loading filters")
- * @returns Formatted user message
- */
-export function getUserErrorMessage(
-  error: ApiError,
-  context?: string
-): string {
-  if (error.type === "AUTH_EXPIRED") {
-    return error.userMessage;
-  }
-
-  if (context) {
-    return `Failed ${context}: ${error.userMessage}`;
-  }
-
-  return error.userMessage;
-}
-
-/**
  * Check if an error requires re-authentication
  * @param error - ApiError object or Response object
  * @returns true if user needs to re-authenticate

@@ -38,19 +38,15 @@ export const authConfig: NextAuthConfig = {
       }
 
       // Token is expired or about to expire, try to refresh it
-      console.log('[Auth] Token expiring soon, attempting refresh...');
       const refreshedTokens = await refreshAccessToken(token.refreshToken as string);
 
       if (!refreshedTokens) {
-        console.error('[Auth] Token refresh failed, marking for re-authentication');
-        // Refresh failed - mark token as expired to force re-auth
         return {
           ...token,
           error: 'RefreshAccessTokenError',
         };
       }
 
-      console.log('[Auth] Token refreshed successfully');
       return {
         ...token,
         accessToken: refreshedTokens.accessToken,
@@ -81,17 +77,8 @@ export const authConfig: NextAuthConfig = {
       }
       return session;
     },
-    async signIn(params) {
-      console.log("SignIn callback:", params);
+    async signIn() {
       return true;
-    },
-  },
-  events: {
-    async signIn(params) {
-      console.log("SignIn event:", params);
-    },
-    async signOut(params) {
-      console.log("SignOut event:", params);
     },
   },
   pages: {

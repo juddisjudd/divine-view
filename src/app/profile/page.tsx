@@ -57,9 +57,6 @@ function FilterCard({ filter, onSync }: {
       }
       
       const fullFilter = await response.json();
-      console.log('Full filter response:', fullFilter); // Debug log
-      
-      // API returns { filter: ItemFilter } where ItemFilter.filter contains the content
       const filterContent = fullFilter.filter?.filter || '';
       
       if (!filterContent) {
@@ -253,9 +250,6 @@ export default function ProfilePage() {
       }
       
       const fullFilter = await response.json();
-      console.log('Full filter sync response:', fullFilter); // Debug log
-      
-      // API returns { filter: ItemFilter } where ItemFilter.filter contains the content
       const filterContent = fullFilter.filter?.filter || '';
       
       if (!filterContent) {
